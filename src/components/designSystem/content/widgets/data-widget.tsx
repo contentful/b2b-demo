@@ -13,7 +13,6 @@ import {
 } from '@material-tailwind/react';
 
 export default function DataWidget(props: any) {
-  console.log('DataWidget :: props ::', props);
   const preview = props.isInExpEditorMode;
   const { state } = useAppContext();
   const locale = state.currentLocale || 'en-US';
