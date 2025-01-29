@@ -24,7 +24,7 @@ Use `example.env` to create a `.env` file and populate with your Contentful Spac
 contentful space import --space-id={{SPACE_ID}} --environment-id=master --content-file=seed-content.json
 ```
 
-This creates one Experience 'Landing page' and one Content Type 'Promotion' with an entry 'Visually assemble intelligent experiences at scale.' Double check that preview is configured for the Landing page at the URL `http://localhost:3000/{entry.fields.slug}`
+This creates fifteen Content Types, one Experience 'Landing Page', sixteen experience components, six experience elements, and eight experience patterns along with the content and assets used across twelve experiences (pages). Additionally, this creates a services folder with service clients for both Contentful and SAP and a mocks folder with mock quotes, orders, tickets, and users data. Double check that preview is configured for the Landing page at the URL `http://localhost:3000/`
 
 ## Demo
 
@@ -34,7 +34,7 @@ Run the development server:
 npm run dev
 ```
 
-Open the `root` experience entry. You should see the default, basic components in the left sidebar and on the canvas you should see the welcome page for the B2B portal.
+Open the `root` experience entry by navigating to `http://localhost:3000` in your browser. You should see the default, basic components in the left sidebar and on the canvas you should see the welcome page for the B2B portal.
 
 ### Initial Code Walkthrough
 

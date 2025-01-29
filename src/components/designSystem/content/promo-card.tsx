@@ -22,7 +22,7 @@ export default function PromoCard(props: any) {
     ctaURL,
     image,
     openInNewWindow,
-    border = false,
+    border = 'false',
     shadow = false,
   } = props;
 
@@ -96,17 +96,23 @@ export const promoCardDefinition: ComponentDefinition = {
         type: 'Media',
       },
       border: {
-        description: 'Display a border around the testimonial',
+        description: 'Display a border around the promo card',
         displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: true,
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Display a drop shadow for the testimonail',
+        description: 'Display a drop shadow under the promo card',
         displayName: 'Shadow',
         type: 'Boolean',
-        defaultValue: true,
+        defaultValue: false,
         group: 'style',
       },
     },
@@ -127,9 +133,9 @@ const PromoCardCard = (props: any): JSX.Element => {
 
   return (
     <Card
-      shadow={shadow && true}
+      shadow={shadow}
       className={`bg-inherit overflow-hidden text-inherit w-full ${
-        border && 'border'
+        border !== 'false' && 'border'
       }`}
     >
       {image && (

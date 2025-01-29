@@ -131,16 +131,24 @@ export const articleCardDefinition: ComponentDefinition = {
         },
       },
       border: {
+        description: 'Display a border around the article card',
         displayName: 'Border',
-        type: 'Boolean',
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
-        defaultValue: true,
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
+        description: 'Display a drop shadow under the article card',
         displayName: 'Shadow',
         type: 'Boolean',
+        defaultValue: false,
         group: 'style',
-        defaultValue: true,
       },
     },
   },
@@ -157,7 +165,7 @@ const ArticleCardHorizontal = (props: any) => {
     >
       <div
         className={`flex gap-4 items-center md:max-w-screen-xl p-2 rounded-xl sm:max-w-screen-md text-inherit w-full ${
-          border && 'border'
+          border !== 'false' && 'border'
         } ${shadow && 'shadow-lg'}`}
       >
         {article?.image && (
@@ -228,9 +236,9 @@ const ArticleCardVertical = (props: any) => {
       href={article?.slug ? `/articles/${article?.slug}` : '#'}
     >
       <Card
-        shadow={shadow ? true : false}
+        shadow={shadow}
         className={`bg-inherit flex flex-col h-full max-w-[20rem] overflow-hidden text-inherit w-full ${
-          border ? 'border' : 'rounded-none'
+          border !== 'false' ? 'border' : 'rounded-none'
         }`}
       >
         {article?.image && (

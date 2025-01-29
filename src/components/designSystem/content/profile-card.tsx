@@ -35,7 +35,7 @@ export default function ProfileCard(props: any) {
 
   const [profile, setProfile] = React.useState<ProfileStateType | undefined>();
 
-  const { border = false, shadow = false } = props;
+  const { border = 'false', shadow = false } = props;
 
   React.useEffect(() => {
     let isMounted = true;
@@ -70,8 +70,8 @@ export default function ProfileCard(props: any) {
       ) : (
         <Card
           color='white'
-          shadow={shadow ? true : false}
-          className={`w-96 ${border && 'border'}`}
+          shadow={shadow}
+          className={`w-96 ${border !== 'false' && 'border'}`}
         >
           <CardHeader floated={false} shadow={false} className='h-80'>
             <img
@@ -178,14 +178,20 @@ export const profileCardDefinition: ComponentDefinition = {
         type: 'Array',
       },
       border: {
-        description: 'Display a border around the testimonial',
+        description: 'Display a border around the profile card',
         displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: false,
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Display a drop shadow for the testimonail',
+        description: 'Display a drop shadow under the profile card',
         displayName: 'Shadow',
         type: 'Boolean',
         defaultValue: false,

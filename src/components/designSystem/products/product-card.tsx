@@ -218,10 +218,10 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
   return (
     <Card
       className={`${
-        border ? 'border' : ''
+        border !== 'false' ? 'border' : ''
       } grid grid-cols-12 grid-flow-row p-2 w-full`}
       key={product?.code}
-      shadow={shadow ? true : false}
+      shadow={shadow}
     >
       <CardHeader
         className='col-span-12 flex h-48 items-center justify-center md:col-span-3 m-0 p-2 w-full'
@@ -317,9 +317,9 @@ const ProductCardVertical = (props: any): JSX.Element => {
   return (
     <Card
       className={`${
-        border ? 'border' : ''
+        border !== 'false' ? 'border' : ''
       } flex flex-col h-full overflow-hidden w-full`}
-      shadow={shadow ? true : false}
+      shadow={shadow}
     >
       <CardHeader
         className='h-1/2 m-0 p-2 w-full'

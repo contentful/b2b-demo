@@ -190,7 +190,7 @@ export default function Article(props: any) {
                         {...{
                           ...fields,
                           display: 'vertical',
-                          border: true,
+                          border: 'true',
                           shadow: false,
                         }}
                       />

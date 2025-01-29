@@ -56,17 +56,23 @@ export const loginCardsDefinition: ComponentDefinition = {
     },
     variables: {
       border: {
-        description: 'Display a border on each login card',
-        displayName: 'Borders',
-        type: 'Boolean',
-        defaultValue: true,
+        description: 'Display a border around each login card',
+        displayName: 'Border',
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Display a drop shadow on each login card',
-        displayName: 'Shadows',
+        description: 'Display a drop shadow under each login card',
+        displayName: 'Shadow',
         type: 'Boolean',
-        defaultValue: true,
+        defaultValue: false,
         group: 'style',
       },
     },

@@ -23,8 +23,10 @@ export default function Testimonial(props: any) {
       ) : (
         <Card
           color='transparent'
-          shadow={shadow && true}
-          className={`w-full max-w-[30rem] mx-auto px-6 ${border && 'border'}`}
+          shadow={shadow}
+          className={`w-full max-w-[30rem] mx-auto px-6 ${
+            border !== 'false' && 'border'
+          }`}
         >
           <CardHeader
             color='transparent'
@@ -90,14 +92,20 @@ export const testimonialDefinition: ComponentDefinition = {
         type: 'Text',
       },
       border: {
-        description: 'Display a border around the testimonial',
+        description: 'Display a border around the testimonial card',
         displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: false,
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Display a drop shadow for the testimonail',
+        description: 'Display a drop shadow under the testimonial card',
         displayName: 'Shadow',
         type: 'Boolean',
         defaultValue: false,

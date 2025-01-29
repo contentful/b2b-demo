@@ -52,7 +52,7 @@ export default function ProductCarousel(props: any) {
           return (
             <div className='h-80 mx-2' key={key}>
               <ProductCard
-                border={true}
+                border='true'
                 product={product}
                 variant='card'
                 addtocart={false}

@@ -175,17 +175,23 @@ export const productCollectionDefinition: ComponentDefinition = {
         },
       },
       border: {
-        description: 'Display a border around each item',
-        displayName: 'Borders',
-        type: 'Boolean',
-        defaultValue: true,
+        description: 'Display a border around each product card',
+        displayName: 'Border',
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Display a drop shadow below each item',
-        displayName: 'Shadows',
+        description: 'Display a drop shadow under each product card',
+        displayName: 'Shadow',
         type: 'Boolean',
-        defaultValue: true,
+        defaultValue: false,
         group: 'style',
       },
       addtocart: {

@@ -201,7 +201,7 @@ export default function ArticleList(props: any) {
                       pubDate,
                       slug,
                       variant,
-                      border: false,
+                      border: 'false',
                       shadow: false,
                     }}
                   />

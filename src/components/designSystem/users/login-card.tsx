@@ -32,7 +32,7 @@ export default function LoginCard(props: any) {
 
   return (
     <Card
-      className={`${border && 'border'} md:w-80 w-72`}
+      className={`${border !== 'false' && 'border'} md:w-80 w-72`}
       key={user.uid}
       shadow={shadow}
     >
@@ -124,17 +124,23 @@ export const loginCardDefinition: ComponentDefinition = {
         type: 'Text',
       },
       border: {
-        description: 'Give the card a border',
+        description: 'Display a border around the login card',
         displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: true,
+        type: 'Text',
+        defaultValue: 'false',
         group: 'style',
+        validations: {
+          in: [
+            { displayName: 'True', value: 'true' },
+            { displayName: 'False', value: 'false' },
+          ],
+        },
       },
       shadow: {
-        description: 'Give the card a shadow',
+        description: 'Display a drop shadow under each user card',
         displayName: 'Shadow',
         type: 'Boolean',
-        defaultValue: true,
+        defaultValue: false,
         group: 'style',
       },
     },
