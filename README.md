@@ -2,9 +2,9 @@
 
 This has been created to demonstrate the integration with SAP Commerce to deliver a modern B2B customer self-service portal.
 
-It is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) setup with App Router and TailwindCSS.
+It is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) setup with App Router and TailwindCSS. It leverages [Material Tailwind](https://www.material-tailwind.com/) to showcase how easy it can be to connect to Experiences to react components, including react components imported from an outside system.
 
-It leverages [Material Tailwind](https://www.material-tailwind.com/) to showcase how easy it can be to connect to Experiences to react components, including react components imported from an outside system.
+From Contentful, the demo uses the [`SAP Connecter for SAP Commerce Cloud`](https://www.contentful.com/marketplace/sap-commerce-cloud-connector/) to connect products in SAP Commerce Cloud with content and [`AI Actions`](https://www.contentful.com/help/ai-actions/) to generating German translations for content.
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ Use `example.env` to create a `.env` file and populate with your Contentful Spac
 contentful space import --space-id={{SPACE_ID}} --environment-id=master --content-file=seed-content.json
 ```
 
-This creates fifteen Content Types, one Experience 'Landing Page', sixteen experience components, six experience elements, and eight experience patterns along with the content and assets used across twelve experiences (pages). Additionally, this creates a services folder with service clients for both Contentful and SAP and a mocks folder with mock quotes, orders, tickets, and users data. Double check that preview is configured for the Landing page at the URL `http://localhost:3000/`
+This creates fourteen Content Types, one Experience 'Landing Page', sixteen experience components, six experience elements, and eight experience patterns along with the content and assets used across twelve experiences (pages). Additionally, this creates a services folder with service clients for both Contentful and SAP and a mocks folder with mock quotes, orders, tickets, and users data. Double check that preview is configured for the Landing page at the URL `http://localhost:3000/`
 
 ## Demo
 

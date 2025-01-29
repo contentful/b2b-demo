@@ -58,7 +58,7 @@ export default function PrimaryNav(props: any) {
               <ListItemPrefix>
                 <FontAwesomeIcon icon={ICONS['desktop']} size='lg' />
               </ListItemPrefix>
-              {siteLabels['dashboard']}
+              {siteLabels['label.dashboard']}
             </ListItem>
           </Link>
         </List>

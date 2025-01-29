@@ -30,7 +30,7 @@ export default function SocialNav(props: any) {
   return (
     <div className='flex flex-wrap gap-4 justify-center md:order-2 order-1 text-white sm:justify-center'>
       {menuItems ? (
-        <Menu menuitems={menuItems} menuicons='only' />
+        <Menu menuitems={menuItems} menuicons='only' iconsize='h-6 w-6' />
       ) : (
         preview && (
           <Typography className='font-normal text-base'>
