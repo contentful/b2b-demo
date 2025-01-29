@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+}
+
+@layer base {
+  h1 {
+    @apply text-4xl font-semibold;
+    @apply mb-3 mt-0;
+    line-height: 1;
+  }
+  h2 {
+    @apply text-2xl font-semibold;
+    @apply mb-3 mt-0;
+  }
+  h3 {
+    @apply text-xl font-semibold;
+    @apply mb-3 mt-0;
+  }
+  h4 {
+    @apply text-lg font-semibold;
+  }
+
+  p {
+    @apply mb-3 mt-0;
+  }
+
+  /* div[data-ctfl-draggable-id]:has(> div.w-full) {
+    width: 100%;
+    } */
+
+  div[data-component-wrapper]:has(> div.w-full) {
+    width: 100%;
+  }
+
+  #orders-table {
+    @apply w-full;
+    @apply text-center text-sm;
+  }
+
+  #orders-table tbody tr {
+    @apply border-t;
+  }
+
+  #orders-table th, #orders-table td {
+    @apply p-1;
+  }
+
+  ul {
+    @apply list-disc;
+    @apply ml-6 my-4 pl-10;
+    line-height: 1.25;
+  }
+
+  .border,
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r {
+    @apply border-gray-800;
+  }
+
+  .mock-data.grid p:nth-child(even) {
+    @apply text-end;
+  }
+
+  .mock-data table {
+    @apply w-full;
+  }
+
+  .mock-data td, .mock-data th {
+    @apply px-1 text-center;
+  }
+
+  .mock-data td:nth-child(1), .mock-data th:nth-child(1) {
+    @apply text-start;
+  }
+
+  .mock-data td:nth-last-child(1), .mock-data th:nth-last-child(1) {
+    @apply text-end;
+  }
+
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
