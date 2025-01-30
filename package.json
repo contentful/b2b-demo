@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@contentful/experiences-sdk-react": "^1.25.0",
-    "@contentful/rich-text-react-renderer": "^16.0.0",
+    "@contentful/experiences-sdk-react": "^1.30.0",
+    "@contentful/rich-text-react-renderer": "^16.0.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
     "@fortawesome/free-regular-svg-icons": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@material-tailwind/react": "^2.1.10",
-    "contentful": "^11.0.3",
+    "contentful": "^11.4.4",
     "moment": "^2.30.1",
     "next": "^15.1.6",
     "next-auth": "^4.24.11",
