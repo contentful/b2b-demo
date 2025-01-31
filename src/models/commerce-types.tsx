@@ -387,7 +387,9 @@ export type SAPImage = {
 
 export type SearchState = {
   url: string;
-  query: string;
+  query: {
+    value: string;
+  };
 };
 
 export type Sort = {
