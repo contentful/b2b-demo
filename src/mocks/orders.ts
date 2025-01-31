@@ -597,8 +597,6 @@ const MockOrders: Array<Order> = [
           code: '3857735',
           description:
             '7,2 V Schlagschrauber. Leicht und verstellbar. Dieses Werkzeug zieht die härtesten Schrauben in schwer zu erreichenden Bereichen an.',
-          firstVariantImage:
-            '/medias/?context=bWFzdGVyfGltYWdlc3wyMDk0fGltYWdlL2pwZWd8YURGaUwyaG1NaTg0TnprMk1qZzFPREk1TVRVd3xmYjQwZjljZjZhMDk2NDMyYjM1NTM4NjFlMzc3OTk3YzRmMjM3Nzk2NjhhMDYwNzc4NDY5MjU4ZDg2Y2FhNmQ0',
           images: [
             {
               format: 'thumbnail',
