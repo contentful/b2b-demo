@@ -20,7 +20,7 @@ export default function LogoutModal(props: any) {
 
   const reduceSecondsRemaining = React.useCallback(() => {
     setSecondsRemaining((sr) => sr - 1);
-  }, [secondsRemaining]);
+  }, []);
 
   React.useEffect(() => {
     if (showLogoutModal) {
@@ -42,7 +42,13 @@ export default function LogoutModal(props: any) {
         intervalId.current = null;
       }
     };
-  }, [showLogoutModal, secondsRemaining, reduceSecondsRemaining]);
+  }, [
+    showLogoutModal,
+    setShowLogoutModal,
+    secondsRemaining,
+    reduceSecondsRemaining,
+    router,
+  ]);
 
   return (
     <Dialog open={showLogoutModal} size='xs'>
