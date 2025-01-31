@@ -12,6 +12,7 @@ const getContentfulImageUrl = (image: Asset | string): string | null => {
   } else {
     return `https:${image.fields?.file?.url}`;
   }
+  return null;
 };
 
 const getSAPProductImageUrl = (product: Product): string | null => {
