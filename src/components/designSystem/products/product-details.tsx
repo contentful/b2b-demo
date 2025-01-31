@@ -37,7 +37,7 @@ export default function ProductDetails(props: any) {
 
   const { currentUser: guid, currentLocale: locale } = state;
 
-  const [cart, setCart] = React.useState<B2BCart | undefined>();
+  const [cart, setCart] = React.useState<B2BCart | null>();
   const [error, setError] = React.useState<any>();
   const [product, setProduct] = React.useState<Product>();
   const [showAlert, setShowAlert] = React.useState<boolean>();
@@ -77,7 +77,7 @@ export default function ProductDetails(props: any) {
   }, [pathname, state]);
 
   React.useEffect(() => {
-    if (!guid) return;
+    if (!guid) return null;
     const userCart = getCartByUser(guid);
     if (userCart) {
       setCart(userCart);
@@ -85,7 +85,7 @@ export default function ProductDetails(props: any) {
   }, [carts, guid, getCartByUser]);
 
   const handleAddEntry = () => {
-    if (!cart || !product) return;
+    if (!cart || !product) return null;
 
     const newEntry: OrderEntry = {
       entryNumber: cart?.entries.length + 1,
@@ -109,8 +109,8 @@ export default function ProductDetails(props: any) {
     });
   };
 
-  const handleChangeQuantity = (value: string | undefined) => {
-    if (!value) return;
+  const handleChangeQuantity = (value: string | null) => {
+    if (!value) return null;
     setQuantity(value);
   };
 
@@ -197,7 +197,7 @@ export default function ProductDetails(props: any) {
                   <Select
                     label='Quantity'
                     name='quantity'
-                    onChange={(value: string | undefined) =>
+                    onChange={(value: string | null) =>
                       handleChangeQuantity(value)
                     }
                     value={quantity}

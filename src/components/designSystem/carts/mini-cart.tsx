@@ -35,7 +35,7 @@ export default function MiniCart() {
   } = state;
   const { siteLabels } = useSiteLabels();
 
-  const [cart, setCart] = React.useState<B2BCart | undefined>();
+  const [cart, setCart] = React.useState<B2BCart | null>();
 
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const toggleModal = () => {
@@ -72,7 +72,7 @@ export default function MiniCart() {
   }, [state, carts, dispatch, getCartByUser]);
 
   const handleRemoveEntry = (entryNumber: number) => {
-    if (!cart) return;
+    if (!cart) return null;
 
     const payload: UpdateCartEntriesProps = {
       code: cart.code,

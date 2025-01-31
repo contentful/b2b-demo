@@ -1,5 +1,5 @@
-export const getCurrencyIso = (locale: string): string | undefined => {
-  if (!locale) return;
+export const getCurrencyIso = (locale: string): string | null => {
+  if (!locale) return null;
   switch (locale) {
     case 'de-DE':
       return 'EUR';
@@ -13,8 +13,8 @@ export const getCurrencyIso = (locale: string): string | undefined => {
 export const localizeCurrency = (
   locale: string,
   value: number
-): string | undefined => {
-  if (!(locale && value)) return;
+): string | null => {
+  if (!(locale && value)) return null;
   const currency = getCurrencyIso(locale);
   return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(
     value
@@ -25,11 +25,11 @@ export const localizeDate = (
   locale: string,
   date: string,
   includeTime?: boolean
-): string | undefined => {
-  if (!(locale && date)) return;
+): string | null => {
+  if (!(locale && date)) return null;
 
   const datetime = new Date(date);
-  if (!datetime) return;
+  if (!datetime) return null;
 
   let formatter = new Intl.DateTimeFormat(locale, {
     year: 'numeric',

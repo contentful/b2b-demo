@@ -83,10 +83,10 @@ export default function DataTable(props: any) {
             'DataTable :: useEffect :: unsupported data type',
             props.datatype
           );
-          return;
+          return null;
       }
 
-      if (!tableData) return;
+      if (!tableData) return null;
       let filteredTableData: Array<any> = tableData;
 
       if (filter !== 'all') {

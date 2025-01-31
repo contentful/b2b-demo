@@ -34,7 +34,7 @@ export default function ProductCard(props: any) {
   const { state } = useAppContext();
   const { currentUser: guid, currentLocale: locale } = state;
 
-  const [cart, setCart] = React.useState<B2BCart | undefined>();
+  const [cart, setCart] = React.useState<B2BCart | null>();
   const [hasCart, setHasCart] = React.useState<boolean>(false);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [quantity, setQuantity] = React.useState<string>(
@@ -43,12 +43,10 @@ export default function ProductCard(props: any) {
 
   const { hideATCOption = false, variant } = props;
   // const product: Product = props.product;
-  const productImageUrl: string | undefined = getSAPProductImageUrl(
-    props.product
-  );
+  const productImageUrl: string | null = getSAPProductImageUrl(props.product);
 
   React.useEffect(() => {
-    if (!guid) return;
+    if (!guid) return null;
     const userCart = getCartByUser(guid);
     if (userCart) {
       setCart(userCart);
@@ -57,7 +55,7 @@ export default function ProductCard(props: any) {
   }, [carts, guid, getCartByUser, hasCart]);
 
   const handleAddEntry = () => {
-    if (!cart) return;
+    if (!cart) return null;
 
     const newEntry: OrderEntry = {
       entryNumber: cart?.entries.length + 1,
@@ -273,9 +271,7 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
             <Select
               label='Quantity'
               name='quantity'
-              onChange={(value: string | undefined) =>
-                handleChangeQuantity(value)
-              }
+              onChange={(value: string | null) => handleChangeQuantity(value)}
               value={quantity}
             >
               {QUANTITY_OPTIONS.map((n: number) => {
@@ -374,9 +370,7 @@ const ProductCardVertical = (props: any): JSX.Element => {
                 }}
                 label='Quantity'
                 name='quantity'
-                onChange={(value: string | undefined) =>
-                  handleChangeQuantity(value)
-                }
+                onChange={(value: string | null) => handleChangeQuantity(value)}
                 size='md'
                 value={quantity}
                 variant='outlined'

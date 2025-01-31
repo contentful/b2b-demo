@@ -43,7 +43,7 @@ class SAPClient {
 
   // basic error handling
   private async handleApiError(response: Response): Promise<void> {
-    if (response.status < 400) return;
+    if (response.status < 400) return null;
     const errorResponse: string = await response.text();
     const { statusText } = response;
     const msg = `SAP API error: ${errorResponse} [status: ${statusText}]`;

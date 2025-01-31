@@ -20,9 +20,9 @@ export type CartAction =
 type CartsContextType = {
   carts: Array<B2BCart>;
   dispatch: React.Dispatch<CartAction>;
-  getCartById: (code: string) => B2BCart | undefined;
-  getCartByUser: (guid: string) => B2BCart | undefined;
-  getCartsByOrgUnit: (orgUnit: string) => Array<B2BCart> | undefined;
+  getCartById: (code: string) => B2BCart | null;
+  getCartByUser: (guid: string) => B2BCart | null;
+  getCartsByOrgUnit: (orgUnit: string) => Array<B2BCart> | null;
   getNextCartCode: () => number;
   incrementNextCartCode: (n?: number) => void;
 };
@@ -73,15 +73,15 @@ const CartsProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [carts, dispatch] = React.useReducer(cartReducer, new Array<B2BCart>());
 
-  const getCartById = (code: string): B2BCart | undefined => {
+  const getCartById = (code: string): B2BCart | null => {
     return carts.find((cart) => cart.code === code);
   };
 
-  const getCartByUser = (guid: string): B2BCart | undefined => {
+  const getCartByUser = (guid: string): B2BCart | null => {
     return carts.find((cart) => cart.guid === guid);
   };
 
-  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> | undefined => {
+  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> | null => {
     return carts.filter((cart) => cart.orgUnit === orgUnit);
   };
 
@@ -179,8 +179,8 @@ const updateEntries = ({
   code,
   entries,
   locale,
-}: UpdateCartEntriesProps): Array<B2BCart> | undefined => {
-  if (!carts) return;
+}: UpdateCartEntriesProps): Array<B2BCart> | null => {
+  if (!carts) return null;
   const currentCart = carts?.find((cart) => cart.code === code);
   if (!currentCart) return carts;
 

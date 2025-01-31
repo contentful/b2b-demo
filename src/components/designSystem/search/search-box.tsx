@@ -11,18 +11,19 @@ export default function SearchBox() {
   const { siteLabels } = useSiteLabels();
   const router = useRouter();
 
-  const [formData, setFormData] = React.useState<
-    Record<string, string> | undefined
-  >();
+  const [formData, setFormData] = React.useState<Record<
+    string,
+    string
+  > | null>();
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    if (!value) return;
+    if (!value) return null;
     setFormData({ q: value });
   };
 
   const handleSubmit = () => {
-    if (!formData) return;
+    if (!formData) return null;
     const paranms = new URLSearchParams(formData);
     const searchUrl = `/search?${paranms.toString()}`;
     router.push(searchUrl);

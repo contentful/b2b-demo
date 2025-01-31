@@ -97,7 +97,7 @@ export default function ArticleList(props: any) {
   }, [currentPage, dir, field, limit, locale, skip, sort, type]);
 
   const handleChangePage = (newPage: number) => {
-    if (!lastSearchParams) return;
+    if (!lastSearchParams) return null;
 
     const newSearchParams = {
       ...lastSearchParams,
@@ -110,7 +110,7 @@ export default function ArticleList(props: any) {
   };
 
   const handleChangeSort = (newSort: string) => {
-    if (!newSort || !lastSearchParams) return;
+    if (!newSort || !lastSearchParams) return null;
     const newSearchParams = new URLSearchParams({
       ...lastSearchParams,
       sort: newSort,
