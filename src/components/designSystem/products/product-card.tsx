@@ -245,7 +245,7 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
         </Link>
       </CardHeader>
       <CardBody className='flex flex-col col-span-12 items-start justify-between md:col-span-9 md:flex-row px-4 py-3 w-full'>
-        <div classNam='flex flex-col items-center md:grow md:items-start w-full'>
+        <div className='flex flex-col items-center md:grow md:items-start w-full'>
           <Link href={productDetailsUrl}>
             <h2
               className='font-bold mb-1 text-blue-gray-800 text-base'
