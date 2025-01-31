@@ -108,17 +108,17 @@ const MockUsers: Array<User> = [
   jonas_fischer,
 ];
 
-const getUser = async (uid: string): Promise<User | undefined> => {
-  if (!uid) return;
+const getUser = async (uid: string): Promise<User | null> => {
+  if (!uid) return null;
 
   const mockUser = MockUsers.find((user) => user.uid === uid);
-  if (!mockUser) return;
+  if (!mockUser) return null;
 
   return mockUser;
 };
 
-const getUsers = async (): Promise<User[] | unknown> => {
-  if (!MockUsers) return;
+const getUsers = async (): Promise<User[] | null> => {
+  if (!MockUsers) return null;
   return MockUsers;
 };
 

@@ -1,4 +1,8 @@
-import { DataTableColumn, Quote } from '@/models/commerce-types';
+import {
+  DataTableColumn,
+  Quote,
+  QuoteTableData,
+} from '@/models/commerce-types';
 import { localizeCurrency } from '@/utils/locale-utils';
 
 export const QUOTE_DATA_COLS: Array<DataTableColumn> = [
@@ -11,7 +15,8 @@ export const QUOTE_DATA_COLS: Array<DataTableColumn> = [
   { key: 'guid', label: 'User', format: 'text' },
 ];
 
-export const getQuote = async (code: string) => {
+export const getQuote = async (code: string): Promise<Quote> | null => {
+  if (!code) return null;
   return MockQuotes.find((quote) => quote.code === code);
 };
 
@@ -19,14 +24,14 @@ export const getQuotesByOrg = async (
   orgUnit: string,
   locale: string,
   tableData: boolean = false
-) => {
-  if (!orgUnit || (tableData && !locale)) return;
+): Promise<Array<Quote | QuoteTableData>> | null => {
+  if (!orgUnit || (tableData && !locale)) return null;
 
   const quotes = tableData
     ? getQuotesTableData(locale, 'orgUnit', orgUnit)
     : getQuotes('orgUnit', orgUnit);
 
-  if (!quotes) return;
+  if (!quotes) return null;
 
   return quotes;
 };
@@ -35,20 +40,23 @@ export const getQuotesByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-) => {
-  if (!guid || (tableData && !locale)) return;
+): Promise<Array<Quote | QuoteTableData>> | null => {
+  if (!guid || (tableData && !locale)) return null;
 
   const quotes = tableData
     ? getQuotesTableData(locale, 'guid', guid)
     : getQuotes('guid', guid);
 
-  if (!quotes) return;
+  if (!quotes) return null;
 
   return quotes;
 };
 
-export const getQuotes = async (key: string, value: string) => {
-  if (!(key && value)) return;
+export const getQuotes = async (
+  key: string,
+  value: string
+): Promise<Array<Quote>> | null => {
+  if (!(key && value)) return null;
 
   const quotes = MockQuotes.filter((quote: any) => quote[key] === value).sort(
     (a: any, b: any) => {
@@ -58,7 +66,7 @@ export const getQuotes = async (key: string, value: string) => {
     }
   );
 
-  if (!quotes) return;
+  if (!quotes) return null;
 
   return quotes;
 };
@@ -67,8 +75,8 @@ export const getQuotesTableData = async (
   locale: string,
   key: string,
   value: string
-) => {
-  if (!(key && value)) return;
+): Promise<Array<QuoteTableData>> | null => {
+  if (!(key && value)) return null;
 
   const quotes = MockQuotes.filter((quote: any) => quote[key] === value).map(
     (quote: any) => {
@@ -90,7 +98,7 @@ export const getQuotesTableData = async (
     }
   );
 
-  if (!quotes) return;
+  if (!quotes) return null;
   return quotes;
 };
 

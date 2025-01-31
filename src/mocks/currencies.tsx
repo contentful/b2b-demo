@@ -14,11 +14,12 @@ const usdollar = {
 
 const currencies: Array<Currency> = [euro, usdollar];
 
-const getCurrencies = (): Array<Currency> | undefined => {
+const getCurrencies = (): Array<Currency> | null => {
   return currencies;
 };
 
-const getCurrency = (code: string): Currency | undefined => {
+const getCurrency = (code: string): Currency | null => {
+  if (!code) return null;
   return currencies.find((currency) => currency.code === code);
 };
 

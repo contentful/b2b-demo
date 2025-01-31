@@ -11,21 +11,18 @@ export default function LoginCards(props: any) {
     let isMounted = true;
 
     const loadUsers = async () => {
-      await getUsers()
-        .then((mockUsers) => {
-          if (mockUsers && Array.isArray(mockUsers)) {
-            return mockUsers?.sort((a: User, b: User) => {
-              if (a.country.code > b.country.code) return -1;
-              if (a.country.code < b.country.code) return 1;
-              return 0;
-            });
-          }
-        })
-        .then((mockUsers) => {
-          if (isMounted) {
-            setUsers(mockUsers);
-          }
+      const mockUsers = await getUsers();
+
+      if (mockUsers && Array.isArray(mockUsers)) {
+        const sortedUsers = mockUsers?.sort((a: User, b: User) => {
+          if (a.country.code > b.country.code) return -1;
+          if (a.country.code < b.country.code) return 1;
+          return 0;
         });
+        if (isMounted) {
+          setUsers(sortedUsers);
+        }
+      }
     };
 
     loadUsers();

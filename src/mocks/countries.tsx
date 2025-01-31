@@ -66,11 +66,12 @@ const us: Country = {
 
 const countries: Array<Country> = [germany, us];
 
-const getCountries = (): Array<Country> | undefined => {
+const getCountries = (): Array<Country> | null => {
   return countries;
 };
 
-const getCountry = (code: string): Country | undefined => {
+const getCountry = (code: string): Country | null => {
+  if (!code) return null;
   return countries.find((country) => country.code === code);
 };
 

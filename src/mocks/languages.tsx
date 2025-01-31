@@ -16,11 +16,12 @@ const german = {
 
 const languages: Array<Language> = [german, english];
 
-const getLanguage = (isocode: string): Language | undefined => {
+const getLanguage = (isocode: string): Language | null => {
+  if (!isocode) return null;
   return languages.find((lang) => lang.isocode === isocode);
 };
 
-const getLanguages = (): Array<Language> | undefined => {
+const getLanguages = (): Array<Language> | null => {
   return languages;
 };
 

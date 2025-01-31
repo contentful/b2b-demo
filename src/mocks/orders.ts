@@ -19,8 +19,8 @@ export const ORDER_DATA_COLS: Array<DataTableColumn> = [
   // { key: 'code', label: 'Link', format: 'link' },
 ];
 
-export const getOrder = async (code: string): Promise<Order | undefined> => {
-  if (!code) return;
+export const getOrder = async (code: string): Promise<Order | null> => {
+  if (!code) return null;
   return MockOrders.find((order: Order) => order.code === code);
 };
 
@@ -28,8 +28,8 @@ export const getOrdersByOrg = async (
   orgUnit: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Order | OrderTableData> | undefined> => {
-  if (!orgUnit || (tableData && !locale)) return;
+): Promise<Array<Order | OrderTableData> | null> => {
+  if (!orgUnit || (tableData && !locale)) return null;
   return tableData
     ? getOrdersTableData(locale, 'orgUnit', orgUnit)
     : getOrders('orgUnit', orgUnit);
@@ -39,8 +39,8 @@ export const getOrdersByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Order | OrderTableData> | undefined> => {
-  if (!guid || (tableData && !locale)) return;
+): Promise<Array<Order | OrderTableData> | null> => {
+  if (!guid || (tableData && !locale)) return null;
   return tableData
     ? getOrdersTableData(locale, 'guid', guid)
     : getOrders('guid', guid);
@@ -49,8 +49,8 @@ export const getOrdersByUser = async (
 export const getOrders = async (
   key: string,
   value: string
-): Promise<Array<Order> | undefined> => {
-  if (!(key || value)) return;
+): Promise<Array<Order> | null> => {
+  if (!(key || value)) return null;
   return MockOrders.filter((order: any) => order[key] === value).sort(
     (a: any, b: any) => {
       if (a.createdDate > b.createdDate) return 1;
@@ -64,8 +64,8 @@ export const getOrdersTableData = async (
   locale: string,
   key: string,
   value: string
-): Promise<Array<OrderTableData> | undefined> => {
-  if (!(key && value)) return;
+): Promise<Array<OrderTableData> | null> => {
+  if (!(key && value)) return null;
 
   const orders = MockOrders.filter((order: any) => order[key] === value).map(
     (order: Order) => {
@@ -87,7 +87,7 @@ export const getOrdersTableData = async (
     }
   );
 
-  if (!orders) return;
+  if (!orders) return null;
 
   return orders;
 };

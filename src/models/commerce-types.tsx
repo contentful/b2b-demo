@@ -425,7 +425,7 @@ export type TableData = {
   code: string;
   status: string;
   guid: string;
-  orgUnit: string;
+  orgUnit?: string;
   creationTime: string;
   updateTime: string;
 };
@@ -444,7 +444,7 @@ export type Ticket = {
 export type TicketEvent = {
   code: string;
   author: string;
-  createdAt: Date;
+  createdAt: string;
   message: string;
   addedByAgent: boolean;
   toStatus: string;

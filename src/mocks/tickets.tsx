@@ -1,4 +1,8 @@
-import { DataTableColumn } from '@/models/commerce-types';
+import {
+  DataTableColumn,
+  Ticket,
+  TicketTableData,
+} from '@/models/commerce-types';
 
 export const TICKET_DATA_COLS: Array<DataTableColumn> = [
   { key: 'code', label: 'ID', format: 'text' },
@@ -17,20 +21,23 @@ export const getTicketsByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-) => {
-  if (!guid || (tableData && !locale)) return;
+): Promise<Array<Ticket | TicketTableData>> | null => {
+  if (!guid || (tableData && !locale)) return null;
 
   const tickets = tableData
     ? getTicketsTableData(locale, 'guid', guid)
     : getTickets('guid', guid);
 
-  if (!tickets) return;
+  if (!tickets) return null;
 
   return tickets;
 };
 
-export const getTickets = async (key: string, value: string) => {
-  if (!(key && value)) return;
+export const getTickets = async (
+  key: string,
+  value: string
+): Promise<Array<Ticket>> | null => {
+  if (!(key && value)) return null;
 
   const tickets = MockTickets.filter((quote: any) => quote[key] === value).sort(
     (a: any, b: any) => {
@@ -40,7 +47,7 @@ export const getTickets = async (key: string, value: string) => {
     }
   );
 
-  if (!tickets) return;
+  if (!tickets) return null;
 
   return tickets;
 };
@@ -49,8 +56,8 @@ export const getTicketsTableData = async (
   locale: string,
   key: string,
   value: string
-) => {
-  if (!(key && value)) return;
+): Promise<Array<TicketTableData>> | null => {
+  if (!(key && value)) return null;
 
   const tickets = MockTickets.filter(
     (ticket: any) => ticket[key] === value
@@ -66,7 +73,7 @@ export const getTicketsTableData = async (
     };
   });
 
-  if (!tickets) return;
+  if (!tickets) return null;
   return tickets;
 };
 

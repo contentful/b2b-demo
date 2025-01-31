@@ -45,10 +45,11 @@ export const MockDeliveryModes: Array<DeliveryMode> = [
   ups_standard,
 ];
 
-export const getDeliveryMode = (code: string) => {
+export const getDeliveryMode = (code: string): DeliveryMode | null => {
+  if (!code) return null;
   return MockDeliveryModes.find((mode) => mode.code === code);
 };
 
-export const getDeliveryModes = () => {
+export const getDeliveryModes = (): Array<DeliveryMode> | null => {
   return MockDeliveryModes;
 };
