@@ -1,6 +1,6 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { ContentError, ICONS } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
 import useAppContext from '@/hooks/app-context';
 import { getUser } from '@/mocks/users';
@@ -27,6 +27,7 @@ export default function MiniProfile() {
 
   const router = useRouter();
 
+  const [error, setError] = React.useState();
   const [user, setUser] = React.useState<User>();
   const [open, setOpen] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -37,7 +38,7 @@ export default function MiniProfile() {
     if (!guid) return null;
 
     const loadUser = async () => {
-      getUser(guid).then((newUser) => {
+      await getUser(guid).then((newUser) => {
         if (isMounted) {
           setUser(newUser);
         }
@@ -82,6 +83,7 @@ export default function MiniProfile() {
 
   return (
     <>
+      {error && <div className='mx-2 text-sm'>{error}</div>}
       {user && (
         <>
           <div className='mx-2'>

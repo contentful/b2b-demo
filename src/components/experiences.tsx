@@ -60,7 +60,7 @@ export const Experience = ({
     localeCode = state.currentLocale ? state.currentLocale : localeCode;
 
     const loadSiteConfig = async () => {
-      getSiteConfig(localeCode).then((config) => {
+      await getSiteConfig(localeCode).then((config) => {
         if (isMounted) {
           setSiteConfig(config);
         }
@@ -68,7 +68,7 @@ export const Experience = ({
     };
 
     const loadSiteLabels = async () => {
-      getSiteLabels(localeCode).then((labels) => {
+      await getSiteLabels(localeCode).then((labels) => {
         if (isMounted) {
           setSiteLabels(labels);
         }

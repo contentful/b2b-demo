@@ -52,7 +52,7 @@ export default function SearchResults(props: any) {
     const [lang] = state.currentLocale.split('-');
 
     const loadProducts = async () => {
-      getProducts({
+      await getProducts({
         query,
         currentPage,
         lang,

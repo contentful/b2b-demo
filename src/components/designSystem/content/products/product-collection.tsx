@@ -30,7 +30,7 @@ export default function ProductCollection(props: any) {
         })
         .join(':');
 
-      getProducts({
+      await getProducts({
         filters,
         lang,
       })

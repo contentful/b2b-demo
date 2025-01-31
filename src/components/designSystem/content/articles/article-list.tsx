@@ -71,7 +71,7 @@ export default function ArticleList(props: any) {
         order: dir === 'desc' ? [`-fields.${field}`] : [`fields.${field}`],
         'fields.type': type,
       };
-      getArticles(entriesQuery)
+      await getArticles(entriesQuery)
         .then(({ entries, pagination }) => {
           if (isMounted) {
             setArticles(entries);
@@ -110,7 +110,7 @@ export default function ArticleList(props: any) {
   };
 
   const handleChangeSort = (newSort: string) => {
-    if (!newSort || !lastSearchParams) return null;
+    if (!newSort || !lastSearchParams) return;
     const newSearchParams = new URLSearchParams({
       ...lastSearchParams,
       sort: newSort,

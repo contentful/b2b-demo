@@ -73,7 +73,7 @@ export default function ProfileCard(props: any) {
         const locale = state.currentLocale;
 
         if (slug) {
-          getProfile(slug, locale).then((profileFromPath) => {
+          await getProfile(slug, locale).then((profileFromPath) => {
             if (isMounted) {
               setProfile(profileFromPath);
             }

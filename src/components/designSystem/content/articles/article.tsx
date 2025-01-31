@@ -39,7 +39,7 @@ export default function Article(props: any) {
         const pathNodes = pathname.substring(1).split('/');
         const slug = pathNodes[pathNodes.length - 1];
 
-        getArticle(slug, locale)
+        await getArticle(slug, locale)
           .then((articleFields) => {
             if (isMounted) {
               setArticle(articleFields);
