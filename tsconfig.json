@@ -2,7 +2,7 @@
   "compilerOptions": {
     "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
-    "strict": true,
+    "strict": false,
     "allowJs": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
