@@ -136,7 +136,7 @@ const ATCModal = (props: any): JSX.Element => {
   );
 
   return (
-    <Dialog open={showModal} size='xs'>
+    <Dialog handler={toggleModal} open={showModal} size='xs'>
       <DialogHeader className='justify-between py-2'>
         <Typography className='' variant='h6'>
           {siteLabels['message.addedToCart']}
