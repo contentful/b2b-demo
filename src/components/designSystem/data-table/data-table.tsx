@@ -81,7 +81,7 @@ export default function DataTable(props: any) {
         default:
           console.error(
             'DataTable :: useEffect :: unsupported data type',
-            datatype
+            props.datatype
           );
           return;
       }

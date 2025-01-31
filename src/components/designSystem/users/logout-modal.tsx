@@ -18,6 +18,15 @@ export default function LogoutModal(props: any) {
 
   let intervalId = React.useRef<NodeJS.Timeout | null>(null);
 
+  const closeModal = () => {
+    setShowLogoutModal(false);
+    router.push('/');
+  };
+
+  const reduceSecondsRemaining = () => {
+    setSecondsRemaining(secondsRemaining - 1);
+  };
+
   React.useEffect(() => {
     if (showLogoutModal) {
       if (!intervalId.current) {
@@ -37,16 +46,7 @@ export default function LogoutModal(props: any) {
         intervalId.current = null;
       }
     };
-  }, [showLogoutModal, secondsRemaining]);
-
-  const reduceSecondsRemaining = () => {
-    setSecondsRemaining(secondsRemaining - 1);
-  };
-
-  const closeModal = () => {
-    setShowLogoutModal(false);
-    router.push('/');
-  };
+  }, [showLogoutModal, secondsRemaining, reduceSecondsRemaining, closeModal]);
 
   return (
     <Dialog open={showLogoutModal} size='xs'>

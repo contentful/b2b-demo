@@ -10,7 +10,6 @@ const MAX_BUTTONS = 5;
 export default function Pagination(props: any) {
   const [buttons, setButtons] = React.useState<any>();
   const { handleChangePage, pagination } = props;
-  const { currentPage, totalPages } = pagination;
 
   React.useEffect(() => {
     let isMounted = true;
@@ -24,12 +23,12 @@ export default function Pagination(props: any) {
       const numberedButtons = new Array(btnCount);
 
       const start =
-        totalPages <= MAX_BUTTONS
+        pagination.totalPages <= MAX_BUTTONS
           ? 1
           : currentPageNumber < btnCount
           ? 1
           : currentPageNumber === pagination.totalPages
-          ? totalPages + 1 - btnCount
+          ? pagination.totalPages + 1 - btnCount
           : currentPageNumber - 1;
 
       for (var i = start; i < start + btnCount; i++) {
@@ -49,11 +48,11 @@ export default function Pagination(props: any) {
   }, [pagination]);
 
   const isCurrentPage = (page: number): boolean => {
-    return currentPage === page;
+    return pagination.currentPage === page;
   };
 
-  const isFirstPage = currentPage === 0;
-  const isLastPage = currentPage === totalPages - 1;
+  const isFirstPage = pagination.currentPage === 0;
+  const isLastPage = pagination.currentPage === pagination.totalPages - 1;
 
   const firstPageButton = (
     <Button
@@ -93,7 +92,7 @@ export default function Pagination(props: any) {
           } else {
             className = className + ' hover:bg-gray-200';
           }
-          if (totalPages <= MAX_BUTTONS && key == 0) {
+          if (pagination.totalPages <= MAX_BUTTONS && key == 0) {
             className = className + ' border-w rounded-w-sm';
           }
 
