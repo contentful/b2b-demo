@@ -50,8 +50,12 @@ export default function LogoutModal(props: any) {
     router,
   ]);
 
+  const toggleShowLogoutModal = () => {
+    setShowLogoutModal((state) => !state);
+  };
+
   return (
-    <Dialog open={showLogoutModal} size='xs'>
+    <Dialog handler={toggleShowLogoutModal} open={showLogoutModal} size='xs'>
       <DialogHeader>{siteLabels['label.logoutSuccessful']}</DialogHeader>
       <DialogBody>
         <Typography>

@@ -69,7 +69,7 @@ export default function SignIn(props: any) {
     <>
       {users && (
         <Menu
-          handler={() => toggleOpen()}
+          handler={toggleOpen}
           offset={4}
           open={open}
           placement='bottom-end'

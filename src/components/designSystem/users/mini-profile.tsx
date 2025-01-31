@@ -86,7 +86,7 @@ export default function MiniProfile() {
         <>
           <div className='mx-2'>
             <Menu
-              handler={() => toggleOpen()}
+              handler={toggleOpen}
               offset={4}
               open={open}
               placement='bottom-end'
