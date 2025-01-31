@@ -1,5 +1,6 @@
 import { Experience } from '@/components/experiences';
-import { Params } from 'next/dist/server/request/params';
+
+type Params = Promise<{ slug: string[] }>;
 
 const Page = async ({ params }: { params: Params }): Promise<JSX.Element> => {
   const { slug } = await params;
