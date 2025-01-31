@@ -3,9 +3,15 @@ import { Asset } from 'contentful';
 
 const SAPEndpoint = process.env.NEXT_PUBLIC_SAP_API_ENDPOINT;
 
-const getContentfulImageUrl = (image: Asset): string | undefined => {
+const getContentfulImageUrl = (image: Asset | string): string | undefined => {
   if (!image) return;
-  return `https:${image.fields?.file?.url}`;
+  if (typeof image === 'string') {
+    if (!image.startsWith('https:')) {
+      return 'https:' + image;
+    }
+  } else {
+    return `https:${image.fields?.file?.url}`;
+  }
 };
 
 const getSAPProductImageUrl = (product: Product): string | undefined => {

@@ -1,28 +1,24 @@
-import { useAppContext } from '@/hooks';
-import { AppContextState } from '@/hooks/app-context';
-
 type RewriteRule = {
   pattern: RegExp;
   target: string;
 };
 
 class SlugRewriter {
-  private appState: AppContextState;
+  public userRoles: string[];
   public rules: Array<RewriteRule>;
 
-  constructor() {
-    var { state } = useAppContext();
-    this.appState = state;
+  constructor(userRoles: string[]) {
+    this.userRoles = userRoles;
 
     this.rules = [
       { pattern: /^articles\/(.)+$/, target: 'articles/article-template' },
       {
         pattern: /^dashboard$/,
-        target: this.appState.currentUserRoles[0],
+        target: this.userRoles[0],
       },
       {
         pattern: /^dashboard\/(.)*$/,
-        target: this.appState.currentUserRoles[0],
+        target: this.userRoles[0],
       },
       { pattern: /^products\/?$/, target: 'catalog' },
       { pattern: /^products\/(.)+$/, target: 'products/product-template' },

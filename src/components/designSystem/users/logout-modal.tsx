@@ -16,25 +16,25 @@ export default function LogoutModal(props: any) {
 
   const [secondsRemaining, setSecondsRemaining] = React.useState<number>(5);
 
-  let intervalId: NodeJS.Timeout | null;
+  let intervalId = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     if (showLogoutModal) {
-      if (!intervalId) {
-        intervalId = setInterval(reduceSecondsRemaining, 1000);
+      if (!intervalId.current) {
+        intervalId.current = setInterval(reduceSecondsRemaining, 1000);
       }
 
       if (secondsRemaining < 1) {
-        clearInterval(intervalId);
-        intervalId = null;
+        clearInterval(intervalId.current);
+        intervalId.current = null;
         closeModal();
       }
     }
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
       }
     };
   }, [showLogoutModal, secondsRemaining]);

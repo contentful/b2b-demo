@@ -1,5 +1,6 @@
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { Typography } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function InfoWidget(props: any) {
@@ -58,7 +59,15 @@ const WidgetBody = (props: any) => {
   return (
     <div className='flex flex-col gap-4 items-center justify-center text-inherit w-full'>
       <div className='h-14 w-14'>
-        {icon && <img className='h-full object-contain w-full' src={icon} />}
+        {icon && (
+          <Image
+            alt='icon'
+            className='h-full object-contain w-full'
+            height='56'
+            src={icon}
+            width='56'
+          />
+        )}
       </div>
       {text && (
         <Typography

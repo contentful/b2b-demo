@@ -11,11 +11,13 @@ import { useAppContext, useSiteLabels } from '@/hooks';
 import { ArticleType } from '@/models/content-types';
 import { getArticle } from '@/services/contentful/content';
 import { getAssetUrl } from '@/utils/content-utils';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Typography } from '@material-tailwind/react';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -54,7 +56,7 @@ export default function Article(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [pathname]);
+  }, [pathname, state]);
 
   return (
     <div className='flex flex-col max-w-screen-xl mx-auto w-full'>
@@ -77,7 +79,7 @@ export default function Article(props: any) {
             <Typography className='leading-normal mb-5 text-4xl' variant='h1'>
               {article?.title}
             </Typography>
-            {(article?.author || article?.publicationDate) && (
+            {(article?.author || article?.pubDate) && (
               <div className='flex gap-4 divide-x divide-gray-500 items-center'>
                 {article?.author && (
                   <div className='flex font-normal gap-2 items-center leading-6 text-normal text-sm'>
@@ -137,9 +139,12 @@ export default function Article(props: any) {
             >
               {article?.image && (
                 <div className='p-2 w-full'>
-                  <img
+                  <Image
+                    alt=''
                     className='h-full object-contain w-full'
-                    src={getAssetUrl(article?.image)}
+                    src={getContentfulImageUrl(article?.image)!}
+                    height='636'
+                    width='954'
                   />
                 </div>
               )}

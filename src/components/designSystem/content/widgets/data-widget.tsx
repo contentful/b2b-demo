@@ -11,6 +11,7 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 
 export default function DataWidget(props: any) {
   const preview = props.isInExpEditorMode;
@@ -76,7 +77,13 @@ export default function DataWidget(props: any) {
               )}
               {icon && (
                 <div className='bg-white h-7 p-1 rounded-lg w-7'>
-                  <img className='h-full object-contain w-full' src={icon} />
+                  <Image
+                    alt='icon'
+                    className='h-full object-contain w-full'
+                    height='20'
+                    src={icon}
+                    width='20'
+                  />
                 </div>
               )}
               {!icon && preview && (

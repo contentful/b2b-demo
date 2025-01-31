@@ -22,10 +22,11 @@ import {
   PopoverHandler,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import React from 'react';
 
 export default function MiniCart() {
-  const { carts, dispatch, getCartByUser, getNextCartCode } = useCartsContext();
+  const { carts, dispatch, getCartByUser } = useCartsContext();
   const { state } = useAppContext();
   const {
     currentUser: guid,
@@ -49,7 +50,11 @@ export default function MiniCart() {
 
       if (isMounted) {
         if (!userCart) {
-          const createCartProps = { guid, orgUnit, locale };
+          const createCartProps = {
+            guid: state.currentUser,
+            orgUnit: state.currentOrgUnit,
+            locale: state.currentLocale,
+          };
           dispatch({
             type: 'ADD_CART',
             payload: createCartProps,
@@ -64,7 +69,7 @@ export default function MiniCart() {
     return () => {
       isMounted = false;
     };
-  }, [carts]);
+  }, [state, carts, dispatch, getCartByUser]);
 
   const handleRemoveEntry = (entryNumber: number) => {
     if (!cart) return;
@@ -121,9 +126,12 @@ export default function MiniCart() {
                       key={entry.product?.code}
                     >
                       <div className='h-20 w-20'>
-                        <img
+                        <Image
+                          alt={`product: ${entry.product?.code}`}
                           className='h-full object-contain w-full'
-                          src={getSAPProductImageUrl(entry.product)}
+                          height='80'
+                          src={getSAPProductImageUrl(entry.product)!}
+                          width='80'
                         />
                       </div>
                       <div className='flex flex-col flex-grow gap-2 justify-center h-20 px-3 w-60'>

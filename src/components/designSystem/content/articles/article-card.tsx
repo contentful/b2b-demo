@@ -14,34 +14,17 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import React from 'react';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 
 export default function ArticleCard(props: any) {
   const preview = props.isInExpEditorMode;
   const { variant, border, shadow, ...fields } = props;
-
-  const { state } = useAppContext();
-  const locale = state.currentLocale;
-
-  const [article, setArticle] = React.useState<Record<string, any>>();
-
-  React.useEffect(() => {
-    let isMounted = true;
-
-    const loadArticle = () => {
-      if (fields) {
-        if (isMounted) {
-          setArticle({ ...fields, author: fields.author?.fields.name });
-        }
-      }
-    };
-
-    loadArticle();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [props]);
+  const article = {
+    ...fields,
+    author: fields.author?.fields.name,
+  };
 
   const isEmpty = (arg0: Record<string, any>) => {
     const fields = ['image', 'pubDate', 'slug', 'teaser', 'title', 'type'];
@@ -248,10 +231,12 @@ const ArticleCardVertical = (props: any) => {
             color='transparent'
             className='h-64 m-0 rounded-none w-full'
           >
-            <img
+            <Image
               className='h-full object-cover w-full text-inherit'
-              src={article?.image}
+              src={getContentfulImageUrl(article?.image)!}
               alt={article?.title}
+              height='256'
+              width='320'
             />
           </CardHeader>
         )}

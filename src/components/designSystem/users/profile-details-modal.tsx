@@ -8,6 +8,7 @@ import {
   DialogHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 
 export default function ProfileDetailsModal(props: any) {
   const {
@@ -32,10 +33,12 @@ export default function ProfileDetailsModal(props: any) {
       <DialogBody className='font-[Inter,"Inter Fallback"]'>
         <div className='flex gap-6 items-start w-full'>
           <div className='h-40 rounded-full w-40'>
-            <img
+            <Image
               alt='avatar'
               className='h-full object-cover rounded-full w-full'
+              height='160'
               src={user?.userAvatar?.url}
+              width='160'
             />
           </div>
           <div className='flex flex-col gap-2'>

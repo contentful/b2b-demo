@@ -82,9 +82,9 @@ export const Experience = ({
     return () => {
       isMounted = false;
     };
-  }, [state, slug]);
+  }, [state, slug, siteConfig, setSiteConfig, siteLabels, setSiteLabels]);
 
-  const contentSlug = new SlugRewriter().process(slug);
+  const contentSlug = new SlugRewriter(state.currentUserRoles).process(slug);
 
   const { experience, isLoading, error } = useFetchBySlug({
     slug: contentSlug,

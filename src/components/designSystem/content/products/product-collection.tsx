@@ -52,7 +52,7 @@ export default function ProductCollection(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [props]);
+  }, [props, state]);
 
   return (
     <>

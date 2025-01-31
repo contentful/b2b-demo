@@ -2,6 +2,7 @@ import { EditText } from '@/components/designSystem';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { Button, Typography } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero(props: any) {
@@ -45,10 +46,12 @@ export default function Hero(props: any) {
             </div>
           </div>
           <div className='media absolute top-0 w-full'>
-            <img
+            <Image
               src={`${image}?w=1300`}
               alt={imageAlt}
               className='object-fit w-full'
+              width='1920'
+              height='1080'
             />
           </div>
         </>

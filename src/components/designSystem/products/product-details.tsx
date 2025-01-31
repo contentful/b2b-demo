@@ -19,6 +19,7 @@ import {
   Select,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -81,7 +82,7 @@ export default function ProductDetails(props: any) {
     if (userCart) {
       setCart(userCart);
     }
-  }, [carts]);
+  }, [carts, guid, getCartByUser]);
 
   const handleAddEntry = () => {
     if (!cart || !product) return;
@@ -146,10 +147,15 @@ export default function ProductDetails(props: any) {
         <>
           <div className='flex flex-col gap-4 items-center justify-start max-w-screen-xl sm:flex-row sm:items-start w-full'>
             <div className='flex h-full items-center justify-center sm:w-1/2 w-full'>
-              <img
-                className='h-full max-h-[32rem] object-contain w-full'
-                src={getSAPProductImageUrl(product)}
-              />
+              {product.images && (
+                <Image
+                  alt='product image'
+                  className='h-full max-h-[32rem] object-contain w-full'
+                  height='768'
+                  src={getSAPProductImageUrl(product)!}
+                  width='768'
+                />
+              )}
             </div>
             <div className='flex flex-col items-start justify-center pt-8 sm:grow sm:w-1/2 w-full'>
               <Typography

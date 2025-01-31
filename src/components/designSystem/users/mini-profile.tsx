@@ -49,7 +49,7 @@ export default function MiniProfile() {
     return () => {
       isMounted = false;
     };
-  }, [state]);
+  }, [state, guid]);
 
   const handleLogout = () => {
     // setShowLogoutModal(true);

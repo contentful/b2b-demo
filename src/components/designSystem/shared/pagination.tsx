@@ -16,8 +16,11 @@ export default function Pagination(props: any) {
     let isMounted = true;
 
     const loadButtons = () => {
-      const currentPageNumber = currentPage + 1;
-      const btnCount = totalPages <= MAX_BUTTONS ? totalPages : MAX_BUTTONS - 2;
+      const currentPageNumber = pagination.currentPage + 1;
+      const btnCount =
+        pagination.totalPages <= MAX_BUTTONS
+          ? pagination.totalPages
+          : MAX_BUTTONS - 2;
       const numberedButtons = new Array(btnCount);
 
       const start =
@@ -25,7 +28,7 @@ export default function Pagination(props: any) {
           ? 1
           : currentPageNumber < btnCount
           ? 1
-          : currentPageNumber === totalPages
+          : currentPageNumber === pagination.totalPages
           ? totalPages + 1 - btnCount
           : currentPageNumber - 1;
 

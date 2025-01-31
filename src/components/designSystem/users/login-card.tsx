@@ -11,6 +11,7 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function LoginCard(props: any) {
@@ -37,21 +38,30 @@ export default function LoginCard(props: any) {
       shadow={shadow}
     >
       <CardHeader floated={false} className='h-80'>
-        <img
-          className='h-full object-cover w-full'
-          src={user.userAvatar?.url}
-        />
+        {user.userAvatar?.url && (
+          <Image
+            alt='avatar'
+            className='h-full object-cover w-full'
+            height='320'
+            src={user.userAvatar?.url}
+            width='320'
+          />
+        )}
       </CardHeader>
       <CardBody className='mt-3 px-4 py-1 text-center'>
         <div className='flex flex-row gap-8 items-center justify-center'>
           <Typography className='' color='blue-gray' variant='h4'>
             {user.firstName} {user.lastName}
           </Typography>
-          <img
-            alt={`${user.country.code} flag`}
-            className='h-6 rounded-full w-6'
-            src={user.country?.flags?.png}
-          />
+          {user.country.code && (
+            <Image
+              alt={`${user.country.code} flag`}
+              className='h-6 rounded-full w-6'
+              height='24'
+              src={user.country?.flags?.png}
+              width='24'
+            />
+          )}
         </div>
         <Typography color='blue' className='font-medium' variant='paragraph'>
           {user.email}{' '}

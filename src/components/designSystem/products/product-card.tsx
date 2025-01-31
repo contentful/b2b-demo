@@ -22,6 +22,7 @@ import {
   Select,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -53,7 +54,7 @@ export default function ProductCard(props: any) {
       setCart(userCart);
       if (!hasCart) setHasCart(true);
     }
-  }, [carts]);
+  }, [carts, guid, getCartByUser, hasCart]);
 
   const handleAddEntry = () => {
     if (!cart) return;
@@ -152,10 +153,15 @@ const ATCModal = (props: any): JSX.Element => {
       <DialogBody className='px-4 py-2'>
         <div className='flex flex-row gap-4 items-center justify-between'>
           <div className='h-32 w-32'>
-            <img
-              className='h-full object-contain  w-full'
-              src={getSAPProductImageUrl(product)}
-            />
+            {product.images && (
+              <Image
+                alt={product.code}
+                className='h-full object-contain  w-full'
+                height='256'
+                src={getSAPProductImageUrl(product)!}
+                width='256'
+              />
+            )}
           </div>
           <div className='flex flex-col flex-grow gap-0 justify-center h-32 px-3 w-40'>
             <div className='border-b flex gap-2 items-center mb-1 py-1'>
@@ -229,9 +235,12 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
         shadow={false}
       >
         <Link href={productDetailsUrl}>
-          <img
+          <Image
+            alt={product.code}
             className='h-full max-h-44 object-contain w-full'
+            height='176'
             src={productImageUrl}
+            width='176'
           />
         </Link>
       </CardHeader>
@@ -326,9 +335,17 @@ const ProductCardVertical = (props: any): JSX.Element => {
         floated={false}
         shadow={false}
       >
-        <Link href={productDetailsUrl}>
-          <img className='h-full object-contain w-full' src={productImageUrl} />
-        </Link>
+        {productImageUrl && (
+          <Link href={productDetailsUrl}>
+            <Image
+              alt={product.code}
+              className='h-full object-contain w-full'
+              height='176'
+              src={productImageUrl}
+              width='176'
+            />
+          </Link>
+        )}
       </CardHeader>
       <CardBody className='flex flex-col grow py-2'>
         <Link href={productDetailsUrl}>

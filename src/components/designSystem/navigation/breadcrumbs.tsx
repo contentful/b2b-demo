@@ -25,7 +25,7 @@ export default function Crumbs(props: any) {
   return (
     <>
       <Breadcrumbs>
-        <Link href='/dashboard'>{siteLabels['dashboard']}</Link>
+        <Link href='/dashboard'>{siteLabels['label.dashboard']}</Link>
         {preview &&
           previewCrumbs.map((crumb: string, key: number) => {
             return (

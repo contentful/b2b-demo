@@ -1,16 +1,14 @@
-import ICONS from '@/components/designSystem/icons';
 import { getContentfulImageUrl } from '@/utils/image-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   ListItem,
   ListItemPrefix,
   ListItemSuffix,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MenuItem(props: any) {
   const { menuitem, isActive, menuicons, iconsize, fontSize } = props;
-  const { text, icon } = menuitem;
 
   return menuitem.url ? (
     <Link className='text-inherit' href={menuitem.url}>
@@ -26,7 +24,6 @@ export default function MenuItem(props: any) {
 const MenuItemLabel = (props: any) => {
   const { menuitem, isActive, menuicons, iconsize, fontSize } = props;
   const { text, icon } = menuitem;
-  console.log('MenuItemLabel :: icon ::', icon);
 
   return (
     <ListItem
@@ -37,25 +34,34 @@ const MenuItemLabel = (props: any) => {
     >
       {menuicons === 'left' && (
         <ListItemPrefix className='text-inherit'>
-          <img
+          <Image
+            alt='icon'
             className={`object-contain ${iconsize}`}
-            src={getContentfulImageUrl(icon)}
+            height='56'
+            src={getContentfulImageUrl(icon)!}
+            width='56'
           />
         </ListItemPrefix>
       )}
       {menuicons === 'only' ? (
-        <img
+        <Image
+          alt='icon'
           className={`object-contain ${iconsize}`}
-          src={getContentfulImageUrl(icon)}
+          height='56'
+          src={getContentfulImageUrl(icon)!}
+          width='56'
         />
       ) : (
         text
       )}
       {menuicons === 'right' && (
         <ListItemSuffix className='ml-auto text-inherit'>
-          <img
+          <Image
+            alt='icon'
             className={`object-contain ${iconsize}`}
-            src={getContentfulImageUrl(icon)}
+            height='56'
+            src={getContentfulImageUrl(icon)!}
+            width='56'
           />
         </ListItemSuffix>
       )}

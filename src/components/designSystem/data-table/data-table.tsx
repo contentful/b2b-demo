@@ -62,7 +62,7 @@ export default function DataTable(props: any) {
       let colsArray;
       let sortOpts = new Array();
 
-      switch (datatype) {
+      switch (props.datatype) {
         case 'quotes':
           tableData = await getQuotesTableData(locale, key, value);
           colsArray = QUOTE_DATA_COLS;

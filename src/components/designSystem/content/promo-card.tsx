@@ -1,4 +1,5 @@
 import { EditText, ICONS } from '@/components/designSystem';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,10 +11,12 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function PromoCard(props: any) {
   const preview = props.isInExpEditorMode;
+  console.log('PromoCard :: props', props);
   const {
     title,
     summary,
@@ -26,9 +29,20 @@ export default function PromoCard(props: any) {
     shadow = false,
   } = props;
 
+  const isDefined = () => {
+    return (
+      typeof title === 'string' ||
+      typeof summary === 'string' ||
+      typeof description === 'object' ||
+      typeof ctaText === 'string' ||
+      typeof ctaURL === 'string' ||
+      typeof image === 'string'
+    );
+  };
+
   return (
     <>
-      {!(title || summary || description || ctaText || ctaURL || image) ? (
+      {!isDefined() ? (
         preview && <EditText type='Promo Card' />
       ) : ctaURL ? (
         <Link
@@ -145,7 +159,14 @@ const PromoCardCard = (props: any): JSX.Element => {
           color='transparent'
           className='bg-inherit m-0 rounded-b-none text-inherit w-full'
         >
-          {image && <img src={image} alt={title} />}
+          {image && (
+            <Image
+              src={getContentfulImageUrl(image)!}
+              alt={title}
+              height='256'
+              width='320'
+            />
+          )}
         </CardHeader>
       )}
       <CardBody className='bg-inherit text-inherit w-full'>

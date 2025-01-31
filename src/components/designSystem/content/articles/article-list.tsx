@@ -39,7 +39,18 @@ export default function ArticleList(props: any) {
   const [lastSearchParams, setLastSearchParams] =
     React.useState<Record<string, any>>();
   const [variant, setVariant] = React.useState<string>(props.variant);
-  const [sortOptions, setSortOptions] = React.useState<any>();
+  const sortOptions = [
+    'pubDate-asc',
+    'pubDate-desc',
+    'title-asc',
+    'title-desc',
+  ].map((val: string) => {
+    return {
+      displayName: siteLabels[`option.sort.${val}`],
+      value: val,
+      selected: sort === val,
+    };
+  });
   const [pagination, setPagination] = React.useState<Record<string, any>>({
     currentPage: 0,
     pageSize: 0,
@@ -49,40 +60,6 @@ export default function ArticleList(props: any) {
   });
 
   const locale = state.currentLocale;
-  const { title } = props;
-
-  React.useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      setSortOptions([
-        {
-          displayName: siteLabels['option.sort.pubDate-asc'],
-          value: 'pubDate-asc',
-          selected: sort === 'pubDate-asc',
-        },
-        {
-          displayName: siteLabels['option.sort.pubDate-desc'],
-          value: 'pubDate-desc',
-          selected: sort === 'pubDate-desc',
-        },
-        {
-          displayName: siteLabels['option.sort.title-asc'],
-          value: 'title-asc',
-          selected: sort === 'title-asc',
-        },
-        {
-          displayName: siteLabels['option.sort.title-desc'],
-          value: 'title-desc',
-          selected: sort === 'title-desc',
-        },
-      ]);
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -117,7 +94,7 @@ export default function ArticleList(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [searchParams]);
+  }, [currentPage, dir, field, limit, locale, skip, sort, type]);
 
   const handleChangePage = (newPage: number) => {
     if (!lastSearchParams) return;

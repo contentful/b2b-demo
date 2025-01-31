@@ -102,7 +102,7 @@ export default function SearchResults(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [query, currentPage, props]);
+  }, [query, currentPage, props, state]);
 
   const reloadProducts = (
     queryValue: string,
@@ -222,7 +222,7 @@ export default function SearchResults(props: any) {
               <div
                 className={` flex ${
                   variant === 'card' ? 'flex-wrap' : 'flex-col'
-                } my-10 w-full`}
+                } min-h-[32rem] my-10 w-full`}
               >
                 <ProductList {...{ ...passedProps, variant, products }} />
               </div>
