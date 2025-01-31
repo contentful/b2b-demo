@@ -186,7 +186,7 @@ export default function ProductDetails(props: any) {
                 {localizeCurrency(locale, product?.price?.value)}
               </Typography>
               {product.summary && (
-                <Typography
+                <div
                   className='font-normal text-inherit'
                   color='inherit'
                   dangerouslySetInnerHTML={{ __html: product?.summary }}
@@ -232,11 +232,10 @@ export default function ProductDetails(props: any) {
               >
                 {siteLabels['label.productDetails']}
               </Typography>
-              <Typography
+              <div
                 className='bg-gray-100 border-t m-0 p-4 text-inherit w-full'
-                color='inherit'
                 dangerouslySetInnerHTML={{ __html: product.description! }}
-              ></Typography>
+              />
             </div>
           )}
         </>

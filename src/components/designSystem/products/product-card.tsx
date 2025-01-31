@@ -165,7 +165,7 @@ const ATCModal = (props: any): JSX.Element => {
           </div>
           <div className='flex flex-col flex-grow gap-0 justify-center h-32 px-3 w-40'>
             <div className='border-b flex gap-2 items-center mb-1 py-1'>
-              <Typography
+              <div
                 className='font-bold m-0 text-normal'
                 dangerouslySetInnerHTML={{
                   __html: product.name,
@@ -247,16 +247,14 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
       <CardBody className='flex flex-col col-span-12 items-start justify-between md:col-span-9 md:flex-row px-4 py-3 w-full'>
         <div classNam='flex flex-col items-center md:grow md:items-start w-full'>
           <Link href={productDetailsUrl}>
-            <Typography
-              as='h2'
+            <h2
               className='font-bold mb-1 text-blue-gray-800 text-base'
               dangerouslySetInnerHTML={{ __html: product?.name }}
             />
           </Link>
-          <Typography
+          <div
             className='font-normal m-0 p-0'
             dangerouslySetInnerHTML={{ __html: product?.summary }}
-            variant='paragraph'
           />
           {reviews && (
             <div className='flex flex-col items-start justify-start mt-4 w-full'>
@@ -349,7 +347,7 @@ const ProductCardVertical = (props: any): JSX.Element => {
       </CardHeader>
       <CardBody className='flex flex-col grow py-2'>
         <Link href={productDetailsUrl}>
-          <Typography
+          <div
             className='font-bold m-0 p-0 text-base text-inherit text-center'
             dangerouslySetInnerHTML={{ __html: product?.name }}
           />

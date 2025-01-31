@@ -175,7 +175,7 @@ const ArticleCardHorizontal = (props: any) => {
           </div>
 
           {article?.teaser && typeof article?.teaser === 'string' ? (
-            <Typography
+            <div
               color='inherit'
               className='font-normal m-0 w-fit'
               dangerouslySetInnerHTML={{ __html: article?.teaser }}
@@ -254,7 +254,7 @@ const ArticleCardVertical = (props: any) => {
             </Typography>
           )}
           {article?.teaser && typeof article?.teaser === 'string' ? (
-            <Typography
+            <div
               className='mt-3 font-normal text-inherit w-full'
               color='inherit'
               dangerouslySetInnerHTML={{ __html: article?.teaser }}
@@ -263,7 +263,7 @@ const ArticleCardVertical = (props: any) => {
             <div className='mt-3 w-full'>
               {article?.teaser &&
                 (typeof article?.teaser === 'string' ? (
-                  <Typography
+                  <div
                     color='inherit'
                     className='font-normal m-0 text-inherit'
                     dangerouslySetInnerHTML={{ __html: article?.teaser }}

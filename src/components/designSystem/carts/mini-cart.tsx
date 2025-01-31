@@ -135,7 +135,7 @@ export default function MiniCart() {
                         />
                       </div>
                       <div className='flex flex-col flex-grow gap-2 justify-center h-20 px-3 w-60'>
-                        <Typography
+                        <div
                           className='font-bold mb-0 text-normal'
                           dangerouslySetInnerHTML={{
                             __html: entry.product?.name,
