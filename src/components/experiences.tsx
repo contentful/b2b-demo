@@ -37,6 +37,8 @@ import {
 import React from 'react';
 import Loader from './loading';
 import SlugRewriter from './slug-rewriter';
+import { useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 // The experience type id for the experience
 const experienceTypeId = 'landingPage';
@@ -54,6 +56,7 @@ export const Experience = ({
   const { state } = useAppContext();
   const { siteConfig, setSiteConfig } = useSiteConfig();
   const { siteLabels, setSiteLabels } = useSiteLabels();
+  const router = useRouter();
 
   React.useEffect(() => {
     let isMounted = true;
@@ -93,21 +96,23 @@ export const Experience = ({
     experienceTypeId,
   });
 
-  return (
-    <>
-      {error ? (
+  if (error) {
+    if ((error as any).message.startsWith('No experience entry with slug:')) {
+      return notFound();
+    } else {
+      return (
         <div className='bg-red-100 w-full py-24 rounded-lg text-center'>
           Error: {(error as any).message}
         </div>
-      ) : isLoading ? (
-        <Loader />
-      ) : (
-        experience && (
-          <ExperienceRoot experience={experience} locale={localeCode} />
-        )
-      )}
-    </>
-  );
+      );
+    }
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return <ExperienceRoot experience={experience} locale={localeCode} />;
 };
 
 // Define the components for the experience
