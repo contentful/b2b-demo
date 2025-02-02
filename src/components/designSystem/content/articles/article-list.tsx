@@ -96,8 +96,8 @@ export default function ArticleList(props: any) {
     };
   }, [currentPage, dir, field, limit, locale, skip, sort, type]);
 
-  const handleChangePage = (newPage: number) => {
-    if (!lastSearchParams) return null;
+  const handleChangePage = (newPage: number): void => {
+    if (!lastSearchParams) return;
 
     const newSearchParams = {
       ...lastSearchParams,
@@ -109,7 +109,7 @@ export default function ArticleList(props: any) {
     router.push(newRoute);
   };
 
-  const handleChangeSort = (newSort: string) => {
+  const handleChangeSort = (newSort: string): void => {
     if (!newSort || !lastSearchParams) return;
     const newSearchParams = new URLSearchParams({
       ...lastSearchParams,

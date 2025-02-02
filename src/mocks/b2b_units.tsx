@@ -44,7 +44,7 @@ const MockB2BUnits: Array<B2BUnit> = [bauhaus, diycompany];
 
 const getB2BUnit = (uid: string): B2BUnit | null => {
   if (!uid) return null;
-  return MockB2BUnits.find((b2b_units) => b2b_units.uid === uid);
+  return MockB2BUnits.find((b2b_units) => b2b_units.uid === uid) || null;
 };
 
 const getB2bUnits = (): Array<B2BUnit> | null => {

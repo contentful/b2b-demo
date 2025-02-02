@@ -21,7 +21,7 @@ export const ORDER_DATA_COLS: Array<DataTableColumn> = [
 
 export const getOrder = async (code: string): Promise<Order | null> => {
   if (!code) return null;
-  return MockOrders.find((order: Order) => order.code === code);
+  return MockOrders.find((order: Order) => order.code === code) || null;
 };
 
 export const getOrdersByOrg = async (

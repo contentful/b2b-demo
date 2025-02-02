@@ -47,7 +47,7 @@ export const MockDeliveryModes: Array<DeliveryMode> = [
 
 export const getDeliveryMode = (code: string): DeliveryMode | null => {
   if (!code) return null;
-  return MockDeliveryModes.find((mode) => mode.code === code);
+  return MockDeliveryModes.find((mode) => mode.code === code) || null;
 };
 
 export const getDeliveryModes = (): Array<DeliveryMode> | null => {

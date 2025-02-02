@@ -18,7 +18,7 @@ const languages: Array<Language> = [german, english];
 
 const getLanguage = (isocode: string): Language | null => {
   if (!isocode) return null;
-  return languages.find((lang) => lang.isocode === isocode);
+  return languages.find((lang) => lang.isocode === isocode) || null;
 };
 
 const getLanguages = (): Array<Language> | null => {

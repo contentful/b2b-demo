@@ -66,7 +66,7 @@ export default function ProfileDetailsModal(props: any) {
                 variant='small'
               >
                 {user?.roles
-                  .map((role) => {
+                  .map((role: string) => {
                     return siteLabels['label.' + role.toLowerCase()];
                   })
                   .join(', ')}

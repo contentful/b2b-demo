@@ -74,14 +74,14 @@ const CartsProvider = ({ children }: { children: React.ReactNode }) => {
   const [carts, dispatch] = React.useReducer(cartReducer, new Array<B2BCart>());
 
   const getCartById = (code: string): B2BCart | null => {
-    return carts.find((cart) => cart.code === code);
+    return carts.find((cart) => cart.code === code) || null;
   };
 
   const getCartByUser = (guid: string): B2BCart | null => {
-    return carts.find((cart) => cart.guid === guid);
+    return carts.find((cart) => cart.guid === guid) || null;
   };
 
-  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> | null => {
+  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> => {
     return carts.filter((cart) => cart.orgUnit === orgUnit);
   };
 
@@ -152,13 +152,13 @@ const createCart = ({ guid, orgUnit, locale }: CreateCartProps): B2BCart => {
     totalPriceWithTax: {
       value,
     },
-    deliveryAddress: getAddress(orgUnit),
+    deliveryAddress: getAddress(orgUnit) || undefined,
     deliveryMode: locale === 'de-DE' ? dhl_standard : fedex_standard,
     totalPrice: {
       value,
     },
     purchaseOrderNumber: 'po' + Math.round(Math.random() * 1000000),
-    costCenter: getCostCenter(orgUnit),
+    costCenter: getCostCenter(orgUnit) || undefined,
     creationTime: new Date().toISOString(),
     updateTime: new Date().toISOString(),
   };

@@ -35,12 +35,14 @@ export default function MiniProfile() {
 
   React.useEffect(() => {
     let isMounted = true;
-    if (!guid) return null;
+    if (!guid) return;
 
     const loadUser = async () => {
       await getUser(guid).then((newUser) => {
-        if (isMounted) {
-          setUser(newUser);
+        if (newUser) {
+          if (isMounted) {
+            setUser(newUser);
+          }
         }
       });
     };

@@ -2,7 +2,11 @@ import { Experience } from '@/components/experiences';
 
 type Params = Promise<{ slug: string[] }>;
 
-const Page = async ({ params }: { params: Params }): Promise<JSX.Element> => {
+export default async function Page({
+  params,
+}: {
+  params: Params;
+}): Promise<JSX.Element> {
   const { slug } = await params;
 
   return (
@@ -11,6 +15,4 @@ const Page = async ({ params }: { params: Params }): Promise<JSX.Element> => {
       preview={true}
     />
   );
-};
-
-export default Page;
+}

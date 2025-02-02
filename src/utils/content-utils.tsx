@@ -15,14 +15,14 @@ export const getLinkedAsset = (
   assets: Array<Asset>
 ): Asset | null => {
   if (!id) return null;
-  return assets.find((asset) => asset.sys.id === id);
+  return assets.find((asset) => asset.sys.id === id) || null;
 };
 
 export const getLinkedEntry = (
   id: string,
   entries: Array<Entry>
 ): Entry | null => {
-  return entries.find((entry) => entry.sys.id === id);
+  return entries.find((entry) => entry.sys.id === id) || null;
 };
 
 export const getSocialChannelName = (url: string | null): string | null => {

@@ -107,8 +107,8 @@ export default function SearchResults(props: any) {
   const reloadProducts = (
     queryValue: string,
     params?: Record<string, string>
-  ) => {
-    if (!queryValue) return null;
+  ): void => {
+    if (!queryValue) return;
     const searchParams = {
       q: queryValue,
       ...params,
@@ -127,14 +127,14 @@ export default function SearchResults(props: any) {
     }
   };
 
-  const handleChangePage = (newPage: number) => {
-    if (!currentQuery) return null;
+  const handleChangePage = (newPage: number): void => {
+    if (!currentQuery) return;
     const queryValue = currentQuery.query.value;
     reloadProducts(queryValue, { currentPage: '' + newPage });
   };
 
-  const handleChangeSort = (newSort: string) => {
-    if (!currentQuery || !currentQuery.query.value) return null;
+  const handleChangeSort = (newSort: string): void => {
+    if (!currentQuery || !currentQuery.query.value) return;
     let newQueryValue = currentQuery.query.value;
     if (newQueryValue.indexOf(sort) > -1) {
       newQueryValue = newQueryValue.replace(sort, newSort);

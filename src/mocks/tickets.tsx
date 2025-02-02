@@ -21,7 +21,7 @@ export const getTicketsByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Ticket | TicketTableData>> | null => {
+): Promise<Array<Ticket | TicketTableData> | null> => {
   if (!guid || (tableData && !locale)) return null;
 
   const tickets = tableData
@@ -36,7 +36,7 @@ export const getTicketsByUser = async (
 export const getTickets = async (
   key: string,
   value: string
-): Promise<Array<Ticket>> | null => {
+): Promise<Array<Ticket> | null> => {
   if (!(key && value)) return null;
 
   const tickets = MockTickets.filter((quote: any) => quote[key] === value).sort(
@@ -56,7 +56,7 @@ export const getTicketsTableData = async (
   locale: string,
   key: string,
   value: string
-): Promise<Array<TicketTableData>> | null => {
+): Promise<Array<TicketTableData> | null> => {
   if (!(key && value)) return null;
 
   const tickets = MockTickets.filter(

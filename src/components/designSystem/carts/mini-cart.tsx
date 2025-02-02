@@ -71,8 +71,8 @@ export default function MiniCart() {
     };
   }, [state, carts, dispatch, getCartByUser]);
 
-  const handleRemoveEntry = (entryNumber: number) => {
-    if (!cart) return null;
+  const handleRemoveEntry = (entryNumber: number): void => {
+    if (!cart) return;
 
     const payload: UpdateCartEntriesProps = {
       code: cart.code,

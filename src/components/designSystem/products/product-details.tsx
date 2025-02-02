@@ -77,15 +77,15 @@ export default function ProductDetails(props: any) {
   }, [pathname, state]);
 
   React.useEffect(() => {
-    if (!guid) return null;
+    if (!guid) return;
     const userCart = getCartByUser(guid);
     if (userCart) {
       setCart(userCart);
     }
   }, [carts, guid, getCartByUser]);
 
-  const handleAddEntry = () => {
-    if (!cart || !product) return null;
+  const handleAddEntry = (): void => {
+    if (!cart || !product) return;
 
     const newEntry: OrderEntry = {
       entryNumber: cart?.entries.length + 1,
@@ -109,8 +109,8 @@ export default function ProductDetails(props: any) {
     });
   };
 
-  const handleChangeQuantity = (value: string | null) => {
-    if (!value) return null;
+  const handleChangeQuantity = (value: string | undefined): void => {
+    if (!value) return;
     setQuantity(value);
   };
 
@@ -197,7 +197,7 @@ export default function ProductDetails(props: any) {
                   <Select
                     label='Quantity'
                     name='quantity'
-                    onChange={(value: string | null) =>
+                    onChange={(value: string | undefined) =>
                       handleChangeQuantity(value)
                     }
                     value={quantity}

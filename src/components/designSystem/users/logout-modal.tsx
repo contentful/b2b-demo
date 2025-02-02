@@ -51,7 +51,7 @@ export default function LogoutModal(props: any) {
   ]);
 
   const toggleShowLogoutModal = () => {
-    setShowLogoutModal((state) => !state);
+    setShowLogoutModal((state: boolean) => !state);
   };
 
   return (

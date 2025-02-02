@@ -23,7 +23,7 @@ export const MockCostCenters: Array<B2BCostCenter> = [bauhaus, diycompany];
 
 export const getCostCenter = (code: string): B2BCostCenter | null => {
   if (!code) return null;
-  return MockCostCenters.find((cc) => cc.code === code);
+  return MockCostCenters.find((cc) => cc.code === code) || null;
 };
 
 export const getCostCenters = (): Array<B2BCostCenter> | null => {

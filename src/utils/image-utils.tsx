@@ -16,7 +16,7 @@ const getContentfulImageUrl = (image: Asset | string): string | null => {
 };
 
 const getSAPProductImageUrl = (product: Product): string | null => {
-  const productImage: SAPImage | null = product?.images.find(
+  const productImage: SAPImage | undefined = product?.images.find(
     (image: SAPImage) => image.format === 'product'
   );
   if (!productImage) return null;

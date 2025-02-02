@@ -20,7 +20,7 @@ const getCurrencies = (): Array<Currency> | null => {
 
 const getCurrency = (code: string): Currency | null => {
   if (!code) return null;
-  return currencies.find((currency) => currency.code === code);
+  return currencies.find((currency) => currency.code === code) || null;
 };
 
 export { currencies, euro, getCurrencies, getCurrency, usdollar };

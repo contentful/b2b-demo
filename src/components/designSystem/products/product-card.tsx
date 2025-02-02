@@ -46,7 +46,7 @@ export default function ProductCard(props: any) {
   const productImageUrl: string | null = getSAPProductImageUrl(props.product);
 
   React.useEffect(() => {
-    if (!guid) return null;
+    if (!guid) return;
     const userCart = getCartByUser(guid);
     if (userCart) {
       setCart(userCart);
@@ -55,7 +55,7 @@ export default function ProductCard(props: any) {
   }, [carts, guid, getCartByUser, hasCart]);
 
   const handleAddEntry = () => {
-    if (!cart) return null;
+    if (!cart) return;
 
     const newEntry: OrderEntry = {
       entryNumber: cart?.entries.length + 1,
@@ -82,6 +82,7 @@ export default function ProductCard(props: any) {
   };
 
   const handleChangeQuantity = (value: string) => {
+    if (!value) return;
     setQuantity(value);
   };
 
@@ -271,7 +272,9 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
             <Select
               label='Quantity'
               name='quantity'
-              onChange={(value: string | null) => handleChangeQuantity(value)}
+              onChange={(value: string | undefined) =>
+                handleChangeQuantity(value)
+              }
               value={quantity}
             >
               {QUANTITY_OPTIONS.map((n: number) => {
@@ -370,7 +373,9 @@ const ProductCardVertical = (props: any): JSX.Element => {
                 }}
                 label='Quantity'
                 name='quantity'
-                onChange={(value: string | null) => handleChangeQuantity(value)}
+                onChange={(value: string | undefined) =>
+                  handleChangeQuantity(value)
+                }
                 size='md'
                 value={quantity}
                 variant='outlined'

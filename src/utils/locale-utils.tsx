@@ -15,7 +15,7 @@ export const localizeCurrency = (
   value: number
 ): string | null => {
   if (!(locale && value)) return null;
-  const currency = getCurrencyIso(locale);
+  const currency = getCurrencyIso(locale) || undefined;
   return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(
     value
   );

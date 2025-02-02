@@ -16,14 +16,14 @@ export default function SearchBox() {
     string
   > | null>();
 
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.currentTarget.value;
-    if (!value) return null;
+    if (!value) return;
     setFormData({ q: value });
   };
 
-  const handleSubmit = () => {
-    if (!formData) return null;
+  const handleSubmit = (): void => {
+    if (!formData) return;
     const paranms = new URLSearchParams(formData);
     const searchUrl = `/search?${paranms.toString()}`;
     router.push(searchUrl);

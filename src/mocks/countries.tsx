@@ -72,7 +72,7 @@ const getCountries = (): Array<Country> | null => {
 
 const getCountry = (code: string): Country | null => {
   if (!code) return null;
-  return countries.find((country) => country.code === code);
+  return countries.find((country) => country.code === code) || null;
 };
 
 export { countries, germany, getCountries, getCountry, us };

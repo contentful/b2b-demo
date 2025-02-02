@@ -15,16 +15,16 @@ export const QUOTE_DATA_COLS: Array<DataTableColumn> = [
   { key: 'guid', label: 'User', format: 'text' },
 ];
 
-export const getQuote = async (code: string): Promise<Quote> | null => {
+export const getQuote = async (code: string): Promise<Quote | null> => {
   if (!code) return null;
-  return MockQuotes.find((quote) => quote.code === code);
+  return MockQuotes.find((quote) => quote.code === code) || null;
 };
 
 export const getQuotesByOrg = async (
   orgUnit: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Quote | QuoteTableData>> | null => {
+): Promise<Array<Quote | QuoteTableData> | null> => {
   if (!orgUnit || (tableData && !locale)) return null;
 
   const quotes = tableData
@@ -40,7 +40,7 @@ export const getQuotesByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Quote | QuoteTableData>> | null => {
+): Promise<Array<Quote | QuoteTableData> | null> => {
   if (!guid || (tableData && !locale)) return null;
 
   const quotes = tableData
@@ -55,7 +55,7 @@ export const getQuotesByUser = async (
 export const getQuotes = async (
   key: string,
   value: string
-): Promise<Array<Quote>> | null => {
+): Promise<Array<Quote> | null> => {
   if (!(key && value)) return null;
 
   const quotes = MockQuotes.filter((quote: any) => quote[key] === value).sort(
@@ -75,7 +75,7 @@ export const getQuotesTableData = async (
   locale: string,
   key: string,
   value: string
-): Promise<Array<QuoteTableData>> | null => {
+): Promise<Array<QuoteTableData> | null> => {
   if (!(key && value)) return null;
 
   const quotes = MockQuotes.filter((quote: any) => quote[key] === value).map(

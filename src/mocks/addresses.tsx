@@ -27,7 +27,7 @@ export const MockAddresses: Array<Address> = [bauhaus, diycompany];
 
 export const getAddress = (id: string): Address | null => {
   if (!id) return null;
-  return MockAddresses.find((address) => address.id === id);
+  return MockAddresses.find((address) => address.id === id) || null;
 };
 
 export const getAddresses = (): Array<Address> | null => {
