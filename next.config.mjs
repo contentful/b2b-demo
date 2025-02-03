@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  pageExtensions: ['page.tsx', 'page.ts'],
   images: {
     remotePatterns: [
       {
