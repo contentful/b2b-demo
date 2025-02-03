@@ -1,8 +1,8 @@
 const AIR_HEADER = 'xj823lbq';
 
 class SAPClient {
-  public readonly apiEndpoint = process.env.NEXT_PUBLIC_SAP_API_ENDPOINT;
-  public readonly baseSite = process.env.NEXT_PUBLIC_SAP_BASE_SITE;
+  public readonly apiEndpoint = process.env.SAP_API_ENDPOINT;
+  public readonly baseSite = process.env.SAP_BASE_SITE;
 
   constructor() {}
 

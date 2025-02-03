@@ -1,7 +1,7 @@
 import { Product, SAPImage } from '@/models/commerce-types';
 import { Asset } from 'contentful';
 
-const SAPEndpoint = process.env.NEXT_PUBLIC_SAP_API_ENDPOINT;
+const SAPEndpoint = process.env.SAP_API_ENDPOINT;
 
 const getContentfulImageUrl = (image: Asset | string): string | null => {
   if (!image) return null;

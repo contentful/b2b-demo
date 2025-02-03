@@ -2,9 +2,9 @@ import { ContentfulEntry } from '@/models/content-types';
 import { deliveryClient } from '@/services/contentful/client';
 
 const CONFIG_ID =
-  process.env.NEXT_PUBLIC_SITE_CONFIG_CONTENT_ID || '2iJ0rBLZHI267VZ49c9sqj';
-const SPACE_ID = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-const ENVIRONMENT_ID = process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT;
+  process.env.CONTENTFUL_SITE_CONFIG_ID || '2iJ0rBLZHI267VZ49c9sqj';
+const SPACE_ID = process.env.CONTENTFUL_SPACE_ID;
+const ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT;
 
 const ARTICLE_CONTENT_TYPE = 'article';
 const PROFILE_CONTENT_TYPE = 'profile';
