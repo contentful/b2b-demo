@@ -3,37 +3,37 @@ import { DeliveryMode } from '@/models/commerce-types';
 export const fedex_standard: DeliveryMode = {
   code: 'fedex-standard',
   name: 'FedEx Standard',
-  deliveryCost: { value: 0.125 },
+  deliveryCost: { value: 99.99 },
 };
 
 export const fedex_priority: DeliveryMode = {
   code: 'fedex-priority',
   name: 'FedEx Priority',
-  deliveryCost: { value: 0.2 },
+  deliveryCost: { value: 149.99 },
 };
 
 export const dhl_standard: DeliveryMode = {
   code: 'dhl-standard',
   name: 'DHL Standard',
-  deliveryCost: { value: 0.1 },
+  deliveryCost: { value: 99.99 },
 };
 
 export const dhl_priority: DeliveryMode = {
   code: 'dhl-priority',
   name: 'DHL Priority',
-  deliveryCost: { value: 0.175 },
+  deliveryCost: { value: 149.99 },
 };
 
 export const ups_standard: DeliveryMode = {
   code: 'ups-standard',
   name: 'UPS Standard',
-  deliveryCost: { value: 0.125 },
+  deliveryCost: { value: 99.99 },
 };
 
 export const ups_priority: DeliveryMode = {
   code: 'ups-standard',
   name: 'UPS Standard',
-  deliveryCost: { value: 0.2 },
+  deliveryCost: { value: 149.99 },
 };
 
 export const MockDeliveryModes: Array<DeliveryMode> = [

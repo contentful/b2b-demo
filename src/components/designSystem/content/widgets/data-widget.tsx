@@ -91,8 +91,8 @@ export default function DataWidget(props: any) {
               )}
             </div>
           </CardHeader>
-          <CardBody className='flex flex-col gap-2 pb-1 px-2 pt-4 w-full'>
-            <div className='flex gap-4 items-center justify-between w-full'>
+          <CardBody className='flex flex-col gap-2 p-2 w-full'>
+            <div className='flex items-center justify-between w-full'>
               {description || linkURL ? (
                 <Typography
                   as='span'

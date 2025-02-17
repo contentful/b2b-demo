@@ -2,7 +2,7 @@
 
 import ICONS from '@/components/designSystem/icons';
 import useAppContext from '@/hooks/app-context';
-import { countries } from '@/mocks/countries';
+import { MockCountries as countries } from '@/mocks';
 import { Country } from '@/models/commerce-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

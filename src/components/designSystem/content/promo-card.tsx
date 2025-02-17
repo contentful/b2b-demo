@@ -16,7 +16,6 @@ import Link from 'next/link';
 
 export default function PromoCard(props: any) {
   const preview = props.isInExpEditorMode;
-  console.log('PromoCard :: props', props);
   const {
     title,
     summary,
@@ -161,6 +160,7 @@ const PromoCardCard = (props: any): JSX.Element => {
         >
           {image && (
             <Image
+              className='h-full object-cover w-full'
               src={getContentfulImageUrl(image)!}
               alt={title}
               height='256'

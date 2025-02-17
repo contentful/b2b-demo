@@ -30,7 +30,7 @@ const RootLayout = ({
           <header className='bg-black sticky text-white top-0 w-full z-50'>
             <HeaderSlot />
           </header>
-          <main className='grow h-full mb-auto min-h-[48rem] w-full'>
+          <main className='grow h-fit mb-auto min-h-[48rem] w-full'>
             {children}
           </main>
           <footer className='bg-black mt-4 pt-4 text-white w-full'>

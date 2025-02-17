@@ -1,9 +1,9 @@
 'use client';
 
-import { ContentError, ICONS } from '@/components/designSystem';
+import { ICONS } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
 import useAppContext from '@/hooks/app-context';
-import { getUser } from '@/mocks/users';
+import { getUser } from '@/mocks';
 import { User } from '@/models/commerce-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

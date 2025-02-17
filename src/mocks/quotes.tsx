@@ -6,13 +6,11 @@ import {
 import { localizeCurrency } from '@/utils/locale-utils';
 
 export const QUOTE_DATA_COLS: Array<DataTableColumn> = [
+  { key: 'code', label: 'ID', format: 'link' },
   { key: 'creationTime', label: 'Created', format: 'datetime' },
-  { key: 'status', label: 'Status', format: 'label' },
   { key: 'expirationTime', label: 'Expires', format: 'datetime' },
+  { key: 'status', label: 'Status', format: 'label' },
   { key: 'totalPrice', label: 'Cost', format: 'text' },
-  { key: 'totalItems', label: 'Products', format: 'number' },
-  { key: 'totalUnitCount', label: 'Units', format: 'number' },
-  { key: 'guid', label: 'User', format: 'text' },
 ];
 
 export const getQuote = async (code: string): Promise<Quote | null> => {
@@ -102,7 +100,7 @@ export const getQuotesTableData = async (
   return quotes;
 };
 
-const MockQuotes: Array<Quote> = [
+export const MockQuotes: Array<Quote> = [
   {
     code: '0000857',
     status: 'saved',
@@ -323,10 +321,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 26400 },
+    totalPrice: { value: 24099.99 },
     purchaseOrderNumber: 'po253719',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2025-01-13T20:29:09.386Z',
     expirationTime: '2025-02-12T20:29:09.386Z',
     updateTime: '2025-01-19T20:29:52.839Z',
@@ -489,10 +497,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 74800 },
+    totalPrice: { value: 68099.99 },
     purchaseOrderNumber: 'po241466',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-12-16T20:25:47.107Z',
     expirationTime: '2025-01-15T20:25:47.107Z',
     updateTime: '2025-01-06T20:26:33.143Z',
@@ -649,10 +667,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 67320 },
+    totalPrice: { value: 61299.99 },
     purchaseOrderNumber: 'po39709',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-11-11T20:17:29.833Z',
     expirationTime: '2024-12-11T20:17:29.833Z',
     updateTime: '2024-12-02T20:18:48.411Z',
@@ -815,10 +843,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 32780 },
+    totalPrice: { value: 29899.99 },
     purchaseOrderNumber: 'po165642',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-10-17T18:04:09.969Z',
     expirationTime: '2024-11-16T18:04:09.969Z',
     updateTime: '2024-11-07T18:04:39.628Z',
@@ -981,10 +1019,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 29370 },
+    totalPrice: { value: 26799.99 },
     purchaseOrderNumber: 'po288322',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-09-16T19:08:57.435Z',
     expirationTime: '2024-10-16T19:08:57.435Z',
     updateTime: '2024-10-07T19:09:52.986Z',
@@ -1148,10 +1196,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 27476.25 },
+    totalPrice: { value: 24882.49 },
     purchaseOrderNumber: 'po904791',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2025-01-13T20:29:09.386Z',
     expirationTime: '2025-02-12T20:29:09.386Z',
     updateTime: '2025-01-19T20:29:52.839Z',
@@ -1315,10 +1373,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 20400 },
+    totalPrice: { value: 18499.99 },
     purchaseOrderNumber: 'po203501',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-12-16T20:25:47.107Z',
     expirationTime: '2025-01-15T20:25:47.107Z',
     updateTime: '2025-01-06T20:26:33.143Z',
@@ -1470,10 +1538,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 22057.5 },
+    totalPrice: { value: 19994.99 },
     purchaseOrderNumber: 'po226095',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-11-11T20:17:29.833Z',
     expirationTime: '2024-12-11T20:17:29.833Z',
     updateTime: '2024-12-02T20:18:48.411Z',
@@ -1644,10 +1722,20 @@ const MockQuotes: Array<Quote> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 17658.75 },
+    totalPrice: { value: 16027.49 },
     purchaseOrderNumber: 'po902426',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-10-17T18:04:09.969Z',
     expirationTime: '2024-11-16T18:04:09.969Z',
     updateTime: '2024-11-07T18:04:39.628Z',
@@ -2057,8 +2145,18 @@ const MockQuotes: Array<Quote> = [
       name: 'FedEx Standard',
       deliveryCost: { value: 0.125 },
     },
-    totalPrice: { value: 28655.625 },
+    totalPrice: { value: 25946.24 },
     purchaseOrderNumber: 'po26671',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-09-16T19:08:57.435Z',
     expirationTime: '2024-10-16T19:08:57.435Z',
     updateTime: '2024-10-07T19:09:52.986Z',

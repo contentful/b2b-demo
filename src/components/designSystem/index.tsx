@@ -18,10 +18,16 @@ import DataTable from './data-table/data-table';
 import ICONS from './icons';
 import Crumbs from './navigation/breadcrumbs';
 import Menu from './navigation/menu';
+import MenuItem from './navigation/menu-item';
+import OrderDetailsModal from './orders/order-details-modal';
+import OrderHistory from './orders/order-history';
 import ProductCard from './products/product-card';
 import ProductDetails from './products/product-details';
 import ProductFacets from './products/product-facets';
 import ProductList from './products/product-list';
+import QuickOrderModal from './orders/quick-order-modal';
+import QuoteDetailsModal from './quotes/quote-details-modal';
+import QuoteHistory from './quotes/quote-history';
 import SearchBox from './search/search-box';
 import SearchResults from './search/search-results';
 import ContentError from './shared/content-error';
@@ -55,6 +61,7 @@ export { infoWidgetDefinition } from './content/widgets/info-widget';
 export { dataTableDefinition } from './data-table/data-table';
 export { crumbsDefinition } from './navigation/breadcrumbs';
 export { menuDefinition } from './navigation/menu';
+export { orderHistoryDefinition } from './orders/order-history';
 export {
   CSSColors,
   HeadingFormats,
@@ -63,6 +70,7 @@ export {
   TextFormats,
 } from './picker-options';
 export { productDetailsDefinition } from './products/product-details';
+export { quoteHistoryDefinition } from './quotes/quote-history';
 export { searchResultsDefinition } from './search/search-results';
 export { loginCardDefinition } from './users/login-card';
 export { loginCardsDefinition } from './users/login-cards';
@@ -88,8 +96,11 @@ export {
   LoginCards,
   LogoutModal,
   Menu,
+  MenuItem,
   MiniCart,
   MiniProfile,
+  OrderDetailsModal,
+  OrderHistory,
   Pagination,
   ProductCard,
   ProductCollection,
@@ -99,6 +110,9 @@ export {
   ProfileCard,
   ProfileDetailsModal,
   PromoCard,
+  QuickOrderModal,
+  QuoteDetailsModal,
+  QuoteHistory,
   SearchBox,
   SearchResults,
   Sorts,

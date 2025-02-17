@@ -1,4 +1,4 @@
-import { getUsers } from '@/mocks/users';
+import { getUsers } from '@/mocks';
 import { User } from '@/models/commerce-types';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import React from 'react';

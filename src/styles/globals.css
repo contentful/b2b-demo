@@ -16,8 +16,7 @@
   }
 }
 
-body {
-}
+body {}
 
 @layer base {
   h1 {
@@ -25,14 +24,17 @@ body {
     @apply mb-3 mt-0;
     line-height: 1;
   }
+
   h2 {
     @apply text-2xl font-semibold;
     @apply mb-3 mt-0;
   }
+
   h3 {
     @apply text-xl font-semibold;
     @apply mb-3 mt-0;
   }
+
   h4 {
     @apply text-lg font-semibold;
   }
@@ -49,24 +51,12 @@ body {
     width: 100%;
   }
 
-  #orders-table {
-    @apply w-full;
-    @apply text-center text-sm;
-  }
 
-  #orders-table tbody tr {
-    @apply border-t;
-  }
-
-  #orders-table th, #orders-table td {
-    @apply p-1;
-  }
-
-  ul {
+  /* ul {
     @apply list-disc;
     @apply ml-6 my-4 pl-10;
     line-height: 1.25;
-  }
+  } */
 
   .border,
   .border-t,
@@ -76,23 +66,23 @@ body {
     @apply border-gray-800;
   }
 
-  .mock-data.grid p:nth-child(even) {
-    @apply text-end;
+  .mock-data p {
+    @apply m-0;
   }
 
   .mock-data table {
-    @apply w-full;
+    width: 100%;
   }
 
-  .mock-data td, .mock-data th {
-    @apply px-1 text-center;
+  .mock-data td {
+    @apply text-center;
   }
 
-  .mock-data td:nth-child(1), .mock-data th:nth-child(1) {
+  .mock-data td:first-child {
     @apply text-start;
   }
 
-  .mock-data td:nth-last-child(1), .mock-data th:nth-last-child(1) {
+  .mock-data td:last-child {
     @apply text-end;
   }
 
