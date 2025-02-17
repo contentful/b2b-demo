@@ -10,6 +10,7 @@ import {
 } from '@/components/designSystem/';
 import { HeadingFormats } from '@/components/designSystem/picker-options';
 import { useAppContext, useSiteLabels } from '@/hooks';
+import { ArticleListType, ArticleType } from '@/models/content-types';
 import { getArticles } from '@/services/contentful/content';
 import { formatMessage } from '@/utils/string-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
@@ -34,23 +35,12 @@ export default function ArticleList(props: any) {
   const [field, dir] = sort.split('-');
   const type = searchParams.get('type') || props.type;
 
-  const [articles, setArticles] = React.useState<Array<any>>();
+  const [articles, setArticles] = React.useState<Array<ArticleType>>();
   const [error, setError] = React.useState<any>();
   const [lastSearchParams, setLastSearchParams] =
     React.useState<Record<string, any>>();
   const [variant, setVariant] = React.useState<string>(props.variant);
-  const sortOptions = [
-    'pubDate-asc',
-    'pubDate-desc',
-    'title-asc',
-    'title-desc',
-  ].map((val: string) => {
-    return {
-      displayName: siteLabels[`option.sort.${val}`],
-      value: val,
-      selected: sort === val,
-    };
-  });
+
   const [pagination, setPagination] = React.useState<Record<string, any>>({
     currentPage: 0,
     pageSize: 0,
@@ -60,6 +50,20 @@ export default function ArticleList(props: any) {
   });
 
   const locale = state.currentLocale;
+
+  const sortOptions = [
+    'pubDate-asc',
+    'pubDate-desc',
+    'title-asc',
+    'title-desc',
+  ].map((value: string) => {
+    const displayName = siteLabels['option.sort.' + value];
+    return {
+      displayName,
+      value,
+      selected: sort === value,
+    };
+  });
 
   React.useEffect(() => {
     let isMounted = true;
@@ -130,12 +134,8 @@ export default function ArticleList(props: any) {
         <ContentError error={error} />
       ) : (
         <>
-          <Heading variant={props.headingVariant || 'h2'}>
-            {siteLabels['label.articles']}
-          </Heading>
-
           {pagination && (
-            <Typography className='font-normal text-lg'>
+            <Typography className='font-normal px-2 text-lg text-start w-full'>
               {formatMessage(
                 siteLabels['message.resultsCount'],
                 `${pagination.currentPage * pagination?.pageSize + 1}`,

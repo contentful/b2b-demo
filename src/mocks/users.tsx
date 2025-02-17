@@ -99,7 +99,7 @@ export const sarah_anderson: User = {
   roles: ['administrator'],
 };
 
-const MockUsers: Array<User> = [
+export const MockUsers: Array<User> = [
   emily_johnson,
   david_miller,
   sarah_anderson,
@@ -108,7 +108,7 @@ const MockUsers: Array<User> = [
   jonas_fischer,
 ];
 
-const getUser = async (uid: string): Promise<User | null> => {
+export const getUser = async (uid: string): Promise<User | null> => {
   if (!uid) return null;
 
   const mockUser = MockUsers.find((user) => user.uid === uid);
@@ -117,9 +117,7 @@ const getUser = async (uid: string): Promise<User | null> => {
   return mockUser;
 };
 
-const getUsers = async (): Promise<User[] | null> => {
+export const getUsers = async (): Promise<User[] | null> => {
   if (!MockUsers) return null;
   return MockUsers;
 };
-
-export { getUser, getUsers, MockUsers };

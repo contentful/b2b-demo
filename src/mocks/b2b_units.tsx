@@ -47,8 +47,8 @@ const getB2BUnit = (uid: string): B2BUnit | null => {
   return MockB2BUnits.find((b2b_units) => b2b_units.uid === uid) || null;
 };
 
-const getB2bUnits = (): Array<B2BUnit> | null => {
+const getB2BUnits = (): Array<B2BUnit> | null => {
   return MockB2BUnits;
 };
 
-export { getB2BUnit, getB2bUnits, MockB2BUnits };
+export { getB2BUnit, getB2BUnits, MockB2BUnits };

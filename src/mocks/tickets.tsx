@@ -5,7 +5,7 @@ import {
 } from '@/models/commerce-types';
 
 export const TICKET_DATA_COLS: Array<DataTableColumn> = [
-  { key: 'code', label: 'ID', format: 'text' },
+  { key: 'code', label: 'ID', format: 'link' },
   { key: 'status', label: 'Status', format: 'label' },
   { key: 'subject', label: 'Subject', format: 'text' },
   { key: 'creationTime', label: 'Created', format: 'datetime' },
@@ -13,7 +13,7 @@ export const TICKET_DATA_COLS: Array<DataTableColumn> = [
   { key: 'guid', label: 'User', format: 'text' },
 ];
 
-const getTicket = async (id: string) => {
+export const getTicket = async (id: string) => {
   return MockTickets.find((ticket) => ticket.id === id);
 };
 
@@ -77,7 +77,7 @@ export const getTicketsTableData = async (
   return tickets;
 };
 
-const MockTickets = [
+export const MockTickets = [
   {
     id: '0005678',
     customerId: 'e0510389',

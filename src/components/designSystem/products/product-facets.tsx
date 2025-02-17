@@ -128,7 +128,6 @@ const AppliedFacets = (props: any): JSX.Element => {
       {breadcrumbs &&
         breadcrumbs?.map((breadcrumb: Breadcrumb, key: number) => {
           const queryValue = breadcrumb.removeQuery.query.value;
-          console.log('queryValue', queryValue);
           return (
             <Button
               className='bg-gray-300 flex items-center justify-between p-2'

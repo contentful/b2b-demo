@@ -1,11 +1,11 @@
-import type { Config } from "tailwindcss";
-const withMT = require("@material-tailwind/react/utils/withMT");
+import type { Config } from 'tailwindcss';
+const withMT = require('@material-tailwind/react/utils/withMT');
 
 const config: Config = withMT({
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/utils/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -21,7 +21,7 @@ const config: Config = withMT({
   plugins: [
     require('tailwind-fontawesome')({
       pro: false,
-    })
+    }),
   ],
 });
 export default config;

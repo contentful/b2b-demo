@@ -1,9 +1,8 @@
 'use client';
 
-import { getAddress } from '@/mocks/addresses';
-import { B2BCart, OrderEntry } from '@/models/commerce-types';
-import { getCostCenter } from '@/mocks/cost_centers';
+import { getAddress, getCostCenter } from '@/mocks';
 import { dhl_standard, fedex_standard } from '@/mocks/delivery-modes';
+import { B2BCart, OrderEntry } from '@/models/commerce-types';
 import React from 'react';
 
 type ContextStateType = {
@@ -197,7 +196,7 @@ const updateEntries = ({
 
   if (entries) {
     entries?.forEach((entry) => {
-      subTotal.value = subTotal.value + entry.totalPrice.value;
+      subTotal.value = subTotal.value + entry.totalPrice?.value;
       totalUnitCount = totalUnitCount + entry.quantity;
     });
   }
@@ -225,5 +224,6 @@ const updateEntries = ({
     if (cart.code === modCart.code) return modCart;
     return cart;
   });
+
   return modCarts;
 };

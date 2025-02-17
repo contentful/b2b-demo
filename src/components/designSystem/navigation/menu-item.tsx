@@ -8,22 +8,53 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MenuItem(props: any) {
-  const { menuitem, isActive, menuicons, iconsize, fontSize } = props;
+  const {
+    menuitem,
+    isActive,
+    menuicons,
+    iconsize,
+    fontSize,
+    handleLinkClick = false,
+  } = props;
 
-  return menuitem.url ? (
-    <Link className='text-inherit' href={menuitem.url}>
+  return menuitem?.url ? (
+    handleLinkClick ? (
       <MenuItemLabel
-        {...{ menuitem, isActive, menuicons, iconsize, fontSize }}
+        {...{
+          menuitem,
+          isActive,
+          menuicons,
+          iconsize,
+          fontSize,
+          handleLinkClick,
+        }}
       />
-    </Link>
+    ) : (
+      <Link
+        href={menuitem.url}
+        target={menuitem.openInNewWindow ? '_blank' : '_self'}
+      >
+        <MenuItemLabel
+          {...{ menuitem, isActive, menuicons, iconsize, fontSize }}
+        />
+      </Link>
+    )
   ) : (
     <MenuItemLabel {...{ menuitem, isActive, menuicons, iconsize, fontSize }} />
   );
 }
 
 const MenuItemLabel = (props: any) => {
-  const { menuitem, isActive, menuicons, iconsize, fontSize } = props;
-  const { text, icon } = menuitem;
+  const {
+    menuitem,
+    isActive,
+    menuicons,
+    iconsize,
+    fontSize,
+    handleLinkClick = false,
+  } = props;
+  const text = menuitem?.text;
+  const icon = menuitem?.icon;
 
   return (
     <ListItem
@@ -31,6 +62,8 @@ const MenuItemLabel = (props: any) => {
         isActive && 'underline'
       } ${fontSize} text-inherit whitespace-nowrap w-full`}
       color='inherit'
+      onClick={() => handleLinkClick && handleLinkClick(menuitem.url)}
+      ripple={false}
     >
       {menuicons === 'left' && (
         <ListItemPrefix className='text-inherit'>

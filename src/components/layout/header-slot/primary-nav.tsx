@@ -10,6 +10,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function PrimaryNav(props: any) {
+  const { closeDrawer } = props;
   const { state, logout } = useAppContext();
   const { siteConfig } = useSiteConfig();
   const { siteLabels } = useSiteLabels();
@@ -41,29 +42,38 @@ export default function PrimaryNav(props: any) {
   const handleLogout = () => {
     logout();
     // setShowLogoutModal(true);
-    router.push('/');
+    handleLinkClick('/');
+  };
+
+  const handleLinkClick = (href: string) => {
+    if (href) router.push(href);
+    closeDrawer();
   };
 
   return (
     <>
       <div className='text-black uppercase'>
         <List className='m-0 p-0'>
-          <Link href={`/${state.currentUserRoles[0]}`}>
-            <ListItem
-              className={`flex gap-2 items-center ${
-                isActive && 'underline'
-              } text-base whitespace-nowrap w-full`}
-              color={isActive ? 'blue' : 'inherit'}
-            >
-              <ListItemPrefix>
-                <FontAwesomeIcon icon={ICONS['desktop']} size='lg' />
-              </ListItemPrefix>
-              {siteLabels['label.dashboard']}
-            </ListItem>
-          </Link>
+          <ListItem
+            className={`flex gap-2 items-center ${
+              isActive && 'underline'
+            } text-base whitespace-nowrap w-full`}
+            color={isActive ? 'blue' : 'inherit'}
+            onClick={() => handleLinkClick(state.currentUserRoles[0])}
+          >
+            <ListItemPrefix>
+              <FontAwesomeIcon icon={ICONS['desktop']} size='lg' />
+            </ListItemPrefix>
+            {siteLabels['label.dashboard']}
+          </ListItem>
         </List>
         {menuItems && (
-          <Menu menuitems={menuItems} direction='vertical' menuicons='left' />
+          <Menu
+            menuitems={menuItems}
+            direction='vertical'
+            menuicons='left'
+            {...{ handleLinkClick }}
+          />
         )}
         <List className='mb-0 mt-10 mx-0 p-0'>
           <ListItem

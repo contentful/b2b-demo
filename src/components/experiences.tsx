@@ -17,28 +17,29 @@ import {
   heroDefinition,
   infoWidgetDefinition,
   loginCardsDefinition,
+  orderHistoryDefinition,
   productCollectionDefinition,
   productDetailsDefinition,
   profileCardDefinition,
   promoCardDefinition,
+  quoteHistoryDefinition,
   ratingDefinition,
   searchResultsDefinition,
   testimonialDefinition,
 } from '@/components/designSystem';
 import { useAppContext, useSiteConfig, useSiteLabels } from '@/hooks';
-import { getSiteConfig, getSiteLabels } from '@/services/contentful/content';
 import { deliveryClient, previewClient } from '@/services/contentful/client';
+import { getSiteConfig, getSiteLabels } from '@/services/contentful/content';
 import {
   ExperienceRoot,
   defineComponents,
   defineDesignTokens,
   useFetchBySlug,
 } from '@contentful/experiences-sdk-react';
+import { notFound, useRouter } from 'next/navigation';
 import React from 'react';
 import Loader from './loading';
 import SlugRewriter from './slug-rewriter';
-import { useRouter } from 'next/navigation';
-import { notFound } from 'next/navigation';
 
 // The experience type id for the experience
 const experienceTypeId = 'landingPage';
@@ -134,10 +135,12 @@ defineComponents(
     heroDefinition,
     infoWidgetDefinition,
     loginCardsDefinition,
+    orderHistoryDefinition,
     productCollectionDefinition,
     productDetailsDefinition,
     profileCardDefinition,
     promoCardDefinition,
+    quoteHistoryDefinition,
     ratingDefinition,
     searchResultsDefinition,
     testimonialDefinition,

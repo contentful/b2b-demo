@@ -53,7 +53,7 @@ export type B2BCostCenter = {
   activeFlag: boolean;
   currency: Currency;
   unit?: B2BUnit;
-  assignedBudgets: Array<Budget>;
+  assignedBudgets?: Array<Budget>;
 };
 
 export type B2BUnit = {

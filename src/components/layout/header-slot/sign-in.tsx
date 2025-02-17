@@ -1,6 +1,6 @@
 'use client';
 import { useAppContext } from '@/hooks';
-import { getUsers } from '@/mocks/users';
+import { getUsers } from '@/mocks';
 import { User } from '@/models/commerce-types';
 import {
   Avatar,

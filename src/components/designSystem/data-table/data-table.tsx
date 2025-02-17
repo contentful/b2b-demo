@@ -1,14 +1,31 @@
+import {
+  OrderDetailsModal,
+  QuoteDetailsModal,
+} from '@/components/designSystem';
 import { TailwindColors } from '@/components/designSystem/picker-options';
 import { useAppContext, useSiteLabels } from '@/hooks';
-import { getOrdersTableData, ORDER_DATA_COLS } from '@/mocks/orders';
-import { getQuotesTableData, QUOTE_DATA_COLS } from '@/mocks/quotes';
-import { getTicketsTableData, TICKET_DATA_COLS } from '@/mocks/tickets';
+import {
+  getOrdersTableData,
+  getQuotesTableData,
+  getTicketsTableData,
+  ORDER_DATA_COLS,
+  QUOTE_DATA_COLS,
+  TICKET_DATA_COLS,
+} from '@/mocks';
 import { DataTableColumn, TableData } from '@/models/commerce-types';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+} from '@material-tailwind/react';
 import React from 'react';
 import TableBody from './table-body';
 import TableHead from './table-head';
 import TableTitleBar from './table-title-bar';
+import TicketDetailsModal from '../tickets/ticket-details-modal';
 
 export const PREVIEW_COLS = ['', 'A', 'B', 'C', 'D', 'E', 'F'];
 export const PREVIEW_ROWS = [1, 2, 3, 4, 5, 6];
@@ -26,22 +43,22 @@ export default function DataTable(props: any) {
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
   const { currentLocale: locale } = state;
-  const { datatype, status, headbg, headtext } = props;
+  const {
+    datatype,
+    status,
+    headbg,
+    headtext,
+    cellpadding,
+    titlebg,
+    titletext,
+  } = props;
   const tableId = datatype + '-table';
 
-  let bgcolor = 'bg-' + headbg;
-  if (!['black', 'white', 'inherit'].includes(headbg)) {
-    bgcolor = bgcolor + '-500';
-  }
-
-  let textcolor = 'text-' + headtext;
-  if (!['black', 'white', 'inherit'].includes(headtext)) {
-    textcolor = textcolor + '-500';
-  }
-
-  const [data, setData] = React.useState<Array<TableData>>();
   const [cols, setCols] = React.useState<Array<DataTableColumn>>();
+  const [data, setData] = React.useState<Array<TableData>>();
   const [filter, setFilter] = React.useState<string>(props.status);
+  const [activeItem, setActiveItem] = React.useState<string | null>();
+  const [showDetails, setShowDetails] = React.useState(false);
   const [sortOptions, setSortOptions] = React.useState<Array<string>>();
   const [sortOpen, setSortOpen] = React.useState(false);
 
@@ -110,13 +127,22 @@ export default function DataTable(props: any) {
     setSortOpen(false);
   };
 
+  const handleOpenDetails = (code: string) => {
+    setActiveItem(code);
+    setShowDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+    setActiveItem(null);
+  };
+
   return (
     <>
       {(data || preview) && (
         <>
           <TableTitleBar
             {...{
-              bgcolor,
               datatype,
               filter,
               handleOptionClick,
@@ -125,15 +151,56 @@ export default function DataTable(props: any) {
               siteLabels,
               sortOpen,
               sortOptions,
-              textcolor,
+              titlebg,
+              titletext,
             }}
           />
-          <table id={tableId} className='bg-inherit my-1 table-fixed w-full'>
+          <table id={tableId} className='bg-inherit mb-1 table-fixed w-full'>
             <TableHead
-              {...{ bgcolor, cols, data, preview, siteLabels, textcolor }}
+              {...{
+                cellpadding,
+                cols,
+                data,
+                headbg,
+                headtext,
+                preview,
+                siteLabels,
+              }}
             />
-            <TableBody {...{ cols, data, locale, preview, siteLabels }} />
+            <TableBody
+              {...{
+                cellpadding,
+                cols,
+                data,
+                handleOpenDetails,
+                headbg,
+                headtext,
+                locale,
+                preview,
+                siteLabels,
+              }}
+            />
           </table>
+
+          <Dialog handler={handleOpenDetails} open={showDetails} size='lg'>
+            <DialogHeader className='flex items-center justify-between'>
+              {siteLabels['label.itemDetails']}
+            </DialogHeader>
+            <DialogBody>
+              {props.datatype === 'orders' && (
+                <OrderDetailsModal code={activeItem} />
+              )}
+              {props.datatype === 'quotes' && (
+                <QuoteDetailsModal code={activeItem} />
+              )}
+              {props.datatype === 'tickets' && (
+                <TicketDetailsModal code={activeItem} />
+              )}
+            </DialogBody>
+            <DialogFooter>
+              <Button onClick={handleCloseDetails}>Close</Button>
+            </DialogFooter>
+          </Dialog>
         </>
       )}
     </>
@@ -186,6 +253,24 @@ export const dataTableDefinition: ComponentDefinition = {
           ],
         },
       },
+      titlebg: {
+        displayName: 'Widget Title Background Color',
+        type: 'Text',
+        group: 'style',
+        defaultValue: 'inherit',
+        validations: {
+          in: TailwindColors,
+        },
+      },
+      titletext: {
+        displayName: 'Widget Title Text Color',
+        type: 'Text',
+        group: 'style',
+        defaultValue: 'inherit',
+        validations: {
+          in: TailwindColors,
+        },
+      },
       headbg: {
         displayName: 'Table Heading Background Color',
         type: 'Text',
@@ -202,6 +287,22 @@ export const dataTableDefinition: ComponentDefinition = {
         defaultValue: 'inherit',
         validations: {
           in: TailwindColors,
+        },
+      },
+      cellpadding: {
+        displayName: 'Cellpadding',
+        type: 'Text',
+        group: 'style',
+        defaultValue: 'py-1',
+        validations: {
+          in: [
+            { displayName: 'xs', value: 'py-1' },
+            { displayName: 'sm', value: 'py-2' },
+            { displayName: 'md', value: 'py-3' },
+            { displayName: 'lg', value: 'py-4' },
+            { displayName: 'xl', value: 'py-6' },
+            { displayName: '2xl', value: 'py-8' },
+          ],
         },
       },
     },

@@ -1,4 +1,4 @@
-import { ContentfulEntry } from '@/models/content-types';
+import { ArticleType, ContentfulEntry } from '@/models/content-types';
 import { deliveryClient } from '@/services/contentful/client';
 
 const CONFIG_ID =
@@ -167,6 +167,7 @@ export const getSiteConfig = async (locale?: string): Promise<any> => {
 export const getSiteLabels = async (locale: string): Promise<any> => {
   const response = await deliveryClient.getEntries({
     content_type: RESOURCE_LABEL_CONTENT_TYPE,
+    limit: 500,
     locale,
   });
 

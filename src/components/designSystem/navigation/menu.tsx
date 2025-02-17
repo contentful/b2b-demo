@@ -14,6 +14,7 @@ export default function Menu(props: any): JSX.Element {
     menuicons = 'never',
     iconsize = 'h-5 w-5',
     fontSize = 'text-base',
+    handleLinkClick = null,
   } = props;
   const { state } = useAppContext();
   const userroles = state.currentUserRoles;
@@ -47,7 +48,14 @@ export default function Menu(props: any): JSX.Element {
               <React.Fragment key={key}>
                 {userAllowed(menuitem?.disallowedRoles) && (
                   <MenuItem
-                    {...{ menuitem, isActive, menuicons, iconsize, fontSize }}
+                    {...{
+                      menuitem,
+                      isActive,
+                      menuicons,
+                      iconsize,
+                      fontSize,
+                      handleLinkClick,
+                    }}
                   />
                 )}
               </React.Fragment>
