@@ -1,3 +1,4 @@
+'use client';
 import { useSiteLabels } from '@/hooks';
 import { formatMessage } from '@/utils/string-utils';
 import {

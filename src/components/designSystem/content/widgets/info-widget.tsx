@@ -1,10 +1,11 @@
+import { useEditMode } from '@/hooks';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function InfoWidget(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { linkText, linkURL, ...widgetBodyProps } = props;
 
   return linkURL ? (
@@ -17,38 +18,34 @@ export default function InfoWidget(props: any) {
 }
 
 export const infoWidgetDefinition: ComponentDefinition = {
-  component: InfoWidget,
-  definition: {
-    id: 'info-widget',
-    name: 'Info Widget',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
+  id: 'info-widget',
+  name: 'Info Widget',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/UCx5ergDX9fFGaQ5lIqlI/98f1b46796da9fcb736144caa887a331/order_history.svg',
+  tooltip: {
+    description: 'Enter your description here',
+  },
+  variables: {
+    icon: {
+      displayName: 'Icon',
+      type: 'Media',
+      group: 'content',
     },
-    variables: {
-      icon: {
-        displayName: 'Icon',
-        type: 'Media',
-        group: 'content',
-      },
-      text: {
-        displayName: 'Text',
-        type: 'Text',
-        group: 'content',
-      },
-      linkText: {
-        displayName: 'LinkText',
-        type: 'Text',
-        group: 'content',
-      },
-      linkURL: {
-        displayName: 'LinkURL',
-        type: 'Text',
-        group: 'content',
-      },
+    text: {
+      displayName: 'Text',
+      type: 'Text',
+      group: 'content',
+    },
+    linkText: {
+      displayName: 'LinkText',
+      type: 'Text',
+      group: 'content',
+    },
+    linkURL: {
+      displayName: 'LinkURL',
+      type: 'Text',
+      group: 'content',
     },
   },
 };

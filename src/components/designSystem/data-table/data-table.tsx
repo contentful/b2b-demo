@@ -1,9 +1,11 @@
+'use client';
 import {
   OrderDetailsModal,
   QuoteDetailsModal,
+  TicketDetailsModal,
 } from '@/components/designSystem';
 import { TailwindColors } from '@/components/designSystem/picker-options';
-import { useAppContext, useSiteLabels } from '@/hooks';
+import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
 import {
   getOrdersTableData,
   getQuotesTableData,
@@ -25,7 +27,6 @@ import React from 'react';
 import TableBody from './table-body';
 import TableHead from './table-head';
 import TableTitleBar from './table-title-bar';
-import TicketDetailsModal from '../tickets/ticket-details-modal';
 
 export const PREVIEW_COLS = ['', 'A', 'B', 'C', 'D', 'E', 'F'];
 export const PREVIEW_ROWS = [1, 2, 3, 4, 5, 6];
@@ -39,7 +40,7 @@ const QUOTES_SORT_OPTIONS = [
 ];
 
 export default function DataTable(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
   const { currentLocale: locale } = state;
@@ -139,14 +140,14 @@ export default function DataTable(props: any) {
 
   return (
     <>
-      {(data || preview) && (
+      {(data || editMode) && (
         <>
           <TableTitleBar
             {...{
               datatype,
               filter,
               handleOptionClick,
-              preview,
+              editMode,
               setSortOpen,
               siteLabels,
               sortOpen,
@@ -163,7 +164,7 @@ export default function DataTable(props: any) {
                 data,
                 headbg,
                 headtext,
-                preview,
+                editMode,
                 siteLabels,
               }}
             />
@@ -176,7 +177,7 @@ export default function DataTable(props: any) {
                 headbg,
                 headtext,
                 locale,
-                preview,
+                editMode,
                 siteLabels,
               }}
             />
@@ -208,102 +209,97 @@ export default function DataTable(props: any) {
 }
 
 export const dataTableDefinition: ComponentDefinition = {
-  component: DataTable,
-  definition: {
-    id: 'data-table',
-    name: 'Data Table',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a table of mock data',
+  id: 'data-table',
+  name: 'Data Table',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/XxGyHWnErl7Yb1KuZsQ6G/6f560e52682f76fc79292033fe39b2b4/data_table.svg',
+  tooltip: {
+    description: 'Displays a table of mock data',
+  },
+  builtInStyles: ['cfTextColor', 'cfLineHeight'],
+  variables: {
+    datatype: {
+      displayName: 'Data Type',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'quotes',
+      validations: {
+        in: [
+          { displayName: 'quotes', value: 'quotes' },
+          { displayName: 'orders', value: 'orders' },
+          { displayName: 'tickets', value: 'tickets' },
+        ],
+      },
     },
-    builtInStyles: ['cfTextColor', 'cfLineHeight'],
-    variables: {
-      datatype: {
-        displayName: 'Data Type',
-        type: 'Text',
-        group: 'style',
-        builtInStyles: ['cfMargin', 'cfPadding'],
-        defaultValue: 'quotes',
-        validations: {
-          in: [
-            { displayName: 'quotes', value: 'quotes' },
-            { displayName: 'orders', value: 'orders' },
-            { displayName: 'tickets', value: 'tickets' },
-          ],
-        },
+    status: {
+      displayName: 'Status',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'all',
+      validations: {
+        in: [
+          { displayName: 'all', value: 'all' },
+          { displayName: 'approved', value: 'approved' },
+          { displayName: 'cancelled', value: 'cancelled' },
+          { displayName: 'delivered', value: 'delivered' },
+          { displayName: 'expired', value: 'expired' },
+          { displayName: 'saved', value: 'saved' },
+          { displayName: 'shipped', value: 'shipped' },
+          { displayName: 'submitted', value: 'submitted' },
+        ],
       },
-      status: {
-        displayName: 'Status',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'all',
-        validations: {
-          in: [
-            { displayName: 'all', value: 'all' },
-            { displayName: 'approved', value: 'approved' },
-            { displayName: 'cancelled', value: 'cancelled' },
-            { displayName: 'delivered', value: 'delivered' },
-            { displayName: 'expired', value: 'expired' },
-            { displayName: 'saved', value: 'saved' },
-            { displayName: 'shipped', value: 'shipped' },
-            { displayName: 'submitted', value: 'submitted' },
-          ],
-        },
+    },
+    titlebg: {
+      displayName: 'Widget Title Background Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      titlebg: {
-        displayName: 'Widget Title Background Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    },
+    titletext: {
+      displayName: 'Widget Title Text Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      titletext: {
-        displayName: 'Widget Title Text Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    },
+    headbg: {
+      displayName: 'Table Heading Background Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      headbg: {
-        displayName: 'Table Heading Background Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    },
+    headtext: {
+      displayName: 'Table Heading Text Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      headtext: {
-        displayName: 'Table Heading Text Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
-      },
-      cellpadding: {
-        displayName: 'Cellpadding',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'py-1',
-        validations: {
-          in: [
-            { displayName: 'xs', value: 'py-1' },
-            { displayName: 'sm', value: 'py-2' },
-            { displayName: 'md', value: 'py-3' },
-            { displayName: 'lg', value: 'py-4' },
-            { displayName: 'xl', value: 'py-6' },
-            { displayName: '2xl', value: 'py-8' },
-          ],
-        },
+    },
+    cellpadding: {
+      displayName: 'Cellpadding',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'py-1',
+      validations: {
+        in: [
+          { displayName: 'xs', value: 'py-1' },
+          { displayName: 'sm', value: 'py-2' },
+          { displayName: 'md', value: 'py-3' },
+          { displayName: 'lg', value: 'py-4' },
+          { displayName: 'xl', value: 'py-6' },
+          { displayName: '2xl', value: 'py-8' },
+        ],
       },
     },
   },

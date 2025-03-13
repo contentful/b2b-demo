@@ -1,70 +1,46 @@
 // This must be a client component. Currently, experiences only supports client components.
 'use client';
-
 import {
-  alertDefinition,
-  articleCardDefinition,
-  articleDefinition,
-  articleListDefinition,
-  avatarDefinition,
-  buttonDefinition,
-  crumbsDefinition,
-  dataTableDefinition,
-  dataWidgetDefinition,
-  faqDefinition,
-  faqListDefinition,
-  headingDefinition,
-  heroDefinition,
-  infoWidgetDefinition,
-  loginCardsDefinition,
-  orderHistoryDefinition,
-  productCollectionDefinition,
-  productDetailsDefinition,
-  profileCardDefinition,
-  promoCardDefinition,
-  quoteHistoryDefinition,
-  ratingDefinition,
-  searchResultsDefinition,
-  testimonialDefinition,
-} from '@/components/designSystem';
-import { useAppContext, useSiteConfig, useSiteLabels } from '@/hooks';
+  useAppContext,
+  useEditMode,
+  useSiteConfig,
+  useSiteLabels,
+} from '@/hooks';
 import { deliveryClient, previewClient } from '@/services/contentful/client';
 import { getSiteConfig, getSiteLabels } from '@/services/contentful/content';
 import {
   ExperienceRoot,
-  defineComponents,
   defineDesignTokens,
   useFetchBySlug,
 } from '@contentful/experiences-sdk-react';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import React from 'react';
 import Loader from './loading';
 import SlugRewriter from './slug-rewriter';
 
-// The experience type id for the experience
-const experienceTypeId = 'landingPage';
+import './studio-config';
 
-//Locale code for the experience (could be dynamic)
-let localeCode = 'en-US';
-
-export const Experience = ({
-  slug,
-  preview,
-}: {
+interface ExperienceProps {
   slug: string;
-  preview: true;
+  expEditorMode: boolean;
+}
+let locale = 'en-US';
+
+export const Experience: React.FC<ExperienceProps> = ({
+  slug,
+  expEditorMode,
 }) => {
   const { state } = useAppContext();
+  const { setEditMode } = useEditMode();
   const { siteConfig, setSiteConfig } = useSiteConfig();
   const { siteLabels, setSiteLabels } = useSiteLabels();
-  const router = useRouter();
 
   React.useEffect(() => {
     let isMounted = true;
-    localeCode = state.currentLocale ? state.currentLocale : localeCode;
+    locale = state.currentLocale ? state.currentLocale : 'en-US';
 
     const loadSiteConfig = async () => {
-      await getSiteConfig(localeCode).then((config) => {
+      await getSiteConfig(locale).then((config) => {
         if (isMounted) {
           setSiteConfig(config);
         }
@@ -72,30 +48,41 @@ export const Experience = ({
     };
 
     const loadSiteLabels = async () => {
-      await getSiteLabels(localeCode).then((labels) => {
+      await getSiteLabels(locale).then((labels) => {
         if (isMounted) {
           setSiteLabels(labels);
         }
       });
     };
 
-    // only fetch the configs if the locale has changed
-    if (localeCode !== siteConfig.locale) loadSiteConfig();
-    if (localeCode !== siteLabels.locale) loadSiteLabels();
+    if (!siteConfig || locale !== siteConfig.locale) loadSiteConfig();
+    if (!siteLabels || locale !== siteLabels.locale) loadSiteLabels();
+
+    setEditMode(expEditorMode);
 
     return () => {
       isMounted = false;
     };
-  }, [state, slug, siteConfig, setSiteConfig, siteLabels, setSiteLabels]);
+  }, [
+    expEditorMode,
+    setEditMode,
+    setSiteConfig,
+    setSiteLabels,
+    siteConfig,
+    siteLabels,
+    slug,
+    state,
+  ]);
 
   const contentSlug = new SlugRewriter(state.currentUserRoles).process(slug);
-
-  const { experience, isLoading, error } = useFetchBySlug({
+  const fetchProps = {
+    client: expEditorMode ? previewClient : deliveryClient,
     slug: contentSlug,
-    localeCode,
-    client: preview ? previewClient : deliveryClient,
-    experienceTypeId,
-  });
+    experienceTypeId: 'landingPage',
+    localeCode: locale || 'en-US',
+  };
+
+  const { experience, isLoading, error } = useFetchBySlug(fetchProps);
 
   if (error) {
     if ((error as any).message.startsWith('No experience entry with slug:')) {
@@ -113,45 +100,8 @@ export const Experience = ({
     return <Loader />;
   }
 
-  return <ExperienceRoot experience={experience} locale={localeCode} />;
+  return <ExperienceRoot experience={experience} locale={locale} />;
 };
-
-// Define the components for the experience
-// @see https://github.com/contentful/experience-builder/wiki#register-your-component
-defineComponents(
-  [
-    alertDefinition,
-    articleCardDefinition,
-    articleDefinition,
-    articleListDefinition,
-    avatarDefinition,
-    buttonDefinition,
-    crumbsDefinition,
-    dataTableDefinition,
-    dataWidgetDefinition,
-    faqDefinition,
-    faqListDefinition,
-    headingDefinition,
-    heroDefinition,
-    infoWidgetDefinition,
-    loginCardsDefinition,
-    orderHistoryDefinition,
-    productCollectionDefinition,
-    productDetailsDefinition,
-    profileCardDefinition,
-    promoCardDefinition,
-    quoteHistoryDefinition,
-    ratingDefinition,
-    searchResultsDefinition,
-    testimonialDefinition,
-  ]
-  // Basic components can be disabled by passing an empty array to  enabledBuiltInComponents
-  // Or selectively enabled by passing an array of component ids
-  // @see https://github.com/contentful/experience-builder/wiki/Component-Registration#disabling-all-built-in-components
-  // {
-  //   enabledBuiltInComponents: [],
-  // }
-);
 
 // Define the tokens for the experience
 // @see https://github.com/contentful/experience-builder/wiki#registering-design-tokens

@@ -1,3 +1,4 @@
+import { FooterSlot, HeaderSlot } from '@/components/layout';
 import Providers from '@/hooks/providers';
 import '@/styles/globals.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -5,7 +6,6 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
-import { FooterSlot, HeaderSlot } from '@/components/layout';
 
 config.autoAddCss = false;
 

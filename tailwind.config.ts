@@ -20,7 +20,9 @@ const config: Config = withMT({
   },
   plugins: [
     require('tailwind-fontawesome')({
+      family: 'solid',
       pro: false,
+      version: 6,
     }),
   ],
 });

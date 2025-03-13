@@ -10,7 +10,7 @@ export default function TableTitleBar(props: any) {
     datatype,
     filter,
     handleOptionClick,
-    preview,
+    editMode,
     setSortOpen,
     siteLabels,
     sortOpen,
@@ -29,7 +29,7 @@ export default function TableTitleBar(props: any) {
 
   return (
     <>
-      {preview ? (
+      {editMode ? (
         <div
           className={`${TailwindBgColorsMap[bgcolor]} font-bold py-1 rounded-t-lg text-center ${TailwindTextColorsMap[textcolor]} text-normal text-sm uppercase'`}
         >

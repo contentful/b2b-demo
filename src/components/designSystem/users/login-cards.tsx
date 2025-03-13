@@ -41,37 +41,34 @@ export default function LoginCards(props: any) {
 }
 
 export const loginCardsDefinition: ComponentDefinition = {
-  component: LoginCards,
-  definition: {
-    id: 'login-cards',
-    name: 'Login Cards',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a card for each demo user account',
+  id: 'login-cards',
+  name: 'Login Cards',
+  category: 'Components',
+  thumbnailUrl:
+    'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
+  tooltip: {
+    description: 'Displays a card for each demo user account',
+  },
+  variables: {
+    border: {
+      description: 'Display a border around each login card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
+      },
     },
-    variables: {
-      border: {
-        description: 'Display a border around each login card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under each login card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
+    shadow: {
+      description: 'Display a drop shadow under each login card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };

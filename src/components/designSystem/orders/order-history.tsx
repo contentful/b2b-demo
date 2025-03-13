@@ -1,7 +1,8 @@
+'use client';
 import { ContentError, Heading, Sorts } from '@/components/designSystem';
 import { TableBody, TableHead } from '@/components/designSystem/data-table';
 import { TailwindColors } from '@/components/designSystem/picker-options';
-import { useAppContext, useSiteLabels } from '@/hooks';
+import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
 import { getOrdersTableData, ORDER_DATA_COLS } from '@/mocks';
 import { TableData } from '@/models/commerce-types';
 import { sortTableData } from '@/utils/table-utils';
@@ -17,7 +18,7 @@ import React from 'react';
 import OrderDetailsModal from './order-details-modal';
 
 export default function OrderHistory(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { cellpadding, headbg, headtext } = props;
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
@@ -125,7 +126,7 @@ export default function OrderHistory(props: any) {
                   data,
                   headbg,
                   headtext,
-                  preview,
+                  editMode,
                   siteLabels,
                 }}
               />
@@ -137,7 +138,7 @@ export default function OrderHistory(props: any) {
                   headbg,
                   handleOpenDetails,
                   locale,
-                  preview,
+                  editMode,
                   siteLabels,
                 }}
               />
@@ -161,51 +162,47 @@ export default function OrderHistory(props: any) {
 }
 
 export const orderHistoryDefinition: ComponentDefinition = {
-  component: OrderHistory,
-  definition: {
-    id: 'order-history',
-    name: 'Order History',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
+  id: 'order-history',
+  name: 'Order History',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/UCx5ergDX9fFGaQ5lIqlI/98f1b46796da9fcb736144caa887a331/order_history.svg',
+  tooltip: {
+    description: 'Enter your description here',
+  },
+  variables: {
+    headbg: {
+      displayName: 'Table Heading Background Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
+      },
     },
-    variables: {
-      headbg: {
-        displayName: 'Table Heading Background Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    headtext: {
+      displayName: 'Table Heading Text Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      headtext: {
-        displayName: 'Table Heading Text Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
-      },
-      cellpadding: {
-        displayName: 'Cellpadding',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'py-1',
-        validations: {
-          in: [
-            { displayName: 'xs', value: 'py-1' },
-            { displayName: 'sm', value: 'py-2' },
-            { displayName: 'md', value: 'py-3' },
-            { displayName: 'lg', value: 'py-4' },
-            { displayName: 'xl', value: 'py-6' },
-            { displayName: '2xl', value: 'py-8' },
-          ],
-        },
+    },
+    cellpadding: {
+      displayName: 'Cellpadding',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'py-1',
+      validations: {
+        in: [
+          { displayName: 'xs', value: 'py-1' },
+          { displayName: 'sm', value: 'py-2' },
+          { displayName: 'md', value: 'py-3' },
+          { displayName: 'lg', value: 'py-4' },
+          { displayName: 'xl', value: 'py-6' },
+          { displayName: '2xl', value: 'py-8' },
+        ],
       },
     },
   },

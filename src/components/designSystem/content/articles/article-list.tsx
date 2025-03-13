@@ -1,16 +1,14 @@
 'use client';
-
 import {
   ArticleCard,
   ContentError,
   GridButton,
-  Heading,
   Pagination,
   Sorts,
 } from '@/components/designSystem/';
 import { HeadingFormats } from '@/components/designSystem/picker-options';
 import { useAppContext, useSiteLabels } from '@/hooks';
-import { ArticleListType, ArticleType } from '@/models/content-types';
+import { ArticleType } from '@/models/content-types';
 import { getArticles } from '@/services/contentful/content';
 import { formatMessage } from '@/utils/string-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
@@ -199,72 +197,69 @@ export default function ArticleList(props: any) {
 }
 
 export const articleListDefinition: ComponentDefinition = {
-  component: ArticleList,
-  definition: {
-    id: 'article-list',
-    name: 'Article List',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a list of articles based on defined criteria',
+  id: 'article-list',
+  name: 'Article List',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/3mWuHmZYIK7ipdphDvas8E/3aadff2c13033ffb3ce8f11701a77023/article_list.svg',
+  tooltip: {
+    description: 'Displays a list of articles based on defined criteria',
+  },
+  builtInStyles: ['cfTextColor', 'cfTextAlign'],
+  variables: {
+    title: {
+      displayName: 'Title',
+      type: 'Text',
+      group: 'content',
+      defaultValue: 'Articles',
     },
-    builtInStyles: ['cfTextColor', 'cfTextAlign'],
-    variables: {
-      title: {
-        displayName: 'Title',
-        type: 'Text',
-        group: 'content',
-        defaultValue: 'Articles',
+    type: {
+      displayName: 'Article Type',
+      type: 'Text',
+      group: 'style',
+      defaultValue: '',
+      validations: {
+        in: [
+          { displayName: 'All', value: '' },
+          { displayName: 'Blog', value: 'blog' },
+          { displayName: 'Support', value: 'support' },
+        ],
       },
-      type: {
-        displayName: 'Article Type',
-        type: 'Text',
-        group: 'style',
-        defaultValue: '',
-        validations: {
-          in: [
-            { displayName: 'All', value: '' },
-            { displayName: 'Blog', value: 'blog' },
-            { displayName: 'Support', value: 'support' },
-          ],
-        },
+    },
+    variant: {
+      displayName: 'Layout Variant',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'horizontal',
+      validations: {
+        in: [
+          { displayName: 'Rows', value: 'banner' },
+          { displayName: 'Grid', value: 'card' },
+        ],
       },
-      variant: {
-        displayName: 'Layout Variant',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'horizontal',
-        validations: {
-          in: [
-            { displayName: 'Rows', value: 'banner' },
-            { displayName: 'Grid', value: 'card' },
-          ],
-        },
+    },
+    sort: {
+      displayName: 'List Sort',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'pubDate-asc',
+      validations: {
+        in: [
+          { displayName: 'Publish Date Ascending', value: 'pubDate-asc' },
+          { displayName: 'Publish Date Descending', value: 'pubDate-desc' },
+          { displayName: 'Title Ascending', value: 'title-asc' },
+          { displayName: 'Title Descending', value: 'title-desc' },
+        ],
       },
-      sort: {
-        displayName: 'List Sort',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'pubDate-asc',
-        validations: {
-          in: [
-            { displayName: 'Publish Date Ascending', value: 'pubDate-asc' },
-            { displayName: 'Publish Date Descending', value: 'pubDate-desc' },
-            { displayName: 'Title Ascending', value: 'title-asc' },
-            { displayName: 'Title Descending', value: 'title-desc' },
-          ],
-        },
+    },
+    headingVariant: {
+      displayName: 'Title Variant',
+      type: 'Text',
+      validations: {
+        in: HeadingFormats,
       },
-      headingVariant: {
-        displayName: 'Title Variant',
-        type: 'Text',
-        validations: {
-          in: HeadingFormats,
-        },
-        defaultValue: 'h2',
-        group: 'style',
-      },
+      defaultValue: 'h2',
+      group: 'style',
     },
   },
 };

@@ -78,11 +78,13 @@ body {}
     @apply text-center;
   }
 
-  .mock-data td:first-child {
+  .mock-data td:first-child,
+  .mock-data th:first-child {
     @apply text-start;
   }
 
-  .mock-data td:last-child {
+  .mock-data td:last-child,
+  .mock-data th:last-child {
     @apply text-end;
   }
 
