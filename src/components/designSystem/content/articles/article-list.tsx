@@ -132,40 +132,54 @@ export default function ArticleList(props: any) {
         <ContentError error={error} />
       ) : (
         <>
-          {pagination && (
-            <Typography className='font-normal px-2 text-lg text-start w-full'>
-              {formatMessage(
-                siteLabels['message.resultsCount'],
-                `${pagination.currentPage * pagination?.pageSize + 1}`,
-                `${
-                  (pagination.currentPage + 1) * pagination?.pageSize -
-                  (articles?.length
-                    ? pagination?.pageSize - articles?.length
-                    : 0)
-                }`,
-                `${pagination?.totalResults}`
-              )}
-            </Typography>
-          )}
-
-          <div className='border-b box-border flex items-start py-4 w-full'>
-            {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />}
-            {pagination && <Pagination {...{ handleChangePage, pagination }} />}
-            <GridButton {...{ variant, toggleLayout }} />
+          <div className='border-b box-border flex flex-wrap gap-y-4 items-start justify-start py-4 w-full'>
+            {pagination && (
+              <Typography
+                as='span'
+                className='flex font-normal h-12 items-center justify-center md:m-y-2 m-0 md:order-1 md:justify-start order-2 px-2 py-0 text-lg w-full'
+              >
+                {formatMessage(
+                  siteLabels['message.resultsCount'],
+                  `${pagination.currentPage * pagination?.pageSize + 1}`,
+                  `${
+                    (pagination.currentPage + 1) * pagination?.pageSize -
+                    (articles?.length
+                      ? pagination?.pageSize - articles?.length
+                      : 0)
+                  }`,
+                  `${pagination?.totalResults}`
+                )}
+              </Typography>
+            )}
+            {sortOptions && (
+              <div className='flex justify-end md:order-2 order-1 md:me-auto md:w-fit w-full'>
+                <Sorts {...{ handleChangeSort, sortOptions }} />
+              </div>
+            )}
+            {pagination && (
+              <div className='flex justify-end order-3 md:w-fit w-full'>
+                <Pagination {...{ handleChangePage, pagination }} />
+              </div>
+            )}
+            <div className='flex order-4 w-fit'>
+              <GridButton {...{ variant, toggleLayout }} />
+            </div>
           </div>
 
           <div
             className={`flex ${
-              variant === 'banner' ? 'flex-col' : 'flex-row flex-wrap'
-            } my-5 w-full`}
+              variant === 'banner' ? 'flex-col ' : 'flex-row flex-wrap'
+            } justify-start my-5 w-full`}
           >
             {articles?.map((article: any, key: number) => {
               const { title, type, image, teaser, author, pubDate, slug } =
                 article;
-              const width = variant === 'banner' ? 'w-full' : 'w-1/3';
+              const width = `w-full ${
+                variant === 'card' ? 'sm:w-1/2 md:w-1/3 lg:w-1/4' : ''
+              }`;
 
               return (
-                <div className={`p-2 ${width}`} key={key}>
+                <div className={`flex justify-center p-2 ${width}`} key={key}>
                   <ArticleCard
                     {...{
                       title,
@@ -185,10 +199,10 @@ export default function ArticleList(props: any) {
             })}
           </div>
 
-          <div className='border-b box-border flex items-start py-4 w-full'>
-            {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />}
+          <div className='border-b box-border flex items-start justify-center py-4 w-full'>
+            {/* {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />} */}
             {pagination && <Pagination {...{ handleChangePage, pagination }} />}
-            <GridButton {...{ variant, toggleLayout }} />
+            {/* <GridButton {...{ variant, toggleLayout }} /> */}
           </div>
         </>
       )}
@@ -212,19 +226,6 @@ export const articleListDefinition: ComponentDefinition = {
       type: 'Text',
       group: 'content',
       defaultValue: 'Articles',
-    },
-    type: {
-      displayName: 'Article Type',
-      type: 'Text',
-      group: 'style',
-      defaultValue: '',
-      validations: {
-        in: [
-          { displayName: 'All', value: '' },
-          { displayName: 'Blog', value: 'blog' },
-          { displayName: 'Support', value: 'support' },
-        ],
-      },
     },
     variant: {
       displayName: 'Layout Variant',

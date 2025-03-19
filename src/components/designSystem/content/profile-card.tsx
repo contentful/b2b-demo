@@ -62,7 +62,7 @@ export default function ProfileCard(props: any) {
       socialLinks: props?.socialLinks,
       slug: props?.slug,
     });
-  }, [props]);
+  }, []);
 
   React.useEffect(() => {
     let isMounted = true;

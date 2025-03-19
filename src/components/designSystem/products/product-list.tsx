@@ -14,7 +14,7 @@ export default function ProductList(props: any) {
             key={key}
             className={`flex ${
               variant === 'card' &&
-              `items-stretch md:w-0.5 lg:w-1/${Number(cols)} xl:w-1/${
+              `items-stretch md:w-1/2 lg:w-1/${Number(cols)} xl:w-1/${
                 Number(cols) + 1
               }`
             } p-2 w-full`}

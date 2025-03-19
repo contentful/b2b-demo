@@ -156,32 +156,37 @@ export default function DataTable(props: any) {
               titletext,
             }}
           />
-          <table id={tableId} className='bg-inherit mb-1 table-fixed w-full'>
-            <TableHead
-              {...{
-                cellpadding,
-                cols,
-                data,
-                headbg,
-                headtext,
-                editMode,
-                siteLabels,
-              }}
-            />
-            <TableBody
-              {...{
-                cellpadding,
-                cols,
-                data,
-                handleOpenDetails,
-                headbg,
-                headtext,
-                locale,
-                editMode,
-                siteLabels,
-              }}
-            />
-          </table>
+          <div className='overflow-x-scroll self-center w-full'>
+            <table
+              id={tableId}
+              className='bg-inherit mb-1 md:table-fixed w-full'
+            >
+              <TableHead
+                {...{
+                  cellpadding,
+                  cols,
+                  data,
+                  headbg,
+                  headtext,
+                  editMode,
+                  siteLabels,
+                }}
+              />
+              <TableBody
+                {...{
+                  cellpadding,
+                  cols,
+                  data,
+                  handleOpenDetails,
+                  headbg,
+                  headtext,
+                  locale,
+                  editMode,
+                  siteLabels,
+                }}
+              />
+            </table>
+          </div>
 
           <Dialog handler={handleOpenDetails} open={showDetails} size='lg'>
             <DialogHeader className='flex items-center justify-between'>

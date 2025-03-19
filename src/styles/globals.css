@@ -74,19 +74,21 @@ body {}
     width: 100%;
   }
 
-  .mock-data td {
+  /* .mock-data td,
+  .mock-data th {
     @apply text-center;
-  }
+    @apply px-2;
+  } */
 
-  .mock-data td:first-child,
+  /* .mock-data td:first-child,
   .mock-data th:first-child {
     @apply text-start;
-  }
+  } */
 
-  .mock-data td:last-child,
+  /* .mock-data td:last-child,
   .mock-data th:last-child {
     @apply text-end;
-  }
+  } */
 
 }
 

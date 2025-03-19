@@ -120,7 +120,10 @@ const DataBody = (props: any) => {
                 val = tableData[col.key];
             }
             return (
-              <td className={`${cellpadding} text-center text-sm`} key={key2}>
+              <td
+                className={`${cellpadding} p-3 text-center text-sm`}
+                key={key2}
+              >
                 {val}
               </td>
             );

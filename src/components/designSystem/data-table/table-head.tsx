@@ -40,7 +40,10 @@ export default function TableHead(props: any) {
         {data &&
           cols?.map((entry: DataTableColumn, key: number) => {
             return (
-              <th className={cellpadding} key={key}>
+              <th
+                className={`${cellpadding} p-3 text-center text-sm`}
+                key={key}
+              >
                 {siteLabels[`label.${entry.key}`]}
               </th>
             );

@@ -118,31 +118,33 @@ export default function OrderHistory(props: any) {
                 <Sorts {...{ handleChangeSort, sortOptions }} />
               </div>
             </div>
-            <table className='bg-inherit my-1 table-fixed w-full'>
-              <TableHead
-                cols={ORDER_DATA_COLS}
-                {...{
-                  cellpadding,
-                  data,
-                  headbg,
-                  headtext,
-                  editMode,
-                  siteLabels,
-                }}
-              />
-              <TableBody
-                cols={ORDER_DATA_COLS}
-                {...{
-                  data,
-                  cellpadding,
-                  headbg,
-                  handleOpenDetails,
-                  locale,
-                  editMode,
-                  siteLabels,
-                }}
-              />
-            </table>
+            <div className='md:w-full overflow-x-scroll self-center w-11/12'>
+              <table className='bg-inherit my-1 md:table-fixed w-full'>
+                <TableHead
+                  cols={ORDER_DATA_COLS}
+                  {...{
+                    cellpadding,
+                    data,
+                    headbg,
+                    headtext,
+                    editMode,
+                    siteLabels,
+                  }}
+                />
+                <TableBody
+                  cols={ORDER_DATA_COLS}
+                  {...{
+                    data,
+                    cellpadding,
+                    headbg,
+                    handleOpenDetails,
+                    locale,
+                    editMode,
+                    siteLabels,
+                  }}
+                />
+              </table>
+            </div>
           </>
         )}
       </div>

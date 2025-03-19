@@ -38,10 +38,10 @@ export default function TableTitleBar(props: any) {
         </div>
       ) : (
         <div
-          className={`${TailwindBgColorsMap[bgcolor]} flex items-center justify-between p-2 rounded-t-lg ${TailwindTextColorsMap[textcolor]} w-full`}
+          className={`${TailwindBgColorsMap[bgcolor]} flex flex-wrap items-center justify-between p-2 rounded-t-lg ${TailwindTextColorsMap[textcolor]} w-full`}
         >
           <Typography
-            className=' m-0 px-4 py-0 w-fit'
+            className='m-0 px-4 py-0 w-fit'
             color='inherit'
             variant='h5'
           >

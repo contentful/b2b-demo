@@ -37,7 +37,7 @@ export default function PrimaryNav(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [siteConfig]);
+  }, []);
 
   const handleLogout = () => {
     logout();

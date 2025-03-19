@@ -1,11 +1,11 @@
 'use client';
 
+import { ThemeProvider } from '@material-tailwind/react';
 import { AppProvider } from './app-context';
 import { CartsProvider } from './carts-context';
 import { EditModeProvider } from './edit-mode-context';
 import { SiteConfigProvider } from './site-config-context';
 import { SiteLabelsProvider } from './site-labels-context';
-import { ThemeProvider } from '@material-tailwind/react';
 
 const Providers = ({
   children,

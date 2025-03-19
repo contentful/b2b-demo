@@ -15,7 +15,7 @@ import {
 } from '@contentful/experiences-sdk-react';
 import { notFound } from 'next/navigation';
 import React from 'react';
-import Loader from './loading';
+import Loader from './designSystem/shared/loading';
 import SlugRewriter from './slug-rewriter';
 
 import './studio-config';
@@ -30,7 +30,7 @@ export const Experience: React.FC<ExperienceProps> = ({
   slug,
   expEditorMode,
 }) => {
-  const { state } = useAppContext();
+  const { state, updateState } = useAppContext();
   const { setEditMode } = useEditMode();
   const { siteConfig, setSiteConfig } = useSiteConfig();
   const { siteLabels, setSiteLabels } = useSiteLabels();
@@ -57,22 +57,14 @@ export const Experience: React.FC<ExperienceProps> = ({
 
     if (!siteConfig || locale !== siteConfig.locale) loadSiteConfig();
     if (!siteLabels || locale !== siteLabels.locale) loadSiteLabels();
+    if (!state.currentLocale) updateState({ ...state, currentLocale: locale });
 
     setEditMode(expEditorMode);
 
     return () => {
       isMounted = false;
     };
-  }, [
-    expEditorMode,
-    setEditMode,
-    setSiteConfig,
-    setSiteLabels,
-    siteConfig,
-    siteLabels,
-    slug,
-    state,
-  ]);
+  }, []);
 
   const contentSlug = new SlugRewriter(state.currentUserRoles).process(slug);
   const fetchProps = {

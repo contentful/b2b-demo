@@ -8,11 +8,14 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import Link from 'next/link';
+import { useEditMode } from '@/hooks';
 
 library.add(fab, far, fas);
 
 export default function Icon(props: any) {
   const { prefix, iconName, link, animation, flip, rotation, size } = props;
+
+  const { editMode } = useEditMode();
 
   const icon = findIconDefinition({
     prefix,
@@ -35,7 +38,7 @@ export default function Icon(props: any) {
   return (
     <>
       {!icon ? (
-        props.isInExpEditorMode && <EditText type='Font Awesome Icon' />
+        editMode && <EditText type='Font Awesome Icon' />
       ) : link ? (
         <Link href={link}>
           <FAIcon />

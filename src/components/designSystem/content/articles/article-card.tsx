@@ -216,7 +216,7 @@ const ArticleCardVertical = (props: any) => {
     >
       <Card
         shadow={shadow}
-        className={`bg-inherit flex flex-col h-full max-w-[20rem] overflow-hidden text-inherit w-full ${
+        className={`bg-inherit flex flex-col h-full overflow-hidden text-inherit w-full ${
           border !== 'false' ? 'border' : 'rounded-none'
         }`}
       >
