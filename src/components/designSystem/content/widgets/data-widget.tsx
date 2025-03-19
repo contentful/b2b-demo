@@ -1,6 +1,7 @@
+'use client';
 import { ICONS } from '@/components/designSystem';
 import { TailwindColors } from '@/components/designSystem/picker-options';
-import { useAppContext } from '@/hooks';
+import { useAppContext, useEditMode } from '@/hooks';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -14,7 +15,7 @@ import {
 import Image from 'next/image';
 
 export default function DataWidget(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const locale = state.currentLocale || 'en-US';
 
@@ -28,6 +29,7 @@ export default function DataWidget(props: any) {
     headerBackground,
     headerText,
   } = props;
+
   let bgcolor = 'bg-' + headerBackground;
   if (!['black', 'white', 'inherit'].includes(headerBackground)) {
     bgcolor = bgcolor + '-500';
@@ -47,19 +49,39 @@ export default function DataWidget(props: any) {
     icon: 'info-circle',
     linkText: 'View Orders',
     linkURL: '#',
-    mockData: `<p class='font-bold text-inherit w-5/6'>Total orders</p>
-              <p class='text-inherit'>17</p>
-              <p class='font-bold text-inherit'>Shipped</p>
-              <p class='text-inherit'>16</p>
-              <p class='font-bold text-inherit'>Delivered</p>
-              <p class='text-inherit'>15</p>
-              <p class='font-bold text-inherit'>Cancelled</p>
-              <p class='text-inherit'>1</p>`,
+    mockData: `<table>
+                  <tr>
+                    <th><p>Type</p></th>
+                    <th><p>Count</p></th>
+                  </tr>
+                  <tr>
+                    <td><p>All</p></td>
+                    <td><p>17</p></td>
+                  </tr>
+                  <tr>
+                    <td><p>Submitted</p></td>
+                    <td><p>17</p></td>
+                  </tr>
+                  <tr>
+                    <td><p>Shipped</p></td>
+                    <td><p>15</p></td>
+                  </tr>
+                  <tr>
+                    <td><p>Delivered</p></td>
+                    <td><p>15</p></td>
+                  </tr>
+                  <tr>
+                    <td><p>Cancelled</p></td>
+                    <td><p>1</p></td>
+                  </tr>
+              </table>
+              <p></p>`,
   };
 
+  console.log('mock data ::', documentToReactComponents(mockData));
   return (
     <>
-      {(title || mockData || preview) && (
+      {(title || mockData || editMode) && (
         <Card className='bg-inherit p-0 text-inherit w-full' shadow={false}>
           <CardHeader
             className={`${bgcolor} m-0 rounded-b-none py-2 px-2`}
@@ -67,12 +89,12 @@ export default function DataWidget(props: any) {
             shadow={false}
           >
             <div className={`flex items-center justify-between ${textcolor}`}>
-              {(title || preview) && (
+              {(title || editMode) && (
                 <Typography
                   className='font-[Inter,"Inter Fallback"] font-bold m-0 p-0 text-lg'
                   color='inherit'
                 >
-                  {title ? title : preview ? previewContent.title : ''}
+                  {title ? title : editMode ? previewContent.title : ''}
                 </Typography>
               )}
               {icon && (
@@ -86,7 +108,7 @@ export default function DataWidget(props: any) {
                   />
                 </div>
               )}
-              {!icon && preview && (
+              {!icon && editMode && (
                 <FontAwesomeIcon icon={ICONS[previewContent.icon]} size='xl' />
               )}
             </div>
@@ -101,7 +123,7 @@ export default function DataWidget(props: any) {
                   {description}
                 </Typography>
               ) : (
-                preview &&
+                editMode &&
                 !description && (
                   <Typography
                     as='span'
@@ -122,7 +144,7 @@ export default function DataWidget(props: any) {
                   {linkText}
                 </Typography>
               ) : (
-                preview &&
+                editMode &&
                 !(linkText || linkURL) && (
                   <Typography
                     as='span'
@@ -139,7 +161,7 @@ export default function DataWidget(props: any) {
                 {documentToReactComponents(mockData)}
               </div>
             )}
-            {!mockData && preview && (
+            {!mockData && editMode && (
               <div
                 className='font-[Inter,"Inter Fallback"] mock-data grid grid-cols-2 text-inherit w-full'
                 dangerouslySetInnerHTML={{ __html: previewContent.mockData }}
@@ -153,76 +175,72 @@ export default function DataWidget(props: any) {
 }
 
 export const dataWidgetDefinition: ComponentDefinition = {
-  component: DataWidget,
-  definition: {
-    id: 'data-widget',
-    name: 'Data Widget',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'component to render mock SAP data',
+  id: 'data-widget',
+  name: 'Data Widget',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/5egrdlGnD5wV4GAXdQ5AJ7/9818c7dbe145079eeb8d05edc570833a/data_widget.svg',
+  tooltip: {
+    description: 'component to render mock SAP data',
+  },
+  builtInStyles: [
+    'cfTextColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfBackgroundColor',
+    'cfMargin',
+    'cfPadding',
+    'cfHeight',
+    'cfWidth',
+    'cfMaxWidth',
+  ],
+  variables: {
+    title: {
+      displayName: 'Title',
+      type: 'Text',
+      group: 'content',
     },
-    builtInStyles: [
-      'cfTextColor',
-      'cfBorder',
-      'cfBorderRadius',
-      'cfBackgroundColor',
-      'cfMargin',
-      'cfPadding',
-      'cfHeight',
-      'cfWidth',
-      'cfMaxWidth',
-    ],
-    variables: {
-      title: {
-        displayName: 'Title',
-        type: 'Text',
-        group: 'content',
+    description: {
+      displayName: 'Description',
+      type: 'Text',
+      group: 'content',
+    },
+    icon: {
+      displayName: 'Icon',
+      type: 'Media',
+      group: 'content',
+    },
+    mockData: {
+      displayName: 'Mock Data',
+      type: 'RichText',
+      group: 'content',
+    },
+    linkText: {
+      displayName: 'LinkText',
+      type: 'Text',
+      group: 'content',
+    },
+    linkURL: {
+      displayName: 'LinkURL',
+      type: 'Text',
+      group: 'content',
+    },
+    headerBackground: {
+      displayName: 'Header Background',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'white',
+      validations: {
+        in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
       },
-      description: {
-        displayName: 'Description',
-        type: 'Text',
-        group: 'content',
-      },
-      icon: {
-        displayName: 'Icon',
-        type: 'Media',
-        group: 'content',
-      },
-      mockData: {
-        displayName: 'Mock Data',
-        type: 'RichText',
-        group: 'content',
-      },
-      linkText: {
-        displayName: 'LinkText',
-        type: 'Text',
-        group: 'content',
-      },
-      linkURL: {
-        displayName: 'LinkURL',
-        type: 'Text',
-        group: 'content',
-      },
-      headerBackground: {
-        displayName: 'Header Background',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'white',
-        validations: {
-          in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
-        },
-      },
-      headerText: {
-        displayName: 'Header Text',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
-        },
+    },
+    headerText: {
+      displayName: 'Header Text',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
       },
     },
   },

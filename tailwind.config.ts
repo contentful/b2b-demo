@@ -3,9 +3,10 @@ const withMT = require('@material-tailwind/react/utils/withMT');
 
 const config: Config = withMT({
   content: [
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/utils/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/layout.tsx',
+    './src/components/designSystem/**/*.tsx',
+    './src/components/layout/**/*.tsx',
+    './src/utils/tailwind-colors-utils.tsx',
   ],
   theme: {
     extend: {
@@ -20,7 +21,9 @@ const config: Config = withMT({
   },
   plugins: [
     require('tailwind-fontawesome')({
+      family: 'solid',
       pro: false,
+      version: 6,
     }),
   ],
 });

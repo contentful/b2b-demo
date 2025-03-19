@@ -1,5 +1,4 @@
 'use client';
-
 import {
   ArticleCard,
   ContentError,
@@ -7,10 +6,9 @@ import {
   FAQ,
   ICONS,
 } from '@/components/designSystem';
-import { useAppContext, useSiteLabels } from '@/hooks';
+import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
 import { ArticleType } from '@/models/content-types';
 import { getArticle } from '@/services/contentful/content';
-import { getAssetUrl } from '@/utils/content-utils';
 import { getContentfulImageUrl } from '@/utils/image-utils';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
@@ -22,7 +20,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 export default function Article(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
   const pathname = usePathname();
@@ -60,9 +58,9 @@ export default function Article(props: any) {
 
   return (
     <div className='flex flex-col max-w-screen-xl mx-auto w-full'>
-      {error && !preview ? (
+      {error && !editMode ? (
         <ContentError error={error} />
-      ) : !article && preview ? (
+      ) : !article && editMode ? (
         <div className='border flex flex-col items-center justify-start my-5 p-4 w-full'>
           <Typography className='mb-4' variant='h5'>
             Article Component
@@ -212,16 +210,13 @@ export default function Article(props: any) {
 }
 
 export const articleDefinition: ComponentDefinition = {
-  component: Article,
-  definition: {
-    id: 'article',
-    name: 'Article',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Article Details Component',
-    },
-    variables: {},
+  id: 'article',
+  name: 'Article',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/7zXHpz9qZbiD8e5RAtKGWb/2145d0f863444ecafb848b787f04d917/article.svg',
+  tooltip: {
+    description: 'Article Details Component',
   },
+  variables: {},
 };

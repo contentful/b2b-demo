@@ -5,7 +5,6 @@ import ICONS from '@/components/designSystem/icons';
 import { useAppContext, useSiteConfig, useSiteLabels } from '@/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, ListItem, ListItemPrefix } from '@material-tailwind/react';
-import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 

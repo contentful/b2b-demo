@@ -1,13 +1,17 @@
+'use client';
 import { EditText, FAQ } from '@/components/designSystem';
 import {
   TailwindColors,
   TextFormats,
 } from '@/components/designSystem/picker-options';
+import { useEditMode } from '@/hooks';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import React from 'react';
 
 export default function FAQList(props: any) {
-  const preview = props.isInExpEditorMode;
+  console.log('FAQList :: props ::', props);
+  const { editMode } = useEditMode();
+
   const { qcolor, qformat, variant } = props;
 
   const [entries, setEntries] = React.useState<Array<any>>();
@@ -33,26 +37,19 @@ export default function FAQList(props: any) {
   return (
     <>
       {!entries ? (
-        preview && <EditText type='FAQ List' />
+        editMode && <EditText type='FAQ List' />
       ) : (
         <div className='bg-inherit flex flex-col gap-2 items-center justify-center m-0 p-0 text-inherit w-full'>
           {entries?.map((faq: any, key: number) => {
-            const question = faq?.fields.question;
-            const answer = faq?.fields.answer;
-            const pos = key + 1;
-            return (
-              <FAQ
-                key={key}
-                {...{
-                  answer,
-                  pos,
-                  question,
-                  qcolor,
-                  qformat,
-                  variant,
-                }}
-              />
-            );
+            const faqProps = {
+              answer: faq?.fields.answer,
+              pos: key + 1,
+              question: faq?.fields.question,
+              qcolor,
+              qformat,
+              variant,
+            };
+            return <FAQ key={key} {...faqProps} />;
           })}
         </div>
       )}
@@ -61,57 +58,49 @@ export default function FAQList(props: any) {
 }
 
 export const faqListDefinition: ComponentDefinition = {
-  component: FAQList,
-  definition: {
-    id: 'faq-list',
-    name: 'FAQ List',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a list of FAQs',
+  id: 'faq-list',
+  name: 'FAQ List',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/sbdQDrIA0WDnBxgq1cAa1/b9c2961c2be22f0a86171bfa0902ff4f/faq_list.svg',
+  tooltip: {
+    description: 'Displays a list of FAQs',
+  },
+  builtInStyles: ['cfBackgroundColor', 'cfMargin', 'cfPadding', 'cfTextColor'],
+  variables: {
+    entries: {
+      displayName: 'Entries',
+      type: 'Array',
+      group: 'content',
     },
-    builtInStyles: [
-      'cfBackgroundColor',
-      'cfMargin',
-      'cfPadding',
-      'cfTextColor',
-    ],
-    variables: {
-      entries: {
-        displayName: 'Entries',
-        type: 'Array',
-        group: 'content',
+    variant: {
+      displayName: 'Variant',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'accordion',
+      validations: {
+        in: [
+          { displayName: 'Accordion', value: 'accordion' },
+          { displayName: 'Paragraph', value: 'paragraph' },
+        ],
       },
-      variant: {
-        displayName: 'Variant',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'accordion',
-        validations: {
-          in: [
-            { displayName: 'Accordion', value: 'accordion' },
-            { displayName: 'Paragraph', value: 'paragraph' },
-          ],
-        },
+    },
+    qcolor: {
+      displayName: 'Question Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
       },
-      qcolor: {
-        displayName: 'Question Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: [{ displayName: 'inherit', value: 'inherit' }, ...TailwindColors],
-        },
-      },
-      qformat: {
-        displayName: 'Question Format',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'h5',
-        validations: {
-          in: TextFormats,
-        },
+    },
+    qformat: {
+      displayName: 'Question Format',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'h5',
+      validations: {
+        in: TextFormats,
       },
     },
   },

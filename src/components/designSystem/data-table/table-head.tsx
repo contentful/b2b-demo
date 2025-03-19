@@ -12,7 +12,7 @@ export default function TableHead(props: any) {
     data,
     headbg,
     headtext,
-    preview,
+    editMode,
     siteLabels,
   } = props;
 
@@ -29,7 +29,7 @@ export default function TableHead(props: any) {
       className={`${TailwindBgColorsMap[bgcolor]} ${border} ${TailwindTextColorsMap[textcolor]}`}
     >
       <tr className=''>
-        {preview &&
+        {editMode &&
           PREVIEW_COLS.map((col, key) => {
             return (
               <th className={cellpadding} key={key}>
@@ -40,7 +40,10 @@ export default function TableHead(props: any) {
         {data &&
           cols?.map((entry: DataTableColumn, key: number) => {
             return (
-              <th className={cellpadding} key={key}>
+              <th
+                className={`${cellpadding} p-3 text-center text-sm`}
+                key={key}
+              >
                 {siteLabels[`label.${entry.key}`]}
               </th>
             );

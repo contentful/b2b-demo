@@ -1,5 +1,7 @@
+'use client';
 import { EditText, ICONS } from '@/components/designSystem';
-import { useAppContext } from '@/hooks';
+import { useAppContext, useEditMode } from '@/hooks';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -13,13 +15,12 @@ import {
   Chip,
   Typography,
 } from '@material-tailwind/react';
-import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react';
-import { getContentfulImageUrl } from '@/utils/image-utils';
+import Link from 'next/link';
 
 export default function ArticleCard(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
+
   const { variant, border, shadow, ...fields } = props;
   const article = {
     ...fields,
@@ -38,7 +39,7 @@ export default function ArticleCard(props: any) {
 
   return (
     <>
-      {(!article || isEmpty(article)) && preview && (
+      {(!article || isEmpty(article)) && editMode && (
         <EditText type='Article Card' />
       )}
       {article &&
@@ -53,86 +54,81 @@ export default function ArticleCard(props: any) {
 }
 
 export const articleCardDefinition: ComponentDefinition = {
-  component: ArticleCard,
-  definition: {
-    id: 'article-card',
-    name: 'Article Card',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Card with CTA link to article',
+  id: 'article-card',
+  name: 'Article Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/2lIkFNlct7M1JyQUE00Hrz/1e770e1d7fdbe076d9712b6438c4fb87/article_card.svg',
+  tooltip: {
+    description: 'Card with CTA link to article',
+  },
+  builtInStyles: [
+    'cfMargin',
+    'cfPadding',
+    'cfTextColor',
+    'cfBackgroundColor',
+    'cfBorder',
+  ],
+  variables: {
+    image: {
+      displayName: 'Image',
+      type: 'Media',
     },
-    builtInStyles: [
-      'cfMargin',
-      'cfPadding',
-      'cfTextColor',
-      'cfBackgroundColor',
-      'cfBorder',
-    ],
-    variables: {
-      image: {
-        displayName: 'Image',
-        type: 'Media',
+    title: {
+      displayName: 'Title',
+      type: 'Text',
+    },
+    teaser: {
+      displayName: 'Teaser',
+      type: 'RichText',
+    },
+    author: {
+      displayName: 'Author',
+      type: 'Link',
+    },
+    pubDate: {
+      displayName: 'Publish Date',
+      type: 'Text',
+    },
+    type: {
+      displayName: 'Type',
+      type: 'Text',
+    },
+    slug: {
+      displayName: 'Slug',
+      type: 'Text',
+    },
+    variant: {
+      displayName: 'Variant',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'banner',
+      validations: {
+        in: [
+          { displayName: 'banner', value: 'banner' },
+          { displayName: 'card', value: 'card' },
+        ],
       },
-      title: {
-        displayName: 'Title',
-        type: 'Text',
+    },
+    border: {
+      description: 'Display a border around the article card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      teaser: {
-        displayName: 'Teaser',
-        type: 'RichText',
-      },
-      author: {
-        displayName: 'Author',
-        type: 'Link',
-      },
-      pubDate: {
-        displayName: 'Publish Date',
-        type: 'Text',
-        default: new Date(),
-      },
-      type: {
-        displayName: 'Type',
-        type: 'Text',
-      },
-      slug: {
-        displayName: 'Slug',
-        type: 'Text',
-      },
-      variant: {
-        displayName: 'Variant',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'banner',
-        validations: {
-          in: [
-            { displayName: 'banner', value: 'banner' },
-            { displayName: 'card', value: 'card' },
-          ],
-        },
-      },
-      border: {
-        description: 'Display a border around the article card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under the article card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under the article card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };
@@ -220,7 +216,7 @@ const ArticleCardVertical = (props: any) => {
     >
       <Card
         shadow={shadow}
-        className={`bg-inherit flex flex-col h-full max-w-[20rem] overflow-hidden text-inherit w-full ${
+        className={`bg-inherit flex flex-col h-full overflow-hidden text-inherit w-full ${
           border !== 'false' ? 'border' : 'rounded-none'
         }`}
       >

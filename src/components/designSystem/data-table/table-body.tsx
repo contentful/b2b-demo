@@ -1,3 +1,4 @@
+'use client';
 import { DataTableColumn } from '@/models/commerce-types';
 import { localizeCurrency, localizeDate } from '@/utils/locale-utils';
 import { TailwindBgColorsMap } from '@/utils/tailwind-colors-utils';
@@ -12,7 +13,7 @@ export default function TableBody(props: any) {
     handleOpenDetails,
     headbg,
     locale,
-    preview,
+    editMode,
     siteLabels,
   } = props;
 
@@ -29,7 +30,7 @@ export default function TableBody(props: any) {
 
   return (
     <tbody style={{ color: 'inherit' }}>
-      {preview && <PreviewBody {...{ bgcolor, cellpadding }} />}
+      {editMode && <PreviewBody {...{ bgcolor, cellpadding }} />}
       {data && (
         <DataBody
           {...{
@@ -119,7 +120,10 @@ const DataBody = (props: any) => {
                 val = tableData[col.key];
             }
             return (
-              <td className={`${cellpadding} text-center text-sm`} key={key2}>
+              <td
+                className={`${cellpadding} p-3 text-center text-sm`}
+                key={key2}
+              >
                 {val}
               </td>
             );

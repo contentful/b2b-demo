@@ -1,4 +1,6 @@
+'use client';
 import { EditText, ICONS } from '@/components/designSystem';
+import { useAppContext, useEditMode } from '@/hooks';
 import { getContentfulImageUrl } from '@/utils/image-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -15,7 +17,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function PromoCard(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
+
   const {
     title,
     summary,
@@ -42,7 +45,7 @@ export default function PromoCard(props: any) {
   return (
     <>
       {!isDefined() ? (
-        preview && <EditText type='Promo Card' />
+        editMode && <EditText type='Promo Card' />
       ) : ctaURL ? (
         <Link
           href={ctaURL || '#'}
@@ -58,76 +61,73 @@ export default function PromoCard(props: any) {
 }
 
 export const promoCardDefinition: ComponentDefinition = {
-  component: PromoCard,
-  definition: {
-    id: 'promo-card',
-    name: 'Promo Card',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Card for displaying a promotion',
+  id: 'promo-card',
+  name: 'Promo Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/6VeodakTF7O1tFyUe0wYx/68c6a00726e76ff4786caa56b5a8fed2/promo_card.svg',
+  tooltip: {
+    description: 'Card for displaying a promotion',
+  },
+  builtInStyles: [
+    'cfMargin',
+    'cfPadding',
+    'cfTextColor',
+    'cfBackgroundColor',
+    'cfHeight',
+    'cfWidth',
+    'cfMaxWidth',
+  ],
+  variables: {
+    title: {
+      displayName: 'Title',
+      type: 'Text',
     },
-    builtInStyles: [
-      'cfMargin',
-      'cfPadding',
-      'cfTextColor',
-      'cfBackgroundColor',
-      'cfHeight',
-      'cfWidth',
-      'cfMaxWidth',
-    ],
-    variables: {
-      title: {
-        displayName: 'Title',
-        type: 'Text',
+    summary: {
+      displayName: 'Summary',
+      type: 'Text',
+    },
+    description: {
+      displayName: 'Description',
+      type: 'RichText',
+    },
+    ctaText: {
+      displayName: 'CTA Text',
+      type: 'Text',
+    },
+    ctaURL: {
+      displayName: 'CTA URL',
+      type: 'Text',
+    },
+    openInNewWindow: {
+      displayName: 'OpenInNewWindow',
+      type: 'Boolean',
+      group: 'content',
+      defaultValue: false,
+    },
+    image: {
+      displayName: 'Image',
+      type: 'Media',
+    },
+    border: {
+      description: 'Display a border around the promo card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      summary: {
-        displayName: 'Summary',
-        type: 'Text',
-      },
-      description: {
-        displayName: 'Description',
-        type: 'RichText',
-      },
-      ctaText: {
-        displayName: 'CTA Text',
-        type: 'Text',
-      },
-      ctaURL: {
-        displayName: 'CTA URL',
-        type: 'Text',
-      },
-      openInNewWindow: {
-        displayName: 'OpenInNewWindow',
-        type: 'Boolean',
-        group: 'content',
-        defaultValue: false,
-      },
-      image: {
-        displayName: 'Image',
-        type: 'Media',
-      },
-      border: {
-        description: 'Display a border around the promo card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under the promo card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under the promo card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };

@@ -242,82 +242,78 @@ export default function SearchResults(props: any) {
 }
 
 export const searchResultsDefinition: ComponentDefinition = {
-  component: SearchResults,
-  definition: {
-    id: 'search-results',
-    name: 'Search Results',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
+  id: 'search-results',
+  name: 'Search Results',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/2f4RItm5iPwFZigGa0QvKo/b8f8416b99281af29cd6c2772df53fa6/search_results.svg',
+  tooltip: {
+    description: 'Enter your description here',
+  },
+  variables: {
+    variant: {
+      description: 'variant options for the product cards',
+      displayName: 'Default display',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'card',
+      validations: {
+        in: [
+          { displayName: 'Banners', value: 'banner' },
+          { displayName: 'Cards', value: 'card' },
+        ],
+      },
     },
-    variables: {
-      variant: {
-        description: 'variant options for the product cards',
-        displayName: 'Default display',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'card',
-        validations: {
-          in: [
-            { displayName: 'Banners', value: 'banner' },
-            { displayName: 'Cards', value: 'card' },
-          ],
-        },
+    cols: {
+      displayName: 'Cards / Row',
+      type: 'Text',
+      group: 'style',
+      defaultValue: '3',
+      validations: {
+        in: [
+          { displayName: '3', value: '3' },
+          { displayName: '4', value: '4' },
+          { displayName: '5', value: '5' },
+        ],
       },
-      cols: {
-        displayName: 'Cards / Row',
-        type: 'Text',
-        group: 'style',
-        defaultValue: '3',
-        validations: {
-          in: [
-            { displayName: '3', value: '3' },
-            { displayName: '4', value: '4' },
-            { displayName: '5', value: '5' },
-          ],
-        },
+    },
+    header: {
+      displayName: 'Show Search Results Header',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
+    },
+    border: {
+      description: 'Display a border around each product card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      header: {
-        displayName: 'Show Search Results Header',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
-      border: {
-        description: 'Display a border around each product card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under each product card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
-      addtocart: {
-        displayName: 'Show ATC Options',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
-      reviews: {
-        displayName: 'Show Reviews',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under each product card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
+    },
+    addtocart: {
+      displayName: 'Show ATC Options',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
+    },
+    reviews: {
+      displayName: 'Show Reviews',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
     },
   },
 };

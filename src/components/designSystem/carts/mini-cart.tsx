@@ -64,6 +64,7 @@ export default function MiniCart() {
         }
       }
     };
+
     loadUserCart();
 
     return () => {
