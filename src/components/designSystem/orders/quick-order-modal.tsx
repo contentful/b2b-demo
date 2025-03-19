@@ -1,7 +1,9 @@
+'use client';
 import {
   UpdateCartEntriesProps,
   useAppContext,
   useCartsContext,
+  useEditMode,
   useSiteLabels,
 } from '@/hooks';
 import { getOrders } from '@/mocks';
@@ -26,7 +28,7 @@ const QUANTITY_OPTIONS = [5, 10, 15, 20];
 const QUANTITY_MULTIPLIER = 5;
 
 export default function QuickOrderModal(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { showQuickOrder, toggleModal } = props;
 
   const { state } = useAppContext();
@@ -125,7 +127,7 @@ export default function QuickOrderModal(props: any) {
       <DialogHeader className=''>{siteLabels['label.quickOrder']}</DialogHeader>
       <DialogBody className='border-b border-t border-gray-300 max-h-80 overflow-y-auto'>
         {!order ? (
-          preview ? (
+          editMode ? (
             <div>Quick Order requires a logged in user account</div>
           ) : (
             <div>No previous order found for quick order.</div>

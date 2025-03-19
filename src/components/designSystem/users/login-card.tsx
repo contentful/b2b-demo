@@ -86,73 +86,70 @@ export default function LoginCard(props: any) {
 }
 
 export const loginCardDefinition: ComponentDefinition = {
-  component: LoginCard,
-  definition: {
-    id: 'login-card',
-    name: 'Login Card',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Component tooltip',
+  id: 'login-card',
+  name: 'Login Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/3f0c2nKdZlCXIr1LDz0qAT/298b9b5fd1d5b6f9aa771566f1b4f285/login_card.svg',
+  tooltip: {
+    description: 'Component tooltip',
+  },
+  variables: {
+    internalId: {
+      displayName: 'Internal ID',
+      type: 'Text',
     },
-    variables: {
-      internalId: {
-        displayName: 'Internal ID',
-        type: 'Text',
+    avatar: {
+      displayName: 'Avatar',
+      type: 'Media',
+    },
+    firstName: {
+      displayName: 'First Name',
+      type: 'Text',
+    },
+    lastName: {
+      displayName: 'Last Name',
+      type: 'Text',
+    },
+    email: {
+      displayName: 'Email',
+      type: 'Text',
+    },
+    phone: {
+      displayName: 'Phone',
+      type: 'Text',
+    },
+    company: {
+      displayName: 'Company',
+      type: 'Link',
+    },
+    role: {
+      displayName: 'Role',
+      type: 'Text',
+    },
+    country: {
+      displayName: 'Country',
+      type: 'Text',
+    },
+    border: {
+      description: 'Display a border around the login card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      avatar: {
-        displayName: 'Avatar',
-        type: 'Media',
-      },
-      firstName: {
-        displayName: 'First Name',
-        type: 'Text',
-      },
-      lastName: {
-        displayName: 'Last Name',
-        type: 'Text',
-      },
-      email: {
-        displayName: 'Email',
-        type: 'Text',
-      },
-      phone: {
-        displayName: 'Phone',
-        type: 'Text',
-      },
-      company: {
-        displayName: 'Company',
-        type: 'Link',
-      },
-      role: {
-        displayName: 'Role',
-        type: 'Text',
-      },
-      country: {
-        displayName: 'Country',
-        type: 'Text',
-      },
-      border: {
-        description: 'Display a border around the login card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under each user card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under each user card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };

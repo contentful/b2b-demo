@@ -14,39 +14,36 @@ export default function Heading({
 }
 
 export const headingDefinition: ComponentDefinition = {
-  component: Heading,
-  definition: {
-    id: 'heading',
-    name: 'Heading',
-    category: 'Elements',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'This is a custom heading created for our design system.',
+  id: 'heading',
+  name: 'Heading',
+  category: 'Elements',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/7avJgWeSnC7GY7uK28Sqcz/ed70e092856d9a5c92cbe28fe342752b/heading-solid.svg',
+  tooltip: {
+    description: 'This is a custom heading created for our design system.',
+  },
+  builtInStyles: [
+    'cfMargin',
+    'cfPadding',
+    'cfWidth',
+    'cfMaxWidth',
+    'cfTextAlign',
+    'cfTextColor',
+  ],
+  variables: {
+    children: {
+      displayName: 'Text',
+      type: 'Text',
+      defaultValue: 'Heading',
     },
-    builtInStyles: [
-      'cfMargin',
-      'cfPadding',
-      'cfWidth',
-      'cfMaxWidth',
-      'cfTextAlign',
-      'cfTextColor',
-    ],
-    variables: {
-      children: {
-        displayName: 'Text',
-        type: 'Text',
-        defaultValue: 'Heading',
+    variant: {
+      displayName: 'Variant',
+      type: 'Text',
+      validations: {
+        in: HeadingFormats,
       },
-      variant: {
-        displayName: 'Variant',
-        type: 'Text',
-        validations: {
-          in: HeadingFormats,
-        },
-        defaultValue: 'h2',
-        group: 'style',
-      },
+      defaultValue: 'h2',
+      group: 'style',
     },
   },
 };

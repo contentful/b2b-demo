@@ -1,11 +1,13 @@
+'use client';
 import { ProductCard } from '@/components/designSystem';
+import { useEditMode } from '@/hooks';
 import { Product } from '@/models/commerce-types';
 import { Typography } from '@material-tailwind/react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 export default function ProductCarousel(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { products, ...passedProps } = props;
 
   const responsive = {
@@ -33,7 +35,7 @@ export default function ProductCarousel(props: any) {
 
   return (
     <>
-      {preview && (
+      {editMode && (
         <Typography className='h-1 overflow-hidden text-sm w-full'>
           &nbsp;
         </Typography>

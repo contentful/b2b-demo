@@ -6,6 +6,10 @@ import useCartsContext, {
   CreateCartProps,
   UpdateCartEntriesProps,
 } from './carts-context';
+import useEditMode, {
+  EditModeContext,
+  EditModeProvider,
+} from './edit-mode-context';
 import Providers from './providers';
 import useSiteConfig, {
   SiteConfigContext,
@@ -21,6 +25,8 @@ export {
   AppProvider,
   CartsContext,
   CartsProvider,
+  EditModeContext,
+  EditModeProvider,
   Providers,
   SiteConfigContext,
   SiteConfigProvider,
@@ -28,6 +34,7 @@ export {
   SiteLabelsProvider,
   useAppContext,
   useCartsContext,
+  useEditMode,
   useSiteConfig,
   useSiteLabels,
 };

@@ -1,10 +1,6 @@
-import {
-  ContentError,
-  Heading,
-  QuoteDetailsModal,
-  Sorts,
-} from '@/components/designSystem';
-import { useAppContext, useSiteLabels } from '@/hooks';
+'use client';
+import { ContentError, Heading, Sorts } from '@/components/designSystem';
+import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
 import { getTicketsTableData, QUOTE_DATA_COLS } from '@/mocks';
 import { TableData } from '@/models/commerce-types';
 import { sortTableData } from '@/utils/table-utils';
@@ -21,10 +17,11 @@ import { TableBody, TableHead } from '../data-table';
 import TicketDetailsModal from './ticket-details-modal';
 
 export default function TicketHistory(props: any) {
-  const preview = props.isInExpEditorMode;
-  const { cellpadding, headbg, headtext } = props;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
+
+  const { cellpadding, headbg, headtext } = props;
   const locale = state.currentLocale;
 
   const [activeItem, setActiveItem] = React.useState<any>();
@@ -127,7 +124,7 @@ export default function TicketHistory(props: any) {
                   data,
                   headbg,
                   headtext,
-                  preview,
+                  editMode,
                   siteLabels,
                 }}
               />
@@ -139,7 +136,7 @@ export default function TicketHistory(props: any) {
                   headbg,
                   handleOpenDetails,
                   locale,
-                  preview,
+                  editMode,
                   siteLabels,
                 }}
               />
@@ -163,17 +160,13 @@ export default function TicketHistory(props: any) {
 }
 
 export const ticketHistoryDefinition: ComponentDefinition = {
-  component: TicketHistory,
-  definition: {
-    id: 'ticket-history',
-    name: 'Ticket History',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
-    },
-    variables: {},
+  id: 'ticket-history',
+  name: 'Ticket History',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/1ySuZ8w6kwxDwQ9ob0Wirz/66f4205de443160c23204c088f8ca359/clipboard-list-solid.svg',
+  tooltip: {
+    description: 'Enter your description here',
   },
+  variables: {},
 };

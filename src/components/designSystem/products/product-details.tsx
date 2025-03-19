@@ -1,8 +1,10 @@
+'use client';
 import { ICONS } from '@/components/designSystem';
 import {
   UpdateCartEntriesProps,
   useAppContext,
   useCartsContext,
+  useEditMode,
   useSiteLabels,
 } from '@/hooks';
 import { B2BCart, OrderEntry, Product } from '@/models/commerce-types';
@@ -27,7 +29,7 @@ const QUANTITY_OPTIONS = [20, 50, 100];
 const QUANTITY_MULTIPLIER = 5;
 
 export default function ProductDetails(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
 
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
@@ -116,7 +118,7 @@ export default function ProductDetails(props: any) {
 
   return (
     <>
-      {!product && !error && preview && (
+      {!product && !error && editMode && (
         <div className='border flex flex-col items-center justify-start max-w-screen-xl mx-auto my-5 p-4 w-full'>
           <Typography className='mb-4' variant='h5'>
             Product Details Component
@@ -245,17 +247,13 @@ export default function ProductDetails(props: any) {
 }
 
 export const productDetailsDefinition: ComponentDefinition = {
-  component: ProductDetails,
-  definition: {
-    id: 'product-details',
-    name: 'Product Details',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'display the details of a given product',
-    },
-    variables: {},
+  id: 'product-details',
+  name: 'Product Details',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/3yGAwQl7U77wNZbKid1dtN/d6a149f76d150be6b9ec243ce937f8ad/product.svg',
+  tooltip: {
+    description: 'display the details of a given product',
   },
+  variables: {},
 };

@@ -1,5 +1,6 @@
-import { EditText, ICONS } from '@/components/designSystem';
-import { useAppContext } from '@/hooks';
+'use client';
+import { EditText } from '@/components/designSystem';
+import { useAppContext, useEditMode } from '@/hooks';
 import { getProfile } from '@/services/contentful/content';
 import { getSocialChannelName, getSocialIcon } from '@/utils/content-utils';
 import { getContentfulImageUrl } from '@/utils/image-utils';
@@ -31,11 +32,11 @@ type ProfileStateType = {
 };
 
 export default function ProfileCard(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const pathname = usePathname();
 
-  const [profile, setProfile] = React.useState<any>({
+  const [profile, setProfile] = React.useState<ProfileStateType>({
     avatar: props.avatar,
     email: props?.email,
     firstName: props?.firstName,
@@ -48,20 +49,6 @@ export default function ProfileCard(props: any) {
   });
 
   const { border = 'false', shadow = false } = props;
-
-  React.useEffect(() => {
-    setProfile({
-      name: props?.name,
-      firstName: props?.firstName,
-      lastName: props?.lastName,
-      avatar: props.avatar,
-      organization: props?.organization,
-      title: props?.title,
-      email: props?.email,
-      socialLinks: props?.socialLinks,
-      slug: props?.slug,
-    });
-  }, [props]);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -105,7 +92,7 @@ export default function ProfileCard(props: any) {
   return (
     <>
       {!profileIsDefined() ? (
-        preview && <EditText type='Profile Card' />
+        editMode && <EditText type='Profile Card' />
       ) : profile.slug ? (
         <Link href={'/profiles/' + profile.slug}>
           <PCard {...{ border, shadow, profile }} />
@@ -118,74 +105,71 @@ export default function ProfileCard(props: any) {
 }
 
 export const profileCardDefinition: ComponentDefinition = {
-  component: ProfileCard,
-  definition: {
-    id: 'profile-card',
-    name: 'Profile Card',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Component tooltip',
+  id: 'profile-card',
+  name: 'Profile Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/2ZbL7wcjvIq4GMLImnJH7N/ee80dd04b4b3c7eb0299b412f8bd273d/profile_card.svg',
+  tooltip: {
+    description: 'Component tooltip',
+  },
+  variables: {
+    name: {
+      displayName: 'Name',
+      type: 'Text',
     },
-    variables: {
-      name: {
-        displayName: 'Name',
-        type: 'Text',
+    firstName: {
+      displayName: 'First Name',
+      type: 'Text',
+    },
+    lastName: {
+      displayName: 'Last Name',
+      type: 'Text',
+    },
+    avatar: {
+      displayName: 'Avatar',
+      type: 'Media',
+    },
+    organization: {
+      displayName: 'Organization',
+      type: 'Text',
+    },
+    title: {
+      displayName: 'Title',
+      type: 'Text',
+    },
+    email: {
+      displayName: 'Email',
+      type: 'Text',
+    },
+    socialLinks: {
+      displayName: 'Social Links',
+      type: 'Array',
+    },
+    slug: {
+      displayName: 'Slug',
+      type: 'Text',
+      group: 'content',
+    },
+    border: {
+      description: 'Display a border around the profile card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      firstName: {
-        displayName: 'First Name',
-        type: 'Text',
-      },
-      lastName: {
-        displayName: 'Last Name',
-        type: 'Text',
-      },
-      avatar: {
-        displayName: 'Avatar',
-        type: 'Media',
-      },
-      organization: {
-        displayName: 'Organization',
-        type: 'Text',
-      },
-      title: {
-        displayName: 'Title',
-        type: 'Text',
-      },
-      email: {
-        displayName: 'Email',
-        type: 'Text',
-      },
-      socialLinks: {
-        displayName: 'Social Links',
-        type: 'Array',
-      },
-      slug: {
-        displayName: 'Slug',
-        type: 'Text',
-        group: 'content',
-      },
-      border: {
-        description: 'Display a border around the profile card',
-        displayName: 'Border',
-        type: 'Text',
-        defaultValue: 'false',
-        group: 'style',
-        validations: {
-          in: [
-            { displayName: 'True', value: 'true' },
-            { displayName: 'False', value: 'false' },
-          ],
-        },
-      },
-      shadow: {
-        description: 'Display a drop shadow under the profile card',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under the profile card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };
