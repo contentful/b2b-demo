@@ -24,7 +24,7 @@ export default function SocialNav(props: any) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [siteConfig]);
 
   return (
     <div className='flex flex-wrap gap-4 justify-center md:order-2 order-1 text-white sm:justify-center'>

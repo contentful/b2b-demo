@@ -1,5 +1,5 @@
 'use client';
-import { EditText, ICONS } from '@/components/designSystem';
+import { EditText } from '@/components/designSystem';
 import { useAppContext, useEditMode } from '@/hooks';
 import { getProfile } from '@/services/contentful/content';
 import { getSocialChannelName, getSocialIcon } from '@/utils/content-utils';
@@ -36,7 +36,7 @@ export default function ProfileCard(props: any) {
   const { state } = useAppContext();
   const pathname = usePathname();
 
-  const [profile, setProfile] = React.useState<any>({
+  const [profile, setProfile] = React.useState<ProfileStateType>({
     avatar: props.avatar,
     email: props?.email,
     firstName: props?.firstName,
@@ -49,20 +49,6 @@ export default function ProfileCard(props: any) {
   });
 
   const { border = 'false', shadow = false } = props;
-
-  React.useEffect(() => {
-    setProfile({
-      name: props?.name,
-      firstName: props?.firstName,
-      lastName: props?.lastName,
-      avatar: props.avatar,
-      organization: props?.organization,
-      title: props?.title,
-      email: props?.email,
-      socialLinks: props?.socialLinks,
-      slug: props?.slug,
-    });
-  }, []);
 
   React.useEffect(() => {
     let isMounted = true;

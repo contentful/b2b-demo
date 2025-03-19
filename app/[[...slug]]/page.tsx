@@ -1,5 +1,6 @@
 import { Experience } from '@/components/experience';
 import '@/components/studio-config';
+import React from 'react';
 
 type PageProps = {
   params: Promise<{ slug: string | string[] }>;
@@ -9,7 +10,7 @@ type PageProps = {
 export default async function Page({
   params,
   searchParams,
-}: PageProps): Promise<JSX.Element> {
+}: PageProps): Promise<React.JSX.Element> {
   const { slug } = await params;
   const { expEditorMode } = await searchParams;
 

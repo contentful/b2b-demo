@@ -32,6 +32,7 @@ export const Experience: React.FC<ExperienceProps> = ({
 }) => {
   const { state, updateState } = useAppContext();
   const { setEditMode } = useEditMode();
+  setEditMode(expEditorMode);
   const { siteConfig, setSiteConfig } = useSiteConfig();
   const { siteLabels, setSiteLabels } = useSiteLabels();
 
@@ -59,12 +60,17 @@ export const Experience: React.FC<ExperienceProps> = ({
     if (!siteLabels || locale !== siteLabels.locale) loadSiteLabels();
     if (!state.currentLocale) updateState({ ...state, currentLocale: locale });
 
-    setEditMode(expEditorMode);
-
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [
+    setSiteConfig,
+    setSiteLabels,
+    siteConfig,
+    siteLabels,
+    state,
+    updateState,
+  ]);
 
   const contentSlug = new SlugRewriter(state.currentUserRoles).process(slug);
   const fetchProps = {

@@ -27,7 +27,7 @@ export default function EyebrowNavigation(props: any) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [siteConfig]);
 
   const handleLinkClick = (url: string) => {
     if (url === 'quick-order') {

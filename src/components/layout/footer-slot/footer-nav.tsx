@@ -29,7 +29,7 @@ export default function FooterNav() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [siteConfig]);
 
   return (
     <div className='grid grid-cols-1 gap-8 lg:grid-cols-3 mx-auto md:py-6 py-4 w-full'>
