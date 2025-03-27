@@ -16,7 +16,7 @@ import { Typography } from '@material-tailwind/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-const DEFAULT_LIMIT = 9;
+const DEFAULT_LIMIT = 8;
 const DEFAULT_PAGE = 0;
 
 export default function ArticleList(props: any) {
@@ -127,12 +127,12 @@ export default function ArticleList(props: any) {
   };
 
   return (
-    <div className='flex flex-col h-fit items-center justify-center max-w-screen-xl mx-auto w-full'>
+    <div className='flex flex-col gap-y-4 h-fit items-center justify-center max-w-screen-xl mx-auto p-4 w-full'>
       {error ? (
         <ContentError error={error} />
       ) : (
         <>
-          <div className='border-b box-border flex flex-wrap gap-y-4 items-start justify-start py-4 w-full'>
+          <div className='flex flex-wrap items-start justify-start w-full'>
             {pagination && (
               <Typography
                 as='span'
@@ -152,7 +152,7 @@ export default function ArticleList(props: any) {
               </Typography>
             )}
             {sortOptions && (
-              <div className='flex justify-end md:order-2 order-1 md:me-auto md:w-fit w-full'>
+              <div className='flex justify-end md:order-2 order-1 md:me-auto md:w-fit w-80'>
                 <Sorts {...{ handleChangeSort, sortOptions }} />
               </div>
             )}
@@ -169,7 +169,7 @@ export default function ArticleList(props: any) {
           <div
             className={`flex ${
               variant === 'banner' ? 'flex-col ' : 'flex-row flex-wrap'
-            } justify-start my-5 w-full`}
+            } justify-start w-full`}
           >
             {articles?.map((article: any, key: number) => {
               const { title, type, image, teaser, author, pubDate, slug } =
@@ -199,7 +199,7 @@ export default function ArticleList(props: any) {
             })}
           </div>
 
-          <div className='border-b box-border flex items-start justify-center py-4 w-full'>
+          <div className='flex items-start justify-center w-full'>
             {/* {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />} */}
             {pagination && <Pagination {...{ handleChangePage, pagination }} />}
             {/* <GridButton {...{ variant, toggleLayout }} /> */}
@@ -219,7 +219,21 @@ export const articleListDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Displays a list of articles based on defined criteria',
   },
-  builtInStyles: ['cfTextColor', 'cfTextAlign'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     title: {
       displayName: 'Title',

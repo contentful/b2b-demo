@@ -1,6 +1,5 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
 import {
   UpdateCartEntriesProps,
   useAppContext,
@@ -10,7 +9,6 @@ import {
 import { B2BCart, OrderEntry } from '@/models/commerce-types';
 import { getSAPProductImageUrl } from '@/utils/image-utils';
 import { localizeCurrency } from '@/utils/locale-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Badge,
   Dialog,
@@ -24,6 +22,7 @@ import {
 } from '@material-tailwind/react';
 import Image from 'next/image';
 import React from 'react';
+import Icon from '../content/icon';
 
 export default function MiniCart() {
   const { carts, dispatch, getCartByUser } = useCartsContext();
@@ -165,7 +164,7 @@ export default function MiniCart() {
                             ripple={true}
                             size='sm'
                           >
-                            <FontAwesomeIcon icon={ICONS['trash']} size='lg' />
+                            <Icon prefix='fas' iconName='trash' size='lg' />
                           </IconButton>
                         </div>
                       </div>
@@ -201,7 +200,7 @@ export default function MiniCart() {
               Cart JSON
             </Typography>
             <IconButton className='h-8 rounded-full w-8' onClick={toggleModal}>
-              <FontAwesomeIcon icon={ICONS['x']} />
+              <Icon prefix='fas' iconName='x' />
             </IconButton>
           </div>
         </DialogHeader>
@@ -214,7 +213,7 @@ export default function MiniCart() {
 const CartButton = () => {
   return (
     <IconButton className='rounded-full' color='white' ripple={true} size='md'>
-      <FontAwesomeIcon icon={ICONS['dolly']} size='xl' />
+      <Icon prefix='fas' iconName='dolly' size='2xl' />
     </IconButton>
   );
 };

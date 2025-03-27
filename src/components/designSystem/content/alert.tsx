@@ -3,7 +3,6 @@ import {
   TailwindColors,
 } from '@/components/designSystem/picker-options';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { Alert } from '@material-tailwind/react';
 
 export const alertDefinition: ComponentDefinition = {
   id: 'alert',
@@ -14,7 +13,21 @@ export const alertDefinition: ComponentDefinition = {
   tooltip: {
     description: `Displays a short and important message attracting the user's attention without interrupting the user's task.`,
   },
-  builtInStyles: ['cfPadding', 'cfMargin', 'cfWidth', 'cfMaxWidth'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     children: {
       displayName: 'Text',

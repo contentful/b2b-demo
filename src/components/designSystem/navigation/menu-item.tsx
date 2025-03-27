@@ -68,21 +68,23 @@ const MenuItemLabel = (props: any) => {
       {menuicons === 'left' && (
         <ListItemPrefix className='text-inherit'>
           <Image
-            alt='icon'
+            alt={`${text} Icon`}
             className={`object-contain ${iconsize}`}
-            height='56'
+            height='0'
+            sizes='10rem'
             src={getContentfulImageUrl(icon)!}
-            width='56'
+            width='0'
           />
         </ListItemPrefix>
       )}
       {menuicons === 'only' ? (
         <Image
-          alt='icon'
+          alt={`${text} Icon`}
           className={`object-contain ${iconsize}`}
-          height='56'
+          height='0'
+          sizes='10rem'
           src={getContentfulImageUrl(icon)!}
-          width='56'
+          width='0'
         />
       ) : (
         text
@@ -90,11 +92,12 @@ const MenuItemLabel = (props: any) => {
       {menuicons === 'right' && (
         <ListItemSuffix className='ml-auto text-inherit'>
           <Image
-            alt='icon'
+            alt={`${text} Icon`}
             className={`object-contain ${iconsize}`}
-            height='56'
+            height='0'
+            sizes='10rem'
             src={getContentfulImageUrl(icon)!}
-            width='56'
+            width='0'
           />
         </ListItemSuffix>
       )}

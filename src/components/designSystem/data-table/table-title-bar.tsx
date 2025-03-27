@@ -31,14 +31,14 @@ export default function TableTitleBar(props: any) {
     <>
       {editMode ? (
         <div
-          className={`${TailwindBgColorsMap[bgcolor]} font-bold py-1 rounded-t-lg text-center ${TailwindTextColorsMap[textcolor]} text-normal text-sm uppercase'`}
+          className={`${TailwindBgColorsMap[bgcolor]} font-bold py-1 text-center ${TailwindTextColorsMap[textcolor]} text-normal text-sm uppercase'`}
         >
           {datatype} data table - data is dynamically loaded based on the signed
           in user
         </div>
       ) : (
         <div
-          className={`${TailwindBgColorsMap[bgcolor]} flex flex-wrap items-center justify-between p-2 rounded-t-lg ${TailwindTextColorsMap[textcolor]} w-full`}
+          className={`${TailwindBgColorsMap[bgcolor]} flex flex-wrap items-center justify-between p-2 ${TailwindTextColorsMap[textcolor]} w-full`}
         >
           <Typography
             className='m-0 px-4 py-0 w-fit'

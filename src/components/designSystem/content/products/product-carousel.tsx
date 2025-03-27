@@ -44,21 +44,30 @@ export default function ProductCarousel(props: any) {
         className='h-full w-full'
         swipeable={false}
         draggable={false}
-        showDots={true}
+        showDots={false}
         responsive={responsive}
         infinite={true}
         slidesToSlide={1}
-        renderDotsOutside
       >
         {products.map((product: Product, key: number) => {
           return (
-            <div className='h-80 mx-2' key={key}>
+            <div
+              className={`${
+                passedProps.reviews && passedProps.addtocart
+                  ? 'h-[36rem]'
+                  : passedProps.reviews || passedProps.addtocart
+                  ? 'h-[30rem]'
+                  : 'h-80'
+              } mx-2`}
+              key={key}
+            >
               <ProductCard
-                border='true'
+                border={passedProps.border}
                 product={product}
                 variant='card'
-                addtocart={false}
-                reviews={true}
+                addtocart={passedProps.addtocart}
+                reviews={passedProps.reviews}
+                shadow={passedProps.shadow}
               />
             </div>
           );

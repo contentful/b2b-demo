@@ -1,5 +1,3 @@
-import { ICONS } from '@/components/designSystem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   List,
@@ -9,6 +7,7 @@ import {
   PopoverHandler,
   Typography,
 } from '@material-tailwind/react';
+import Icon from '../content/icon';
 
 export default function StatusSelect(props: any) {
   const {
@@ -23,12 +22,12 @@ export default function StatusSelect(props: any) {
   return (
     <div className='w-36'>
       <Popover open={sortOpen} handler={setSortOpen} placement='bottom-end'>
-        <PopoverHandler className='flex lowercase justify-between m-0 px-2 py-0 rounded-sm w-36'>
+        <PopoverHandler className='bg-white flex lowercase justify-between m-0 px-2 py-0 rounded-md w-36'>
           <Button
             className='flex hover:shadow-none items-center'
-            color='white'
+            color='gray'
             ripple={false}
-            variant='filled'
+            variant='outlined'
           >
             <Typography
               as='span'
@@ -36,9 +35,10 @@ export default function StatusSelect(props: any) {
             >
               {siteLabels['label.' + filter]}
             </Typography>
-            <FontAwesomeIcon
+            <Icon
               className='ml-auto mt-1'
-              icon={sortOpen ? ICONS['angle-up'] : ICONS['angle-down']}
+              iconName={sortOpen ? 'angle-up' : 'angle-down'}
+              prefix='fas'
               size='lg'
             />
           </Button>
@@ -48,7 +48,7 @@ export default function StatusSelect(props: any) {
             {sortOptions?.map((opt: any, key: number) => {
               return (
                 <ListItem
-                  className='focus:bg-inherit m-0 px-2 py-1 rounded-none w-32'
+                  className='focus:bg-inherit m-0 px-2 py-1 rounded-none w-36'
                   key={key}
                   onClick={() => handleOptionClick(opt?.toLowerCase())}
                   ripple={false}

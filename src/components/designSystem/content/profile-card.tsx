@@ -1,11 +1,10 @@
 'use client';
-import { EditText } from '@/components/designSystem';
+import { EditText, Icon } from '@/components/designSystem';
 import { useAppContext, useEditMode } from '@/hooks';
 import { getProfile } from '@/services/contentful/content';
 import { getSocialChannelName, getSocialIcon } from '@/utils/content-utils';
 import { getContentfulImageUrl } from '@/utils/image-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Card,
   CardBody,
@@ -113,6 +112,21 @@ export const profileCardDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Component tooltip',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     name: {
       displayName: 'Name',
@@ -185,10 +199,11 @@ const PCard = (props: any) => {
       {profile.avatar && (
         <CardHeader floated={false} shadow={false} className='h-80'>
           <Image
+            alt={`photo of ${profile?.name}`}
+            height='0'
+            sizes='24rem'
             src={getContentfulImageUrl(profile?.avatar)!}
-            alt='profile-picture'
-            height='384'
-            width='384'
+            width='0'
           />
         </CardHeader>
       )}
@@ -227,7 +242,12 @@ const PCard = (props: any) => {
               target='blank'
               key={key}
             >
-              <FontAwesomeIcon color={color} icon={icon} size='xl' />
+              <Icon
+                color={color}
+                iconName={icon}
+                prefix='fa-brands'
+                size='xl'
+              />
             </Typography>
           );
         })}

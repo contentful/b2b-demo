@@ -77,6 +77,21 @@ export const menuDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Displays a navigation menu',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     menuitems: {
       displayName: 'Menu Items',

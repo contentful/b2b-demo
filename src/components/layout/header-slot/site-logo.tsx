@@ -15,11 +15,12 @@ export default function SiteLogo() {
   return (
     <Link href='/'>
       <Image
-        className='h-full object-contain w-full'
-        src={source}
         alt='Site logo'
-        height='64'
-        width='240'
+        className='h-full object-contain w-full'
+        height='0'
+        sizes='20rem'
+        src={source}
+        width='0'
       />
     </Link>
   );

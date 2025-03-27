@@ -1,7 +1,6 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon } from '@/components/designSystem';
 import { Button, ButtonGroup } from '@material-tailwind/react';
 import React from 'react';
 
@@ -62,7 +61,7 @@ export default function Pagination(props: any) {
       disabled={isFirstPage}
       onClick={() => handleChangePage(0)}
     >
-      <FontAwesomeIcon icon={ICONS['angle-double-left']} />
+      <Icon iconName='angles-left' prefix='fas' />
     </Button>
   );
 
@@ -74,12 +73,12 @@ export default function Pagination(props: any) {
       disabled={isLastPage}
       onClick={() => handleChangePage(pagination.totalPages - 1)}
     >
-      <FontAwesomeIcon icon={ICONS['angle-double-right']} />
+      <Icon iconName='angles-right' prefix='fas' />
     </Button>
   );
 
   return (
-    <div className='flex h-12 items-center lg:mx-0  mx-auto px-2 w-max'>
+    <div className='flex h-12 items-center md:mx-0  mx-auto px-2 w-max'>
       <ButtonGroup size='md' variant='outlined'>
         {firstPageButton}
 
@@ -93,7 +92,7 @@ export default function Pagination(props: any) {
             className = className + ' hover:bg-gray-200';
           }
           if (pagination.totalPages <= MAX_BUTTONS && key == 0) {
-            className = className + ' border-w rounded-w-sm';
+            className = className + ' border rounded-md';
           }
 
           return (

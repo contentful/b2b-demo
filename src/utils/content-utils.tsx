@@ -1,4 +1,3 @@
-import { ICONS } from '@/components/designSystem';
 import { Asset, BaseEntry, Entry } from 'contentful';
 
 export const getAssetUrl = (asset: Asset | null): string | null => {
@@ -38,31 +37,31 @@ export const getSocialIcon = (channel: string | null): [string, any] | [] => {
   switch (channel) {
     case 'facebook':
       color = 'royalblue';
-      icon = ICONS['facebook'];
+      icon = 'facebook';
       break;
     case 'instagram':
       color = 'darkviolet';
-      icon = ICONS['instagram'];
+      icon = 'instagram';
       break;
     case 'linkedin':
       color = 'darkblue';
-      icon = ICONS['linkedin'];
+      icon = 'linkedin';
       break;
     case 'twitter':
       color = 'deepskyblue';
-      icon = ICONS['twitter'];
+      icon = 'twitter';
       break;
     case 'x':
       color = 'black';
-      icon = ICONS['x-twitter'];
+      icon = 'x-twitter';
       break;
     case 'youtube':
       color = 'firebrick';
-      icon = ICONS['youtube'];
+      icon = 'youtube';
       break;
     default:
       color = 'slategray';
-      icon = ICONS['arrow-up-right-from-square'];
+      icon = 'arrow-up-right-from-square';
   }
 
   return [color, icon];

@@ -114,7 +114,7 @@ export default function OrderHistory(props: any) {
               <Heading className='w-fit' variant={props.headingVariant || 'h5'}>
                 {siteLabels['label.orderHistory']}
               </Heading>
-              <div className='flex gap-2 items-center py-4 w-fit'>
+              <div className='flex gap-2 items-center py-4 min-w-fit w-80'>
                 <Sorts {...{ handleChangeSort, sortOptions }} />
               </div>
             </div>
@@ -172,6 +172,21 @@ export const orderHistoryDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Enter your description here',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     headbg: {
       displayName: 'Table Heading Background Color',

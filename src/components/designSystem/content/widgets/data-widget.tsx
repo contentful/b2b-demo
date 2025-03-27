@@ -1,11 +1,9 @@
 'use client';
-import { ICONS } from '@/components/designSystem';
 import { TailwindColors } from '@/components/designSystem/picker-options';
 import { useAppContext, useEditMode } from '@/hooks';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Card,
   CardBody,
@@ -13,6 +11,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import Image from 'next/image';
+import Icon from '../icon';
 
 export default function DataWidget(props: any) {
   const { editMode } = useEditMode();
@@ -78,13 +77,15 @@ export default function DataWidget(props: any) {
               <p></p>`,
   };
 
-  console.log('mock data ::', documentToReactComponents(mockData));
   return (
     <>
       {(title || mockData || editMode) && (
-        <Card className='bg-inherit p-0 text-inherit w-full' shadow={false}>
+        <Card
+          className='bg-inherit p-0 rounded-none text-inherit w-full'
+          shadow={false}
+        >
           <CardHeader
-            className={`${bgcolor} m-0 rounded-b-none py-2 px-2`}
+            className={`${bgcolor} m-0 rounded-none py-2 px-2`}
             floated={false}
             shadow={false}
           >
@@ -98,18 +99,19 @@ export default function DataWidget(props: any) {
                 </Typography>
               )}
               {icon && (
-                <div className='bg-white h-7 p-1 rounded-lg w-7'>
+                <div className='bg-white h-7 p-1 rounded-full w-7'>
                   <Image
-                    alt='icon'
+                    alt={`${title} Icon`}
                     className='h-full object-contain w-full'
-                    height='20'
+                    height='0'
+                    sizes='1.5rem'
                     src={icon}
-                    width='20'
+                    width='0'
                   />
                 </div>
               )}
               {!icon && editMode && (
-                <FontAwesomeIcon icon={ICONS[previewContent.icon]} size='xl' />
+                <Icon iconName={previewContent.icon} prefix='fas' size='xl' />
               )}
             </div>
           </CardHeader>
@@ -184,15 +186,19 @@ export const dataWidgetDefinition: ComponentDefinition = {
     description: 'component to render mock SAP data',
   },
   builtInStyles: [
-    'cfTextColor',
+    'cfBackgroundColor',
     'cfBorder',
     'cfBorderRadius',
-    'cfBackgroundColor',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
     'cfMargin',
-    'cfPadding',
-    'cfHeight',
-    'cfWidth',
     'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
   ],
   variables: {
     title: {

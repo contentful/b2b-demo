@@ -1,5 +1,4 @@
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { Avatar } from '@material-tailwind/react';
 
 export const avatarDefinition: ComponentDefinition = {
   id: 'avatar',
@@ -10,6 +9,15 @@ export const avatarDefinition: ComponentDefinition = {
   tooltip: {
     description: `Displays a user avatar.`,
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfWidth',
+  ],
   variables: {
     src: {
       displayName: 'Source',

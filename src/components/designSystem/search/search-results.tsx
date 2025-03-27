@@ -2,7 +2,7 @@
 
 import {
   GridButton,
-  ICONS,
+  Icon,
   Pagination,
   ProductFacets,
   ProductList,
@@ -19,7 +19,6 @@ import {
 import { getProducts } from '@/services/sap/products';
 import { formatMessage } from '@/utils/string-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, Spinner, Typography } from '@material-tailwind/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
@@ -155,9 +154,10 @@ export default function SearchResults(props: any) {
         <Alert
           color='red'
           icon={
-            <FontAwesomeIcon
+            <Icon
               className='flex flex-wrap gap-2'
-              icon={ICONS['exclamation-circle']}
+              iconName='exclamation-circle'
+              prefix='fas'
               size='xl'
             />
           }
@@ -166,11 +166,18 @@ export default function SearchResults(props: any) {
           variant='outlined'
         >
           <Typography>{siteLabels['message.sapServiceError']}</Typography>
-          <div dangerouslySetInnerHTML={{ __html: error.message }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: error.message.substring(
+                error.message.indexOf('<body'),
+                error.message.indexOf('</body>') + 7
+              ),
+            }}
+          />
         </Alert>
       )}
       {header && pagination && (
-        <div className='flex flex-col items-center justify-center max-w-screen-xl mt-2 mx-auto py-2 w-full'>
+        <div className='flex flex-col items-center justify-center max-w-screen-xl mx-auto py-2 w-full'>
           <Typography className='font-normal text-3xl' variant='h1'>
             {searchTerm
               ? formatMessage(
@@ -212,7 +219,11 @@ export default function SearchResults(props: any) {
           </div>
           <div className='flex flex-col items-center justify-center lg:w-3/4 xl:w-4/5 pt-8 px-4 w-full'>
             <div className='border-b box-border flex flex-wrap gap-2 items-end justify-center mx-auto pb-4 w-full'>
-              {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />}
+              {sortOptions && (
+                <div className='max-w-56 mr-auto'>
+                  <Sorts {...{ handleChangeSort, sortOptions }} />
+                </div>
+              )}
               {pagination && (
                 <Pagination {...{ handleChangePage, pagination }} />
               )}
@@ -250,6 +261,21 @@ export const searchResultsDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Enter your description here',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     variant: {
       description: 'variant options for the product cards',

@@ -1,8 +1,7 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { Icon } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -52,7 +51,7 @@ export default function SearchBox() {
         onClick={handleSubmit}
         size='sm'
       >
-        <FontAwesomeIcon icon={ICONS['search']} />
+        <Icon iconName='magnifying-glass' prefix='fas' />
       </Button>
     </div>
   );

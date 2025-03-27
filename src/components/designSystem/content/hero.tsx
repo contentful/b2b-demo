@@ -47,11 +47,12 @@ export default function Hero(props: any) {
           </div>
           <div className='media absolute top-0 w-full'>
             <Image
-              src={`${image}?w=1300`}
               alt={imageAlt}
-              className='object-fit w-full'
-              width='1920'
-              height='1080'
+              className='h-auto object-cover w-full'
+              height='0'
+              sizes='100vw'
+              src={`${image}?w=1300`}
+              width='0'
             />
           </div>
         </>
@@ -70,6 +71,21 @@ export const heroDefinition: ComponentDefinition = {
     description:
       'This is a prescriptive hero made up of designs system elements.',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     heading: {
       displayName: 'Heading',

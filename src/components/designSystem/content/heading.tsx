@@ -23,12 +23,19 @@ export const headingDefinition: ComponentDefinition = {
     description: 'This is a custom heading created for our design system.',
   },
   builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
     'cfMargin',
-    'cfPadding',
-    'cfWidth',
     'cfMaxWidth',
+    'cfPadding',
     'cfTextAlign',
     'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
   ],
   variables: {
     children: {

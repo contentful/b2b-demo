@@ -156,10 +156,10 @@ export default function DataTable(props: any) {
               titletext,
             }}
           />
-          <div className='overflow-x-scroll self-center w-full'>
+          <div className='overflow-x-auto self-center w-full'>
             <table
               id={tableId}
-              className='bg-inherit mb-1 md:table-fixed w-full'
+              className='bg-inherit mb-1 md:table-fixed table-auto w-full'
             >
               <TableHead
                 {...{
@@ -222,7 +222,19 @@ export const dataTableDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Displays a table of mock data',
   },
-  builtInStyles: ['cfTextColor', 'cfLineHeight'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfFontWeight',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextColor',
+    'cfWidth',
+  ],
   variables: {
     datatype: {
       displayName: 'Data Type',
