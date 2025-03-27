@@ -18,7 +18,7 @@ export default function LoginCard(props: any) {
   const router = useRouter();
   const appCtx = useAppContext();
   const { updateState } = appCtx;
-  const { border, shadow, user } = props;
+  const { user } = props;
 
   const handleClick = (user: User) => {
     const newState = {
@@ -33,18 +33,19 @@ export default function LoginCard(props: any) {
 
   return (
     <Card
-      className={`${border !== 'false' && 'border'} md:w-80 w-72`}
+      className='border-none md:w-80 rounded-none w-72'
       key={user.uid}
-      shadow={shadow}
+      shadow={false}
     >
-      <CardHeader floated={false} className='h-80'>
+      <CardHeader floated={false} className='h-80 rounded-none'>
         {user.userAvatar?.url && (
           <Image
             alt='avatar'
             className='h-full object-cover w-full'
-            height='320'
+            height='0'
+            sizes='20rem'
             src={user.userAvatar?.url}
-            width='320'
+            width='0'
           />
         )}
       </CardHeader>
@@ -57,9 +58,10 @@ export default function LoginCard(props: any) {
             <Image
               alt={`${user.country.code} flag`}
               className='h-6 rounded-full w-6'
-              height='24'
+              height='0'
+              sizes='1.5rem'
               src={user.country?.flags?.png}
-              width='24'
+              width='0'
             />
           )}
         </div>
@@ -94,6 +96,21 @@ export const loginCardDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Component tooltip',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     internalId: {
       displayName: 'Internal ID',
@@ -130,26 +147,6 @@ export const loginCardDefinition: ComponentDefinition = {
     country: {
       displayName: 'Country',
       type: 'Text',
-    },
-    border: {
-      description: 'Display a border around the login card',
-      displayName: 'Border',
-      type: 'Text',
-      defaultValue: 'false',
-      group: 'style',
-      validations: {
-        in: [
-          { displayName: 'True', value: 'true' },
-          { displayName: 'False', value: 'false' },
-        ],
-      },
-    },
-    shadow: {
-      description: 'Display a drop shadow under each user card',
-      displayName: 'Shadow',
-      type: 'Boolean',
-      defaultValue: false,
-      group: 'style',
     },
   },
 };

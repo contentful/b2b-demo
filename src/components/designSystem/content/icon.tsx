@@ -13,7 +13,17 @@ import { useEditMode } from '@/hooks';
 library.add(fab, far, fas);
 
 export default function Icon(props: any) {
-  const { prefix, iconName, link, animation, flip, rotation, size } = props;
+  const {
+    className,
+    color,
+    prefix,
+    iconName,
+    link,
+    animation,
+    flip,
+    rotation,
+    size,
+  } = props;
 
   const { editMode } = useEditMode();
 
@@ -25,6 +35,8 @@ export default function Icon(props: any) {
   const FAIcon = () => {
     return (
       <FontAwesomeIcon
+        className={className}
+        color={color}
         icon={icon}
         size={size}
         flip={flip}
@@ -59,7 +71,17 @@ export const iconDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Renders a Font Awesome Icon',
   },
-  builtInStyles: ['cfFontSize', 'cfLineHeight', 'cfTextColor'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextColor',
+    'cfWidth',
+  ],
   variables: {
     prefix: {
       displayName: 'Icon Package',

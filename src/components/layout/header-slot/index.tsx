@@ -1,9 +1,7 @@
 'use client';
 
-import { SearchBox } from '@/components/designSystem';
-import ICONS from '@/components/designSystem/icons';
+import { Icon, SearchBox } from '@/components/designSystem';
 import { useAppContext, useSiteConfig, useSiteLabels } from '@/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Drawer, Typography } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -48,12 +46,12 @@ export default function HeaderSlot() {
           <div className='flex gap-2 items-center justify-start md:hidden visible'>
             <LocaleSelector />
             <Button
-              className='aspect-square flex gap-3 items-center justify-center p-2 rounded-md text-inherit w-fit'
+              className='aspect-square flex gap-3 items-center justify-center p-2 text-inherit w-fit'
               onClick={openDrawer}
               size='sm'
               variant='gradient'
             >
-              <FontAwesomeIcon icon={ICONS['bars']} />
+              <Icon iconName='bars' prefix='fas' />
             </Button>
           </div>
         </div>
@@ -74,7 +72,7 @@ export default function HeaderSlot() {
                 size='sm'
                 variant='filled'
               >
-                <FontAwesomeIcon icon={ICONS['bars']} />
+                <Icon iconName='bars' prefix='fas' />
                 <Typography className='font-bold hidden m-0 lg:flex text-sm'>
                   {siteLabels['label.menu']}
                 </Typography>
@@ -109,7 +107,7 @@ const NavigationDrawer = (props: any) => {
           <Typography className='font-bold m-0 text-sm'>
             {siteLabels['label.close']}
           </Typography>
-          <FontAwesomeIcon icon={ICONS['x']} />
+          <Icon iconName='x' prefix='fas' />
         </Button>
       </div>
       <div className='flex flex-col gap-10 items-center justify-between ml-5 my-2 p-4'>

@@ -79,7 +79,21 @@ export const faqDefinition: ComponentDefinition = {
   tooltip: {
     description: 'frequently asked question component',
   },
-  builtInStyles: ['cfBackgroundColor', 'cfMargin', 'cfPadding', 'cfTextColor'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     question: {
       displayName: 'Question',

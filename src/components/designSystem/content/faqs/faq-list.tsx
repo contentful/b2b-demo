@@ -9,7 +9,6 @@ import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import React from 'react';
 
 export default function FAQList(props: any) {
-  console.log('FAQList :: props ::', props);
   const { editMode } = useEditMode();
 
   const { qcolor, qformat, variant } = props;
@@ -66,7 +65,21 @@ export const faqListDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Displays a list of FAQs',
   },
-  builtInStyles: ['cfBackgroundColor', 'cfMargin', 'cfPadding', 'cfTextColor'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     entries: {
       displayName: 'Entries',

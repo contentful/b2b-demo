@@ -1,5 +1,5 @@
 'use client';
-import { ICONS } from '@/components/designSystem';
+import { Icon, Rating } from '@/components/designSystem';
 import {
   UpdateCartEntriesProps,
   useAppContext,
@@ -12,12 +12,13 @@ import { getProduct } from '@/services/sap/products';
 import { getSAPProductImageUrl } from '@/utils/image-utils';
 import { localizeCurrency } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
   Alert,
   Button,
   Option,
-  Rating,
   Select,
   Typography,
 } from '@material-tailwind/react';
@@ -41,6 +42,7 @@ export default function ProductDetails(props: any) {
 
   const [cart, setCart] = React.useState<B2BCart | null>();
   const [error, setError] = React.useState<any>();
+  const [open, setOpen] = React.useState(false);
   const [product, setProduct] = React.useState<Product>();
   const [showAlert, setShowAlert] = React.useState<boolean>();
   const [quantity, setQuantity] = React.useState<string>(
@@ -119,7 +121,7 @@ export default function ProductDetails(props: any) {
   return (
     <>
       {!product && !error && editMode && (
-        <div className='border flex flex-col items-center justify-start max-w-screen-xl mx-auto my-5 p-4 w-full'>
+        <div className='flex flex-col items-center justify-start max-w-screen-xl mx-auto p-4 w-full'>
           <Typography className='mb-4' variant='h5'>
             Product Details Component
           </Typography>
@@ -132,9 +134,10 @@ export default function ProductDetails(props: any) {
         <Alert
           color='red'
           icon={
-            <FontAwesomeIcon
+            <Icon
               className='flex flex-wrap gap-2'
-              icon={ICONS['exclamation-circle']}
+              iconName='exclamation-circle'
+              prefix='fas'
               size='xl'
             />
           }
@@ -146,16 +149,17 @@ export default function ProductDetails(props: any) {
         </Alert>
       )}
       {product && (
-        <>
+        <div className='flex flex-col gap-5 p-4 w-full'>
           <div className='flex flex-col gap-4 items-center justify-start max-w-screen-xl sm:flex-row sm:items-start w-full'>
             <div className='flex h-full items-center justify-center sm:w-1/2 w-full'>
               {product.images && (
                 <Image
                   alt='product image'
                   className='h-full max-h-[32rem] object-contain w-full'
-                  height='768'
+                  height='0'
+                  sizes='36rem'
                   src={getSAPProductImageUrl(product)!}
-                  width='768'
+                  width='0'
                 />
               )}
             </div>
@@ -187,12 +191,41 @@ export default function ProductDetails(props: any) {
               >
                 {localizeCurrency(locale, product?.price?.value)}
               </Typography>
-              {product.summary && (
-                <div
-                  className='font-normal text-inherit'
-                  color='inherit'
-                  dangerouslySetInnerHTML={{ __html: product?.summary }}
-                />
+              {(product.description || product.summary) && (
+                <Accordion className='text-inherit mt-2 w-full' open={open}>
+                  <AccordionHeader
+                    className='border-none flex gap-14 items-center justify-start text-inherit py-0'
+                    onClick={() => setOpen(!open)}
+                  >
+                    <Typography
+                      className='font-semibold m-0 p-0 text-inherit'
+                      color='inherit'
+                    >
+                      {siteLabels['label.productDetails']}
+                    </Typography>
+                    <Icon
+                      prefix='fas'
+                      iconName={open ? 'angle-up' : 'angle-down'}
+                      size='xs'
+                    />
+                  </AccordionHeader>
+                  <AccordionBody className='bg-gray-200 px-2 text-inherit w-full'>
+                    {product?.summary && (
+                      <div
+                        className='font-normal text-inherit'
+                        dangerouslySetInnerHTML={{ __html: product?.summary }}
+                      />
+                    )}
+                    {product?.description && (
+                      <div
+                        className='font-normal text-inherit'
+                        dangerouslySetInnerHTML={{
+                          __html: product?.description!,
+                        }}
+                      />
+                    )}
+                  </AccordionBody>
+                </Accordion>
               )}
               {cart && (
                 <div className='flex flex-col gap-4 items-end justify-between mt-5'>
@@ -213,7 +246,7 @@ export default function ProductDetails(props: any) {
                     })}
                   </Select>
                   <Button
-                    className='rounded-full text-center'
+                    className='text-center'
                     disabled={!cart}
                     fullWidth={true}
                     onClick={handleAddEntry}
@@ -225,22 +258,7 @@ export default function ProductDetails(props: any) {
               )}
             </div>
           </div>
-          {product.description && (
-            <div className='flex flex-col items-start justify-start mt-32 w-full'>
-              <Typography
-                className='text-inherit w-full'
-                color='inherit'
-                variant='h3'
-              >
-                {siteLabels['label.productDetails']}
-              </Typography>
-              <div
-                className='bg-gray-100 border-t m-0 p-4 text-inherit w-full'
-                dangerouslySetInnerHTML={{ __html: product.description! }}
-              />
-            </div>
-          )}
-        </>
+        </div>
       )}
     </>
   );
@@ -255,5 +273,20 @@ export const productDetailsDefinition: ComponentDefinition = {
   tooltip: {
     description: 'display the details of a given product',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {},
 };

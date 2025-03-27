@@ -1,10 +1,9 @@
 'use client';
-import { EditText, ICONS } from '@/components/designSystem';
-import { useAppContext, useEditMode } from '@/hooks';
+import { EditText } from '@/components/designSystem';
+import { useEditMode } from '@/hooks';
 import { getContentfulImageUrl } from '@/utils/image-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Card,
@@ -15,6 +14,8 @@ import {
 } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
+import Icon from './icon';
 
 export default function PromoCard(props: any) {
   const { editMode } = useEditMode();
@@ -27,8 +28,6 @@ export default function PromoCard(props: any) {
     ctaURL,
     image,
     openInNewWindow,
-    border = 'false',
-    shadow = false,
   } = props;
 
   const isDefined = () => {
@@ -70,13 +69,19 @@ export const promoCardDefinition: ComponentDefinition = {
     description: 'Card for displaying a promotion',
   },
   builtInStyles: [
-    'cfMargin',
-    'cfPadding',
-    'cfTextColor',
     'cfBackgroundColor',
-    'cfHeight',
-    'cfWidth',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
     'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
   ],
   variables: {
     title: {
@@ -109,30 +114,10 @@ export const promoCardDefinition: ComponentDefinition = {
       displayName: 'Image',
       type: 'Media',
     },
-    border: {
-      description: 'Display a border around the promo card',
-      displayName: 'Border',
-      type: 'Text',
-      defaultValue: 'false',
-      group: 'style',
-      validations: {
-        in: [
-          { displayName: 'True', value: 'true' },
-          { displayName: 'False', value: 'false' },
-        ],
-      },
-    },
-    shadow: {
-      description: 'Display a drop shadow under the promo card',
-      displayName: 'Shadow',
-      type: 'Boolean',
-      defaultValue: false,
-      group: 'style',
-    },
   },
 };
 
-const PromoCardCard = (props: any): JSX.Element => {
+const PromoCardCard = (props: any): React.JSX.Element => {
   const {
     title,
     summary,
@@ -147,24 +132,23 @@ const PromoCardCard = (props: any): JSX.Element => {
   return (
     <Card
       shadow={shadow}
-      className={`bg-inherit overflow-hidden text-inherit w-full ${
-        border !== 'false' && 'border'
-      }`}
+      className='bg-inherit overflow-hidden rounded-none text-inherit w-full'
     >
       {image && (
         <CardHeader
           floated={false}
           shadow={false}
           color='transparent'
-          className='bg-inherit m-0 rounded-b-none text-inherit w-full'
+          className='bg-inherit m-0 text-inherit w-full rounded-none'
         >
           {image && (
             <Image
-              className='h-full object-cover w-full'
-              src={getContentfulImageUrl(image)!}
               alt={title}
-              height='256'
-              width='320'
+              className={`h-full object-cover w-full`}
+              height='0'
+              sizes='100vw'
+              src={getContentfulImageUrl(image)!}
+              width='0'
             />
           )}
         </CardHeader>
@@ -202,7 +186,7 @@ const PromoCardCard = (props: any): JSX.Element => {
             {ctaText && (
               <Button className='flex items-center gap-2 px-3' variant='text'>
                 <Typography className='m-0 text-inherit'>{ctaText}</Typography>
-                <FontAwesomeIcon icon={ICONS['arrow-right']} />
+                <Icon prefix='fas' iconName='arrow-right' size='lg' />
               </Button>
             )}
           </div>

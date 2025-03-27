@@ -1,12 +1,11 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { Rating } from '@/components/designSystem';
 import { useAppContext, useCartsContext, useSiteLabels } from '@/hooks';
 import { UpdateCartEntriesProps } from '@/hooks/carts-context';
 import { B2BCart, OrderEntry } from '@/models/commerce-types';
 import { getSAPProductImageUrl } from '@/utils/image-utils';
 import { localizeCurrency } from '@/utils/locale-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Card,
@@ -18,13 +17,13 @@ import {
   DialogHeader,
   IconButton,
   Option,
-  Rating,
   Select,
   Typography,
 } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import Icon from '../content/icon';
 
 const QUANTITY_OPTIONS = [20, 50, 100];
 const QUANTITY_MULTIPLIER = 5;
@@ -146,7 +145,7 @@ const ATCModal = (props: any): JSX.Element => {
           size='sm'
           variant='text'
         >
-          <FontAwesomeIcon icon={ICONS['x']} />
+          <Icon iconName='x' prefix='fas' />
         </IconButton>
       </DialogHeader>
       <DialogBody className='px-4 py-2'>
@@ -156,9 +155,10 @@ const ATCModal = (props: any): JSX.Element => {
               <Image
                 alt={product.code}
                 className='h-full object-contain  w-full'
-                height='256'
+                height='0'
+                sizes='10rem'
                 src={getSAPProductImageUrl(product)!}
-                width='256'
+                width='0'
               />
             )}
           </div>
@@ -215,7 +215,6 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
     productDetailsUrl,
     productImageUrl,
     quantity,
-    shadow,
     addtocart,
     reviews,
   } = props;
@@ -224,9 +223,9 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
     <Card
       className={`${
         border !== 'false' ? 'border' : ''
-      } grid grid-cols-12 grid-flow-row p-2 w-full`}
+      } grid grid-cols-12 grid-flow-row p-2 rounded-none w-full`}
       key={product?.code}
-      shadow={shadow}
+      shadow={false}
     >
       <CardHeader
         className='col-span-12 flex h-48 items-center justify-center md:col-span-3 m-0 p-2 w-full'
@@ -237,9 +236,10 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
           <Image
             alt={product.code}
             className='h-full max-h-44 object-contain w-full'
-            height='176'
+            height='0'
+            sizes='10rem'
             src={productImageUrl}
-            width='176'
+            width='0'
           />
         </Link>
       </CardHeader>
@@ -257,7 +257,7 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
           />
           {reviews && (
             <div className='flex flex-col items-start justify-start mt-4 w-full'>
-              <Rating readonly />
+              <Rating />
               <Typography className='font-normal m-0 p-0 text-center'>
                 {siteLabels['message.noReviews']}
               </Typography>
@@ -286,11 +286,11 @@ const ProductCardHorizontal = (props: any): JSX.Element => {
               })}
             </Select>
             <Button
-              className='rounded-full text-center'
+              className='text-center'
               disabled={!hasCart}
               fullWidth={true}
               onClick={() => handleAddEntry(product, quantity)}
-              size='lg'
+              size='md'
             >
               {siteLabels['label.addToCart']}
             </Button>
@@ -315,7 +315,6 @@ const ProductCardVertical = (props: any): JSX.Element => {
     productDetailsUrl,
     productImageUrl,
     quantity,
-    shadow,
     addtocart,
     reviews,
   } = props;
@@ -324,8 +323,8 @@ const ProductCardVertical = (props: any): JSX.Element => {
     <Card
       className={`${
         border !== 'false' ? 'border' : ''
-      } flex flex-col h-full overflow-hidden w-full`}
-      shadow={shadow}
+      } flex flex-col h-full overflow-hidden rounded-none w-full`}
+      shadow={false}
     >
       <CardHeader
         className='h-1/2 m-0 p-2 w-full'
@@ -337,14 +336,15 @@ const ProductCardVertical = (props: any): JSX.Element => {
             <Image
               alt={product.code}
               className='h-full object-contain w-full'
-              height='176'
+              height='0'
+              sizes='10rem'
               src={productImageUrl}
-              width='176'
+              width='0'
             />
           </Link>
         )}
       </CardHeader>
-      <CardBody className='flex flex-col grow py-2'>
+      <CardBody className='flex flex-col justify-end grow py-2'>
         <Link href={productDetailsUrl}>
           <div
             className='font-bold m-0 p-0 text-base text-inherit text-center'
@@ -353,7 +353,7 @@ const ProductCardVertical = (props: any): JSX.Element => {
         </Link>
         {reviews && (
           <div className='flex flex-col items-center justify-center mt-2 w-full'>
-            <Rating readonly />
+            <Rating />
             <Typography className='font-normal m-0 p-0 text-center'>
               {siteLabels['message.noReviews']}
             </Typography>

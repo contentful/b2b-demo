@@ -1,9 +1,7 @@
 'use client';
 
-import { Menu } from '@/components/designSystem/';
-import ICONS from '@/components/designSystem/icons';
+import { Icon, Menu } from '@/components/designSystem/';
 import { useAppContext, useSiteConfig, useSiteLabels } from '@/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, ListItem, ListItemPrefix } from '@material-tailwind/react';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
@@ -61,7 +59,7 @@ export default function PrimaryNav(props: any) {
             onClick={() => handleLinkClick(state.currentUserRoles[0])}
           >
             <ListItemPrefix>
-              <FontAwesomeIcon icon={ICONS['desktop']} size='lg' />
+              <Icon iconName='desktop' prefix='fas' size='lg' />
             </ListItemPrefix>
             {siteLabels['label.dashboard']}
           </ListItem>
@@ -80,7 +78,7 @@ export default function PrimaryNav(props: any) {
             onClick={handleLogout}
           >
             <ListItemPrefix>
-              <FontAwesomeIcon icon={ICONS['power-off']} size='lg' />
+              <Icon iconName='power-off' prefix='fas' size='lg' />
             </ListItemPrefix>
             {siteLabels['label.signout']?.toUpperCase()}
           </ListItem>

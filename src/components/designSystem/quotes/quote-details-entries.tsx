@@ -68,9 +68,10 @@ const QuoteDetailsEntry = (props: any) => {
           <Image
             alt={entry.product.name}
             className='h-full object-cover w-full'
-            height={160}
+            height='0'
+            sizes='10rem'
             src={getSAPProductImageUrl(entry.product)!}
-            width={160}
+            width='0'
           />
         </div>
         <div className='flex flex-col h-full w-5/6'>

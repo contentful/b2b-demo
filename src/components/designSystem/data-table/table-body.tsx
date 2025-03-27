@@ -90,7 +90,7 @@ const DataBody = (props: any) => {
     data?.map((tableData: Record<string, any>, key: number) => {
       return (
         <tr
-          className={`${TailwindBgColorsMap[bgcolor]} hover:cursor-pointer last:rounded-b-md odd:bg-inherit rounded-b-none`}
+          className={`${TailwindBgColorsMap[bgcolor]} hover:cursor-pointer odd:bg-inherit`}
           key={key}
         >
           {cols?.map((col: DataTableColumn, key2: number) => {

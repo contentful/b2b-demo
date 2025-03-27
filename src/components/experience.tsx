@@ -32,7 +32,6 @@ export const Experience: React.FC<ExperienceProps> = ({
 }) => {
   const { state, updateState } = useAppContext();
   const { setEditMode } = useEditMode();
-  setEditMode(expEditorMode);
   const { siteConfig, setSiteConfig } = useSiteConfig();
   const { siteLabels, setSiteLabels } = useSiteLabels();
 
@@ -56,6 +55,8 @@ export const Experience: React.FC<ExperienceProps> = ({
       });
     };
 
+    setEditMode(expEditorMode);
+
     if (!siteConfig || locale !== siteConfig.locale) loadSiteConfig();
     if (!siteLabels || locale !== siteLabels.locale) loadSiteLabels();
     if (!state.currentLocale) updateState({ ...state, currentLocale: locale });
@@ -64,6 +65,8 @@ export const Experience: React.FC<ExperienceProps> = ({
       isMounted = false;
     };
   }, [
+    expEditorMode,
+    setEditMode,
     setSiteConfig,
     setSiteLabels,
     siteConfig,
@@ -87,7 +90,7 @@ export const Experience: React.FC<ExperienceProps> = ({
       return notFound();
     } else {
       return (
-        <div className='bg-red-100 w-full py-24 rounded-lg text-center'>
+        <div className='bg-red-100 w-full py-24 text-center'>
           Error: {(error as any).message}
         </div>
       );

@@ -26,6 +26,18 @@ export const buttonDefinition: ComponentDefinition = {
   tooltip: {
     description: 'This is a custom button created for our design system.',
   },
+  builtInStyles: [
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     value: {
       displayName: 'Text',

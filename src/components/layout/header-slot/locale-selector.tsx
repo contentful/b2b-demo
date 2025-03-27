@@ -1,10 +1,9 @@
 'use client';
 
-import ICONS from '@/components/designSystem/icons';
+import { Icon } from '@/components/designSystem';
 import useAppContext from '@/hooks/app-context';
 import { MockCountries as countries } from '@/mocks';
 import { Country } from '@/models/commerce-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Menu,
   MenuHandler,
@@ -45,11 +44,12 @@ export default function LocaleSelector(props: any) {
             <div className='flex items-center w-full'>
               {selected?.flags?.svg && (
                 <Image
-                  alt='icon'
+                  alt={`${selected?.name} Flag Icon`}
                   className='h-5 inline-block object-cover rounded-full w-5'
-                  height='20'
+                  height='0'
+                  sizes='1.5rem'
                   src={selected?.flags?.svg!}
-                  width='20'
+                  width='0'
                 />
               )}
               <Typography
@@ -59,7 +59,7 @@ export default function LocaleSelector(props: any) {
               >
                 {selected?.name} [{state.currentLocale}]
               </Typography>
-              <FontAwesomeIcon className='ml-auto' icon={ICONS['angle-down']} />
+              <Icon className='ml-auto' iconName='angle-down' prefix='fas' />
             </div>
           </div>
         </MenuHandler>
@@ -74,11 +74,12 @@ export default function LocaleSelector(props: any) {
                 <div className='flex items-center w-full'>
                   {flags?.svg && (
                     <Image
-                      src={flags?.svg}
-                      alt='icon'
+                      alt={`${name} Flag Icon`}
                       className='h-5 inline-block mr-2 object-cover rounded-full w-5'
-                      height='20'
-                      width='20'
+                      height='0'
+                      sizes='1.5rem'
+                      src={flags?.svg}
+                      width='0'
                     />
                   )}
                   <Typography

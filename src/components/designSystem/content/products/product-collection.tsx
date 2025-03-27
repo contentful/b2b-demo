@@ -65,7 +65,7 @@ export default function ProductCollection(props: any) {
           variant='outlined'
         >
           <div
-            className='max-w-screen-xl my-0 mx-auto p-0 text-inherit'
+            className='min-h-[25rem] max-w-screen-xl my-0 mx-auto p-0 text-inherit'
             dangerouslySetInnerHTML={{ __html: error.message }}
           />
         </Alert>
@@ -103,7 +103,21 @@ export const productCollectionDefinition: ComponentDefinition = {
   tooltip: {
     description: 'curated collection of products',
   },
-  builtInStyles: ['cfBackgroundColor', 'cfMargin', 'cfPadding', 'cfTextColor'],
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     entries: {
       displayName: 'Entries',
@@ -179,13 +193,6 @@ export const productCollectionDefinition: ComponentDefinition = {
           { displayName: 'False', value: 'false' },
         ],
       },
-    },
-    shadow: {
-      description: 'Display a drop shadow under each product card',
-      displayName: 'Shadow',
-      type: 'Boolean',
-      defaultValue: false,
-      group: 'style',
     },
     addtocart: {
       displayName: 'Show ATC Options',

@@ -13,7 +13,7 @@ export default function Sorts(props: any) {
   };
 
   return (
-    <div className='flex h-12 items-center lg:mr-auto mr-0 px-2 w-max'>
+    <div className='flex h-12 items-center lg:mr-auto mr-0 px-2 w-full'>
       {sortOptions && (
         <>
           <Typography
@@ -23,7 +23,7 @@ export default function Sorts(props: any) {
             {siteLabels['label.sort']}
           </Typography>
           <Select
-            className='box-border border-gray-800 h-12 py-3 w-full'
+            className='box-border border-gray-800 h-12 py-3 min-w-56 w-full'
             labelProps={{
               className: 'after:content-none before:content-none',
             }}

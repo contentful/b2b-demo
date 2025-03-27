@@ -181,9 +181,10 @@ const QuickOrderItem = (props: any): JSX.Element => {
         <Image
           alt={product.code}
           className='h-full max-h-20 object-contain w-full'
-          height='128'
+          height='0'
+          sizes='10rem'
           src={productImageUrl!}
-          width='128'
+          width='0'
         />
       </div>
       <div className='flex flex-col items-start justify-start p-2 w-2/6'>
@@ -219,7 +220,7 @@ const QuickOrderItem = (props: any): JSX.Element => {
           })}
         </Select>
         <Button
-          className='rounded-md text-center'
+          className='text-center'
           disabled={!hasCart}
           fullWidth={false}
           onClick={() => handleAddEntry(product, quantity)}

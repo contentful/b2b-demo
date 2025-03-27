@@ -25,7 +25,7 @@ export default function Breadcrumbs(props: any) {
 
   return (
     <>
-      <Crumbs>
+      <Crumbs className='bg-transparent'>
         <Link href='/dashboard'>{siteLabels['label.dashboard']}</Link>
         {editMode &&
           previewCrumbs.map((crumb: string, key: number) => {
@@ -57,5 +57,20 @@ export const breadcrumbsDefinition: ComponentDefinition = {
   tooltip: {
     description: 'renders a breadcrumb for navigation',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {},
 };

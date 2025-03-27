@@ -7,6 +7,7 @@ import FAQ from './content/faqs/faq';
 import FAQList from './content/faqs/faq-list';
 import Heading from './content/heading';
 import Hero from './content/hero';
+import Icon from './content/icon';
 import ProductCollection from './content/products/product-collection';
 import ProfileCard from './content/profile-card';
 import PromoCard from './content/promo-card';
@@ -15,7 +16,6 @@ import Testimonial from './content/testimonial';
 import DataWidget from './content/widgets/data-widget';
 import InfoWidget from './content/widgets/info-widget';
 import DataTable from './data-table/data-table';
-import ICONS from './icons';
 import Breadcrumbs from './navigation/breadcrumbs';
 import Menu from './navigation/menu';
 import MenuItem from './navigation/menu-item';
@@ -92,7 +92,7 @@ export {
   GridButton,
   Heading,
   Hero,
-  ICONS,
+  Icon,
   InfoWidget,
   LoginCard,
   LoginCards,

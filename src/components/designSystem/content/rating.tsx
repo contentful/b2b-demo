@@ -1,10 +1,25 @@
 import { TailwindColors } from '@/components/designSystem/picker-options';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { Rating as MTRating } from '@material-tailwind/react';
+import Icon from './icon';
+
+const stars = [1, 2, 3, 4, 5];
 
 export default function Rating(props: any) {
   const { ratedColor, value = 0 } = props;
-  return <MTRating ratedColor={ratedColor} value={value} />;
+  return (
+    <div style={{ color: ratedColor }}>
+      {stars.map((i: number) => {
+        return (
+          <Icon
+            key={i}
+            prefix={i <= value ? 'fas' : 'far'}
+            iconName='star'
+            size='sm'
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 export const ratingDefinition: ComponentDefinition = {
@@ -16,6 +31,17 @@ export const ratingDefinition: ComponentDefinition = {
   tooltip: {
     description: 'A star rating with a scale of 0 to 5.',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextColor',
+    'cfWidth',
+  ],
   variables: {
     value: {
       displayName: 'Rating',

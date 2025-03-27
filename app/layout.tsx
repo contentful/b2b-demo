@@ -9,7 +9,9 @@ import React from 'react';
 
 config.autoAddCss = false;
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: 'Experiences | Contentful',
@@ -33,7 +35,7 @@ export default function RootLayout({
           <main className='grow h-fit mb-auto min-h-[48rem] w-full'>
             {children}
           </main>
-          <footer className='bg-black mt-4 pt-4 text-white w-full'>
+          <footer className='bg-black pt-4 text-white w-full'>
             <FooterSlot />
           </footer>
         </body>

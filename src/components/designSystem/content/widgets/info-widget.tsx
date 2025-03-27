@@ -26,6 +26,21 @@ export const infoWidgetDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Enter your description here',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     icon: {
       displayName: 'Icon',
@@ -58,11 +73,12 @@ const WidgetBody = (props: any) => {
       <div className='h-14 w-14'>
         {icon && (
           <Image
-            alt='icon'
+            alt={`${text} Icon`}
             className='h-full object-contain w-full'
-            height='56'
+            height='0'
+            sizes='10rem'
             src={icon}
-            width='56'
+            width='0'
           />
         )}
       </div>

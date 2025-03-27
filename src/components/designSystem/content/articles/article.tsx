@@ -4,20 +4,22 @@ import {
   ContentError,
   EditText,
   FAQ,
-  ICONS,
 } from '@/components/designSystem';
 import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
 import { ArticleType } from '@/models/content-types';
 import { getArticle } from '@/services/contentful/content';
-import { getContentfulImageUrl } from '@/utils/image-utils';
+import {
+  getContentfulImageDescription,
+  getContentfulImageUrl,
+} from '@/utils/image-utils';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import Icon from '../icon';
 
 export default function Article(props: any) {
   const { editMode } = useEditMode();
@@ -57,11 +59,11 @@ export default function Article(props: any) {
   }, [pathname, state]);
 
   return (
-    <div className='flex flex-col max-w-screen-xl mx-auto w-full'>
+    <div className='flex flex-col gap-5 max-w-screen-xl mx-auto w-full'>
       {error && !editMode ? (
         <ContentError error={error} />
       ) : !article && editMode ? (
-        <div className='border flex flex-col items-center justify-start my-5 p-4 w-full'>
+        <div className='flex flex-col items-center justify-start mb-5 p-4 w-full'>
           <Typography className='mb-4' variant='h5'>
             Article Component
           </Typography>
@@ -73,8 +75,8 @@ export default function Article(props: any) {
         </div>
       ) : (
         <>
-          <div className='flex flex-col my-6 pb-8 pt-5 w-full'>
-            <Typography className='leading-normal mb-5 text-4xl' variant='h1'>
+          <div className='flex flex-col gap-5 w-full'>
+            <Typography className='leading-normal mb-1 text-4xl' variant='h1'>
               {article?.title}
             </Typography>
             {(article?.author || article?.pubDate) && (
@@ -98,8 +100,8 @@ export default function Article(props: any) {
                 )}
               </div>
             )}
-            <div className='border-b box-border my-4 w-full'></div>
-            <div className='flex gap-2 items-center justify-start mt-3 w-full'>
+            <div className='border-b border-b-gray-500 box-border w-full'></div>
+            <div className='flex gap-2 items-center justify-start w-full'>
               <Typography
                 as='span'
                 className='font-bold mb-0 text-normal uppercase'
@@ -107,24 +109,28 @@ export default function Article(props: any) {
               >
                 {siteLabels['label.share']}
               </Typography>
-              <FontAwesomeIcon
+              <Icon
                 color='#316FF6'
-                icon={ICONS['facebook-square']}
+                iconName='square-facebook'
+                prefix='fa-brands'
                 size='lg'
               />
-              <FontAwesomeIcon
+              <Icon
                 color='#0077B5'
-                icon={ICONS['linkedin']}
+                iconName='linkedin'
+                prefix='fa-brands'
                 size='lg'
               />
-              <FontAwesomeIcon
-                color='#1da1f2'
-                icon={ICONS['twitter-square']}
+              <Icon
+                color='#000000'
+                iconName='square-x-twitter'
+                prefix='fa-brands'
                 size='lg'
               />
-              <FontAwesomeIcon
+              <Icon
                 color='#339933'
-                icon={ICONS['envelope-square']}
+                iconName='envelope-square'
+                prefix='fas'
                 size='lg'
               />
             </div>
@@ -138,11 +144,17 @@ export default function Article(props: any) {
               {article?.image && (
                 <div className='p-2 w-full'>
                   <Image
-                    alt=''
+                    alt={
+                      getContentfulImageDescription(
+                        article?.image,
+                        article.title
+                      ) || ''
+                    }
                     className='h-full object-contain w-full'
+                    height='0'
+                    sizes='100vw'
                     src={getContentfulImageUrl(article?.image)!}
-                    height='636'
-                    width='954'
+                    width='0'
                   />
                 </div>
               )}
@@ -218,5 +230,20 @@ export const articleDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Article Details Component',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {},
 };

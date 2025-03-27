@@ -1,5 +1,5 @@
 'use client';
-import { EditText } from '@/components/designSystem';
+import { EditText, Rating } from '@/components/designSystem';
 import { useAppContext, useEditMode } from '@/hooks';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import {
@@ -7,7 +7,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Rating,
   Typography,
 } from '@material-tailwind/react';
 
@@ -74,6 +73,21 @@ export const testimonialDefinition: ComponentDefinition = {
   tooltip: {
     description: 'A card displaying a testimonial',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     reviewer: {
       description: 'The reviewer from the testimonial content item',
@@ -112,5 +126,4 @@ export const testimonialDefinition: ComponentDefinition = {
       group: 'style',
     },
   },
-  builtInStyles: ['cfMargin'],
 };

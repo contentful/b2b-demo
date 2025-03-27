@@ -19,7 +19,7 @@ export const QuoteDetailsStatus = (props: any) => {
       </div>
       {details.status === 'shipped' && (
         <Typography
-          className='border font-bold hover:bg-black hover:cursor-pointer hover:shadow-lg hover:text-white m-0 px-3 py-1 rounded-full w-fit'
+          className='border font-bold hover:bg-black hover:cursor-pointer hover:shadow-lg hover:text-white m-0 px-3 py-1 rounded-md w-fit'
           color='black'
           variant='small'
         >

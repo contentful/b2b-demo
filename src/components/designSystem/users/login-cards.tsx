@@ -49,6 +49,21 @@ export const loginCardsDefinition: ComponentDefinition = {
   tooltip: {
     description: 'Displays a card for each demo user account',
   },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
   variables: {
     border: {
       description: 'Display a border around each login card',
