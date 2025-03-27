@@ -210,16 +210,20 @@ export default function ProductDetails(props: any) {
                     />
                   </AccordionHeader>
                   <AccordionBody className='bg-gray-200 px-2 text-inherit w-full'>
-                    <Typography
-                      className='font-normal text-inherit'
-                      color='inherit'
-                      dangerouslySetInnerHTML={{ __html: product?.summary }}
-                    />
-                    <Typography
-                      className='font-normal text-inherit'
-                      color='inherit'
-                      dangerouslySetInnerHTML={{ __html: product.description! }}
-                    />
+                    {product?.summary && (
+                      <div
+                        className='font-normal text-inherit'
+                        dangerouslySetInnerHTML={{ __html: product?.summary }}
+                      />
+                    )}
+                    {product?.description && (
+                      <div
+                        className='font-normal text-inherit'
+                        dangerouslySetInnerHTML={{
+                          __html: product?.description!,
+                        }}
+                      />
+                    )}
                   </AccordionBody>
                 </Accordion>
               )}

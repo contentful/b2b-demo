@@ -126,5 +126,4 @@ export const testimonialDefinition: ComponentDefinition = {
       group: 'style',
     },
   },
-  builtInStyles: ['cfMargin'],
 };
