@@ -19,8 +19,8 @@
     "@material-tailwind/react": "^2.1.10",
     "contentful": "^11.5.3",
     "next": "^15.4.8",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-multi-carousel": "^2.8.5"
   },
   "devDependencies": {
@@ -34,7 +34,7 @@
     "tailwindcss": "^3.3.0"
   },
   "overrides": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   }
 }
