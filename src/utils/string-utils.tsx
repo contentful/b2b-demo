@@ -1,5 +1,5 @@
-export const toTitleCase = (str: string): string | undefined => {
-  if (!str) return;
+export const toTitleCase = (str: string): string | null => {
+  if (!str) return null;
   return str.replace(
     /\w\S*/g,
     (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
@@ -9,8 +9,8 @@ export const toTitleCase = (str: string): string | undefined => {
 export const formatMessage = (
   message: string,
   ...values: string[]
-): string | undefined => {
-  if (!message) return;
+): string | null => {
+  if (!message) return null;
   let formattedMessage = message;
   values.forEach((value, idx) => {
     formattedMessage = formattedMessage.replace(`{${idx}}`, value);

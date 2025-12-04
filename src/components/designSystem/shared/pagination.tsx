@@ -1,7 +1,6 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon } from '@/components/designSystem';
 import { Button, ButtonGroup } from '@material-tailwind/react';
 import React from 'react';
 
@@ -10,23 +9,25 @@ const MAX_BUTTONS = 5;
 export default function Pagination(props: any) {
   const [buttons, setButtons] = React.useState<any>();
   const { handleChangePage, pagination } = props;
-  const { currentPage, totalPages } = pagination;
 
   React.useEffect(() => {
     let isMounted = true;
 
     const loadButtons = () => {
-      const currentPageNumber = currentPage + 1;
-      const btnCount = totalPages <= MAX_BUTTONS ? totalPages : MAX_BUTTONS - 2;
+      const currentPageNumber = pagination.currentPage + 1;
+      const btnCount =
+        pagination.totalPages <= MAX_BUTTONS
+          ? pagination.totalPages
+          : MAX_BUTTONS - 2;
       const numberedButtons = new Array(btnCount);
 
       const start =
-        totalPages <= MAX_BUTTONS
+        pagination.totalPages <= MAX_BUTTONS
           ? 1
           : currentPageNumber < btnCount
           ? 1
-          : currentPageNumber === totalPages
-          ? totalPages + 1 - btnCount
+          : currentPageNumber === pagination.totalPages
+          ? pagination.totalPages + 1 - btnCount
           : currentPageNumber - 1;
 
       for (var i = start; i < start + btnCount; i++) {
@@ -46,11 +47,11 @@ export default function Pagination(props: any) {
   }, [pagination]);
 
   const isCurrentPage = (page: number): boolean => {
-    return currentPage === page;
+    return pagination.currentPage === page;
   };
 
-  const isFirstPage = currentPage === 0;
-  const isLastPage = currentPage === totalPages - 1;
+  const isFirstPage = pagination.currentPage === 0;
+  const isLastPage = pagination.currentPage === pagination.totalPages - 1;
 
   const firstPageButton = (
     <Button
@@ -60,7 +61,7 @@ export default function Pagination(props: any) {
       disabled={isFirstPage}
       onClick={() => handleChangePage(0)}
     >
-      <FontAwesomeIcon icon={ICONS['angle-double-left']} />
+      <Icon iconName='angles-left' prefix='fas' />
     </Button>
   );
 
@@ -72,12 +73,12 @@ export default function Pagination(props: any) {
       disabled={isLastPage}
       onClick={() => handleChangePage(pagination.totalPages - 1)}
     >
-      <FontAwesomeIcon icon={ICONS['angle-double-right']} />
+      <Icon iconName='angles-right' prefix='fas' />
     </Button>
   );
 
   return (
-    <div className='flex h-12 items-center lg:mx-0  mx-auto px-2 w-max'>
+    <div className='flex h-12 items-center md:mx-0  mx-auto px-2 w-max'>
       <ButtonGroup size='md' variant='outlined'>
         {firstPageButton}
 
@@ -90,8 +91,8 @@ export default function Pagination(props: any) {
           } else {
             className = className + ' hover:bg-gray-200';
           }
-          if (totalPages <= MAX_BUTTONS && key == 0) {
-            className = className + ' border-w rounded-w-sm';
+          if (pagination.totalPages <= MAX_BUTTONS && key == 0) {
+            className = className + ' border rounded-md';
           }
 
           return (

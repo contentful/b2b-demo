@@ -1,8 +1,8 @@
-import { ContentfulEntry } from '@/models/content-types';
+import { ArticleType, ContentfulEntry } from '@/models/content-types';
 import { deliveryClient } from '@/services/contentful/client';
 
 const CONFIG_ID =
-  process.env.NEXT_PUBLIC_SITE_CONFIG_CONTENT_ID || '2iJ0rBLZHI267VZ49c9sqj';
+  process.env.NEXT_PUBLIC_CONTENTFUL_SITE_CONFIG_ID || '2iJ0rBLZHI267VZ49c9sqj';
 const SPACE_ID = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 const ENVIRONMENT_ID = process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT;
 
@@ -167,6 +167,7 @@ export const getSiteConfig = async (locale?: string): Promise<any> => {
 export const getSiteLabels = async (locale: string): Promise<any> => {
   const response = await deliveryClient.getEntries({
     content_type: RESOURCE_LABEL_CONTENT_TYPE,
+    limit: 500,
     locale,
   });
 

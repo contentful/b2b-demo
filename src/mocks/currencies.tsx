@@ -12,14 +12,15 @@ const usdollar = {
   symbol: '$',
 };
 
-const currencies: Array<Currency> = [euro, usdollar];
+const MockCurrencies: Array<Currency> = [euro, usdollar];
 
-const getCurrencies = (): Array<Currency> | undefined => {
-  return currencies;
+const getCurrencies = (): Array<Currency> | null => {
+  return MockCurrencies;
 };
 
-const getCurrency = (code: string): Currency | undefined => {
-  return currencies.find((currency) => currency.code === code);
+const getCurrency = (code: string): Currency | null => {
+  if (!code) return null;
+  return MockCurrencies.find((currency) => currency.code === code) || null;
 };
 
-export { currencies, euro, getCurrencies, getCurrency, usdollar };
+export { MockCurrencies, euro, getCurrencies, getCurrency, usdollar };

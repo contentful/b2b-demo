@@ -42,12 +42,13 @@ const diycompany = {
 
 const MockB2BUnits: Array<B2BUnit> = [bauhaus, diycompany];
 
-const getB2BUnit = (uid: string): B2BUnit | undefined => {
-  return MockB2BUnits.find((b2b_units) => b2b_units.uid === uid);
+const getB2BUnit = (uid: string): B2BUnit | null => {
+  if (!uid) return null;
+  return MockB2BUnits.find((b2b_units) => b2b_units.uid === uid) || null;
 };
 
-const getB2bUnits = (): Array<B2BUnit> | undefined => {
+const getB2BUnits = (): Array<B2BUnit> | null => {
   return MockB2BUnits;
 };
 
-export { getB2BUnit, getB2bUnits, MockB2BUnits };
+export { getB2BUnit, getB2BUnits, MockB2BUnits };

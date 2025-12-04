@@ -1,16 +1,17 @@
-import { EditText } from '@/components/designSystem';
+'use client';
+import { EditText, Rating } from '@/components/designSystem';
+import { useAppContext, useEditMode } from '@/hooks';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import {
   Avatar,
   Card,
   CardBody,
   CardHeader,
-  Rating,
   Typography,
 } from '@material-tailwind/react';
 
 export default function Testimonial(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
 
   const { quote, rating, border, shadow } = props;
   const reviewer = props.reviewer?.fields;
@@ -19,12 +20,14 @@ export default function Testimonial(props: any) {
   return (
     <>
       {!(quote || reviewer || rating) ? (
-        preview && <EditText type='Testimonial' />
+        editMode && <EditText type='Testimonial' />
       ) : (
         <Card
           color='transparent'
-          shadow={shadow && true}
-          className={`w-full max-w-[30rem] mx-auto px-6 ${border && 'border'}`}
+          shadow={shadow}
+          className={`w-full max-w-[30rem] mx-auto px-6 ${
+            border !== 'false' && 'border'
+          }`}
         >
           <CardHeader
             color='transparent'
@@ -62,48 +65,65 @@ export default function Testimonial(props: any) {
 }
 
 export const testimonialDefinition: ComponentDefinition = {
-  component: Testimonial,
-  definition: {
-    id: 'testimonial',
-    name: 'Testimonial',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'A card displaying a testimonial',
+  id: 'testimonial',
+  name: 'Testimonial',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/13PExzxKK7tECtdLRlI5vM/f37a286e71fdcaa1a0b2dc6d24cd25af/testimonial.svg',
+  tooltip: {
+    description: 'A card displaying a testimonial',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    reviewer: {
+      description: 'The reviewer from the testimonial content item',
+      displayName: 'Reviewer',
+      type: 'Link',
     },
-    variables: {
-      reviewer: {
-        description: 'The reviewer from the testimonial content item',
-        displayName: 'Reviewer',
-        type: 'Link',
-      },
-      rating: {
-        description: 'The rating from the testimonail content item',
-        displayName: 'Rating',
-        type: 'Number',
-        defaultValue: 0.0,
-      },
-      quote: {
-        description: 'The quote from the testimonial content item',
-        displayName: 'Quote',
-        type: 'Text',
-      },
-      border: {
-        description: 'Display a border around the testimonial',
-        displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
-      },
-      shadow: {
-        description: 'Display a drop shadow for the testimonail',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: false,
-        group: 'style',
+    rating: {
+      description: 'The rating from the testimonail content item',
+      displayName: 'Rating',
+      type: 'Number',
+      defaultValue: 0.0,
+    },
+    quote: {
+      description: 'The quote from the testimonial content item',
+      displayName: 'Quote',
+      type: 'Text',
+    },
+    border: {
+      description: 'Display a border around the testimonial card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
     },
-    builtInStyles: ['cfMargin'],
+    shadow: {
+      description: 'Display a drop shadow under the testimonial card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
+    },
   },
 };

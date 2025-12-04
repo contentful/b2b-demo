@@ -1,10 +1,28 @@
+'use client';
+import {
+  OrderDetailsModal,
+  QuoteDetailsModal,
+  TicketDetailsModal,
+} from '@/components/designSystem';
 import { TailwindColors } from '@/components/designSystem/picker-options';
-import { useAppContext, useSiteLabels } from '@/hooks';
-import { getOrdersTableData, ORDER_DATA_COLS } from '@/mocks/orders';
-import { getQuotesTableData, QUOTE_DATA_COLS } from '@/mocks/quotes';
-import { getTicketsTableData, TICKET_DATA_COLS } from '@/mocks/tickets';
+import { useAppContext, useEditMode, useSiteLabels } from '@/hooks';
+import {
+  getOrdersTableData,
+  getQuotesTableData,
+  getTicketsTableData,
+  ORDER_DATA_COLS,
+  QUOTE_DATA_COLS,
+  TICKET_DATA_COLS,
+} from '@/mocks';
 import { DataTableColumn, TableData } from '@/models/commerce-types';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+} from '@material-tailwind/react';
 import React from 'react';
 import TableBody from './table-body';
 import TableHead from './table-head';
@@ -22,26 +40,26 @@ const QUOTES_SORT_OPTIONS = [
 ];
 
 export default function DataTable(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { state } = useAppContext();
   const { siteLabels } = useSiteLabels();
   const { currentLocale: locale } = state;
-  const { datatype, status, headbg, headtext } = props;
+  const {
+    datatype,
+    status,
+    headbg,
+    headtext,
+    cellpadding,
+    titlebg,
+    titletext,
+  } = props;
   const tableId = datatype + '-table';
 
-  let bgcolor = 'bg-' + headbg;
-  if (!['black', 'white', 'inherit'].includes(headbg)) {
-    bgcolor = bgcolor + '-500';
-  }
-
-  let textcolor = 'text-' + headtext;
-  if (!['black', 'white', 'inherit'].includes(headtext)) {
-    textcolor = textcolor + '-500';
-  }
-
-  const [data, setData] = React.useState<Array<TableData>>();
   const [cols, setCols] = React.useState<Array<DataTableColumn>>();
+  const [data, setData] = React.useState<Array<TableData>>();
   const [filter, setFilter] = React.useState<string>(props.status);
+  const [activeItem, setActiveItem] = React.useState<string | null>();
+  const [showDetails, setShowDetails] = React.useState(false);
   const [sortOptions, setSortOptions] = React.useState<Array<string>>();
   const [sortOpen, setSortOpen] = React.useState(false);
 
@@ -62,7 +80,7 @@ export default function DataTable(props: any) {
       let colsArray;
       let sortOpts = new Array();
 
-      switch (datatype) {
+      switch (props.datatype) {
         case 'quotes':
           tableData = await getQuotesTableData(locale, key, value);
           colsArray = QUOTE_DATA_COLS;
@@ -81,7 +99,7 @@ export default function DataTable(props: any) {
         default:
           console.error(
             'DataTable :: useEffect :: unsupported data type',
-            datatype
+            props.datatype
           );
           return;
       }
@@ -110,30 +128,85 @@ export default function DataTable(props: any) {
     setSortOpen(false);
   };
 
+  const handleOpenDetails = (code: string) => {
+    setActiveItem(code);
+    setShowDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+    setActiveItem(null);
+  };
+
   return (
     <>
-      {(data || preview) && (
+      {(data || editMode) && (
         <>
           <TableTitleBar
             {...{
-              bgcolor,
               datatype,
               filter,
               handleOptionClick,
-              preview,
+              editMode,
               setSortOpen,
               siteLabels,
               sortOpen,
               sortOptions,
-              textcolor,
+              titlebg,
+              titletext,
             }}
           />
-          <table id={tableId} className='bg-inherit my-1 table-fixed w-full'>
-            <TableHead
-              {...{ bgcolor, cols, data, preview, siteLabels, textcolor }}
-            />
-            <TableBody {...{ cols, data, locale, preview, siteLabels }} />
-          </table>
+          <div className='overflow-x-auto self-center w-full'>
+            <table
+              id={tableId}
+              className='bg-inherit mb-1 md:table-fixed table-auto w-full'
+            >
+              <TableHead
+                {...{
+                  cellpadding,
+                  cols,
+                  data,
+                  headbg,
+                  headtext,
+                  editMode,
+                  siteLabels,
+                }}
+              />
+              <TableBody
+                {...{
+                  cellpadding,
+                  cols,
+                  data,
+                  handleOpenDetails,
+                  headbg,
+                  headtext,
+                  locale,
+                  editMode,
+                  siteLabels,
+                }}
+              />
+            </table>
+          </div>
+
+          <Dialog handler={handleOpenDetails} open={showDetails} size='lg'>
+            <DialogHeader className='flex items-center justify-between'>
+              {siteLabels['label.itemDetails']}
+            </DialogHeader>
+            <DialogBody>
+              {props.datatype === 'orders' && (
+                <OrderDetailsModal code={activeItem} />
+              )}
+              {props.datatype === 'quotes' && (
+                <QuoteDetailsModal code={activeItem} />
+              )}
+              {props.datatype === 'tickets' && (
+                <TicketDetailsModal code={activeItem} />
+              )}
+            </DialogBody>
+            <DialogFooter>
+              <Button onClick={handleCloseDetails}>Close</Button>
+            </DialogFooter>
+          </Dialog>
         </>
       )}
     </>
@@ -141,68 +214,109 @@ export default function DataTable(props: any) {
 }
 
 export const dataTableDefinition: ComponentDefinition = {
-  component: DataTable,
-  definition: {
-    id: 'data-table',
-    name: 'Data Table',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a table of mock data',
+  id: 'data-table',
+  name: 'Data Table',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/XxGyHWnErl7Yb1KuZsQ6G/6f560e52682f76fc79292033fe39b2b4/data_table.svg',
+  tooltip: {
+    description: 'Displays a table of mock data',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfFontWeight',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextColor',
+    'cfWidth',
+  ],
+  variables: {
+    datatype: {
+      displayName: 'Data Type',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'quotes',
+      validations: {
+        in: [
+          { displayName: 'quotes', value: 'quotes' },
+          { displayName: 'orders', value: 'orders' },
+          { displayName: 'tickets', value: 'tickets' },
+        ],
+      },
     },
-    builtInStyles: ['cfTextColor', 'cfLineHeight'],
-    variables: {
-      datatype: {
-        displayName: 'Data Type',
-        type: 'Text',
-        group: 'style',
-        builtInStyles: ['cfMargin', 'cfPadding'],
-        defaultValue: 'quotes',
-        validations: {
-          in: [
-            { displayName: 'quotes', value: 'quotes' },
-            { displayName: 'orders', value: 'orders' },
-            { displayName: 'tickets', value: 'tickets' },
-          ],
-        },
+    status: {
+      displayName: 'Status',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'all',
+      validations: {
+        in: [
+          { displayName: 'all', value: 'all' },
+          { displayName: 'approved', value: 'approved' },
+          { displayName: 'cancelled', value: 'cancelled' },
+          { displayName: 'delivered', value: 'delivered' },
+          { displayName: 'expired', value: 'expired' },
+          { displayName: 'saved', value: 'saved' },
+          { displayName: 'shipped', value: 'shipped' },
+          { displayName: 'submitted', value: 'submitted' },
+        ],
       },
-      status: {
-        displayName: 'Status',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'all',
-        validations: {
-          in: [
-            { displayName: 'all', value: 'all' },
-            { displayName: 'approved', value: 'approved' },
-            { displayName: 'cancelled', value: 'cancelled' },
-            { displayName: 'delivered', value: 'delivered' },
-            { displayName: 'expired', value: 'expired' },
-            { displayName: 'saved', value: 'saved' },
-            { displayName: 'shipped', value: 'shipped' },
-            { displayName: 'submitted', value: 'submitted' },
-          ],
-        },
+    },
+    titlebg: {
+      displayName: 'Widget Title Background Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      headbg: {
-        displayName: 'Table Heading Background Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    },
+    titletext: {
+      displayName: 'Widget Title Text Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
       },
-      headtext: {
-        displayName: 'Table Heading Text Color',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'inherit',
-        validations: {
-          in: TailwindColors,
-        },
+    },
+    headbg: {
+      displayName: 'Table Heading Background Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
+      },
+    },
+    headtext: {
+      displayName: 'Table Heading Text Color',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'inherit',
+      validations: {
+        in: TailwindColors,
+      },
+    },
+    cellpadding: {
+      displayName: 'Cellpadding',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'py-1',
+      validations: {
+        in: [
+          { displayName: 'xs', value: 'py-1' },
+          { displayName: 'sm', value: 'py-2' },
+          { displayName: 'md', value: 'py-3' },
+          { displayName: 'lg', value: 'py-4' },
+          { displayName: 'xl', value: 'py-6' },
+          { displayName: '2xl', value: 'py-8' },
+        ],
       },
     },
   },

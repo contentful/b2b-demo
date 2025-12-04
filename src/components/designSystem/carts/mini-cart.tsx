@@ -1,6 +1,5 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
 import {
   UpdateCartEntriesProps,
   useAppContext,
@@ -10,7 +9,6 @@ import {
 import { B2BCart, OrderEntry } from '@/models/commerce-types';
 import { getSAPProductImageUrl } from '@/utils/image-utils';
 import { localizeCurrency } from '@/utils/locale-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Badge,
   Dialog,
@@ -22,10 +20,12 @@ import {
   PopoverHandler,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import React from 'react';
+import Icon from '../content/icon';
 
 export default function MiniCart() {
-  const { carts, dispatch, getCartByUser, getNextCartCode } = useCartsContext();
+  const { carts, dispatch, getCartByUser } = useCartsContext();
   const { state } = useAppContext();
   const {
     currentUser: guid,
@@ -34,7 +34,7 @@ export default function MiniCart() {
   } = state;
   const { siteLabels } = useSiteLabels();
 
-  const [cart, setCart] = React.useState<B2BCart | undefined>();
+  const [cart, setCart] = React.useState<B2BCart | null>();
 
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const toggleModal = () => {
@@ -49,7 +49,11 @@ export default function MiniCart() {
 
       if (isMounted) {
         if (!userCart) {
-          const createCartProps = { guid, orgUnit, locale };
+          const createCartProps = {
+            guid: state.currentUser,
+            orgUnit: state.currentOrgUnit,
+            locale: state.currentLocale,
+          };
           dispatch({
             type: 'ADD_CART',
             payload: createCartProps,
@@ -59,14 +63,15 @@ export default function MiniCart() {
         }
       }
     };
+
     loadUserCart();
 
     return () => {
       isMounted = false;
     };
-  }, [carts]);
+  }, [state, carts, dispatch, getCartByUser]);
 
-  const handleRemoveEntry = (entryNumber: number) => {
+  const handleRemoveEntry = (entryNumber: number): void => {
     if (!cart) return;
 
     const payload: UpdateCartEntriesProps = {
@@ -97,8 +102,8 @@ export default function MiniCart() {
             )}
           </div>
         </PopoverHandler>
-        <PopoverContent className='min-w-36 w-max z-50'>
-          <div className='flex flex-col gap-2 items-start'>
+        <PopoverContent className='min-w-[25rem] z-50'>
+          <div className='flex flex-col items-start'>
             {cart ? (
               <>
                 <div className='border-b-2 flex gap-4 items-center justify-between py-2 uppercase w-full'>
@@ -112,57 +117,60 @@ export default function MiniCart() {
                       : siteLabels['label.items']}
                   </Typography>
                 </div>
-                {cart.entries.map((entry: OrderEntry, key: number) => {
-                  return (
-                    <div
-                      className={`${
-                        key > 0 && 'border-t'
-                      } flex gap-2 items-center justify-between text-blue-gray-800`}
-                      key={entry.product?.code}
-                    >
-                      <div className='h-20 w-20'>
-                        <img
-                          className='h-full object-contain w-full'
-                          src={getSAPProductImageUrl(entry.product)}
-                        />
-                      </div>
-                      <div className='flex flex-col flex-grow gap-2 justify-center h-20 px-3 w-60'>
-                        <Typography
-                          className='font-bold mb-0 text-normal'
-                          dangerouslySetInnerHTML={{
-                            __html: entry.product?.name,
-                          }}
-                        />
-                        <Typography className='mb-0 text-sm'>
-                          {entry.quantity} @{' '}
-                          {localizeCurrency(
-                            locale,
-                            entry.product?.price?.value
-                          )}{' '}
-                          {siteLabels['label.perUnit']}
-                        </Typography>
-                        <div className='flex gap-2 items-baseline'>
+                <div className='max-h-80 min-h-10 overflow-y-auto'>
+                  {cart.entries.map((entry: OrderEntry, key: number) => {
+                    return (
+                      <div
+                        key={key}
+                        className='border-b border-gray-300 flex last:border-b-0 gap-2 items-center justify-between text-inherit'
+                      >
+                        <div className='h-20 w-20'>
+                          <Image
+                            alt={`product: ${entry.product?.code}`}
+                            className='h-full object-contain w-full'
+                            height='80'
+                            src={getSAPProductImageUrl(entry.product)!}
+                            width='80'
+                          />
+                        </div>
+                        <div className='flex flex-col flex-grow justify-center h-20 px-3 w-60'>
+                          <div
+                            className='font-bold leading-4 mb-1 text-normal'
+                            dangerouslySetInnerHTML={{
+                              __html: entry.product?.name,
+                            }}
+                          />
                           <Typography className='mb-0 text-sm'>
-                            {siteLabels['label.total']}:
+                            {entry.quantity} @{' '}
+                            {localizeCurrency(
+                              locale,
+                              entry.product?.price?.value
+                            )}{' '}
+                            {siteLabels['label.perUnit']}
                           </Typography>
-                          <Typography className='mb-0 text-sm'>
-                            ${entry.totalPrice?.value.toFixed(2)}
-                          </Typography>
+                          <div className='flex gap-2 items-baseline'>
+                            <Typography className='mb-0 text-sm'>
+                              {siteLabels['label.total']}:
+                            </Typography>
+                            <Typography className='mb-0 text-sm'>
+                              ${entry.totalPrice?.value.toFixed(2)}
+                            </Typography>
+                          </div>
+                        </div>
+                        <div>
+                          <IconButton
+                            className='m-0 p-0 rounded-full'
+                            onClick={() => handleRemoveEntry(entry.entryNumber)}
+                            ripple={true}
+                            size='sm'
+                          >
+                            <Icon prefix='fas' iconName='trash' size='lg' />
+                          </IconButton>
                         </div>
                       </div>
-                      <div>
-                        <IconButton
-                          className='m-0 p-0 rounded-full'
-                          onClick={() => handleRemoveEntry(entry.entryNumber)}
-                          ripple={true}
-                          size='sm'
-                        >
-                          <FontAwesomeIcon icon={ICONS['trash']} size='lg' />
-                        </IconButton>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
                 {cart.entries.length > 0 && (
                   <div className='border-t-2 flex gap-4 items-center justify-between py-2 uppercase w-full'>
                     <Typography className='font-bold m-0 text-sm w-fit'>
@@ -192,7 +200,7 @@ export default function MiniCart() {
               Cart JSON
             </Typography>
             <IconButton className='h-8 rounded-full w-8' onClick={toggleModal}>
-              <FontAwesomeIcon icon={ICONS['x']} />
+              <Icon prefix='fas' iconName='x' />
             </IconButton>
           </div>
         </DialogHeader>
@@ -205,7 +213,7 @@ export default function MiniCart() {
 const CartButton = () => {
   return (
     <IconButton className='rounded-full' color='white' ripple={true} size='md'>
-      <FontAwesomeIcon icon={ICONS['dolly']} size='xl' />
+      <Icon prefix='fas' iconName='dolly' size='2xl' />
     </IconButton>
   );
 };

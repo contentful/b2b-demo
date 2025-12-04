@@ -14,14 +14,15 @@ const german = {
   active: true,
 };
 
-const languages: Array<Language> = [german, english];
+const MockLanguages: Array<Language> = [german, english];
 
-const getLanguage = (isocode: string): Language | undefined => {
-  return languages.find((lang) => lang.isocode === isocode);
+const getLanguage = (isocode: string): Language | null => {
+  if (!isocode) return null;
+  return MockLanguages.find((lang) => lang.isocode === isocode) || null;
 };
 
-const getLanguages = (): Array<Language> | undefined => {
-  return languages;
+const getLanguages = (): Array<Language> | null => {
+  return MockLanguages;
 };
 
-export { english, german, getLanguage, getLanguages, languages };
+export { english, german, getLanguage, getLanguages, MockLanguages };

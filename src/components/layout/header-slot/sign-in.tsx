@@ -1,6 +1,6 @@
 'use client';
 import { useAppContext } from '@/hooks';
-import { getUsers } from '@/mocks/users';
+import { getUsers } from '@/mocks';
 import { User } from '@/models/commerce-types';
 import {
   Avatar,
@@ -25,21 +25,18 @@ export default function SignIn(props: any) {
     let isMounted = true;
 
     const loadUsers = async () => {
-      await getUsers()
-        .then((mockUsers) => {
-          if (mockUsers && Array.isArray(mockUsers)) {
-            return mockUsers?.sort((a: User, b: User) => {
-              if (a.country.code > b.country.code) return -1;
-              if (a.country.code < b.country.code) return 1;
-              return 0;
-            });
-          }
-        })
-        .then((mockUsers) => {
-          if (isMounted) {
-            setUsers(mockUsers);
-          }
+      const mockUsers = await getUsers();
+
+      if (mockUsers && Array.isArray(mockUsers)) {
+        const sortedUsers = mockUsers?.sort((a: User, b: User) => {
+          if (a.country.code > b.country.code) return -1;
+          if (a.country.code < b.country.code) return 1;
+          return 0;
         });
+        if (isMounted) {
+          setUsers(sortedUsers);
+        }
+      }
     };
 
     loadUsers();
@@ -69,7 +66,7 @@ export default function SignIn(props: any) {
     <>
       {users && (
         <Menu
-          handler={() => toggleOpen()}
+          handler={toggleOpen}
           offset={4}
           open={open}
           placement='bottom-end'

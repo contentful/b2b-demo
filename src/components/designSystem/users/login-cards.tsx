@@ -1,4 +1,4 @@
-import { getUsers } from '@/mocks/users';
+import { getUsers } from '@/mocks';
 import { User } from '@/models/commerce-types';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import React from 'react';
@@ -11,21 +11,18 @@ export default function LoginCards(props: any) {
     let isMounted = true;
 
     const loadUsers = async () => {
-      await getUsers()
-        .then((mockUsers) => {
-          if (mockUsers && Array.isArray(mockUsers)) {
-            return mockUsers?.sort((a: User, b: User) => {
-              if (a.country.code > b.country.code) return -1;
-              if (a.country.code < b.country.code) return 1;
-              return 0;
-            });
-          }
-        })
-        .then((mockUsers) => {
-          if (isMounted) {
-            setUsers(mockUsers);
-          }
+      const mockUsers = await getUsers();
+
+      if (mockUsers && Array.isArray(mockUsers)) {
+        const sortedUsers = mockUsers?.sort((a: User, b: User) => {
+          if (a.country.code > b.country.code) return -1;
+          if (a.country.code < b.country.code) return 1;
+          return 0;
         });
+        if (isMounted) {
+          setUsers(sortedUsers);
+        }
+      }
     };
 
     loadUsers();
@@ -44,31 +41,49 @@ export default function LoginCards(props: any) {
 }
 
 export const loginCardsDefinition: ComponentDefinition = {
-  component: LoginCards,
-  definition: {
-    id: 'login-cards',
-    name: 'Login Cards',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Displays a card for each demo user account',
+  id: 'login-cards',
+  name: 'Login Cards',
+  category: 'Components',
+  thumbnailUrl:
+    'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
+  tooltip: {
+    description: 'Displays a card for each demo user account',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    border: {
+      description: 'Display a border around each login card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
+      },
     },
-    variables: {
-      border: {
-        description: 'Display a border on each login card',
-        displayName: 'Borders',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
-      shadow: {
-        description: 'Display a drop shadow on each login card',
-        displayName: 'Shadows',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
+    shadow: {
+      description: 'Display a drop shadow under each login card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
     },
   },
 };

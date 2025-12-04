@@ -53,7 +53,7 @@ export type B2BCostCenter = {
   activeFlag: boolean;
   currency: Currency;
   unit?: B2BUnit;
-  assignedBudgets: Array<Budget>;
+  assignedBudgets?: Array<Budget>;
 };
 
 export type B2BUnit = {
@@ -387,7 +387,9 @@ export type SAPImage = {
 
 export type SearchState = {
   url: string;
-  query: string;
+  query: {
+    value: string;
+  };
 };
 
 export type Sort = {
@@ -423,7 +425,7 @@ export type TableData = {
   code: string;
   status: string;
   guid: string;
-  orgUnit: string;
+  orgUnit?: string;
   creationTime: string;
   updateTime: string;
 };
@@ -442,7 +444,7 @@ export type Ticket = {
 export type TicketEvent = {
   code: string;
   author: string;
-  createdAt: Date;
+  createdAt: string;
   message: string;
   addedByAgent: boolean;
   toStatus: string;

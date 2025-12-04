@@ -1,10 +1,8 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { Icon } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
 import { Breadcrumb, Facet, FacetValue } from '@/models/commerce-types';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Accordion,
   AccordionBody,
@@ -138,7 +136,7 @@ const AppliedFacets = (props: any): JSX.Element => {
               variant='gradient'
             >
               {breadcrumb.facetValueName}
-              <FontAwesomeIcon className='ml-3' icon={ICONS['x']} />
+              <Icon className='ml-3' iconName='x' prefix='fas' />
             </Button>
           );
         })}
@@ -151,9 +149,10 @@ const FacetTitle = (props: any) => {
   return (
     <>
       <Typography className='font-bold text-base'>{facet.name}</Typography>
-      <FontAwesomeIcon
+      <Icon
         className='ml-auto'
-        icon={facet.visible ? faMinus : faPlus}
+        iconName={facet.visible ? 'minus' : 'plus'}
+        prefix='fas'
       />
     </>
   );

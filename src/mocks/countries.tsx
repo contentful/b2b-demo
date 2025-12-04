@@ -64,14 +64,15 @@ const us: Country = {
   countryCallingCode: '+1',
 };
 
-const countries: Array<Country> = [germany, us];
+const MockCountries: Array<Country> = [germany, us];
 
-const getCountries = (): Array<Country> | undefined => {
-  return countries;
+const getCountries = (): Array<Country> | null => {
+  return MockCountries;
 };
 
-const getCountry = (code: string): Country | undefined => {
-  return countries.find((country) => country.code === code);
+const getCountry = (code: string): Country | null => {
+  if (!code) return null;
+  return MockCountries.find((country) => country.code === code) || null;
 };
 
-export { countries, germany, getCountries, getCountry, us };
+export { MockCountries, germany, getCountries, getCountry, us };

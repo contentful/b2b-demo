@@ -1,3 +1,4 @@
+'use client';
 import { useSiteLabels } from '@/hooks';
 import { formatMessage } from '@/utils/string-utils';
 import {
@@ -16,40 +17,46 @@ export default function LogoutModal(props: any) {
 
   const [secondsRemaining, setSecondsRemaining] = React.useState<number>(5);
 
-  let intervalId: NodeJS.Timeout | null;
+  let intervalId = React.useRef<NodeJS.Timeout | null>(null);
+
+  const reduceSecondsRemaining = React.useCallback(() => {
+    setSecondsRemaining((sr) => sr - 1);
+  }, []);
 
   React.useEffect(() => {
     if (showLogoutModal) {
-      if (!intervalId) {
-        intervalId = setInterval(reduceSecondsRemaining, 1000);
+      if (!intervalId.current) {
+        intervalId.current = setInterval(reduceSecondsRemaining, 1000);
       }
 
       if (secondsRemaining < 1) {
-        clearInterval(intervalId);
-        intervalId = null;
-        closeModal();
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+        setShowLogoutModal(false);
+        router.push('/');
       }
     }
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
       }
     };
-  }, [showLogoutModal, secondsRemaining]);
+  }, [
+    showLogoutModal,
+    setShowLogoutModal,
+    secondsRemaining,
+    reduceSecondsRemaining,
+    router,
+  ]);
 
-  const reduceSecondsRemaining = () => {
-    setSecondsRemaining(secondsRemaining - 1);
-  };
-
-  const closeModal = () => {
-    setShowLogoutModal(false);
-    router.push('/');
+  const toggleShowLogoutModal = () => {
+    setShowLogoutModal((state: boolean) => !state);
   };
 
   return (
-    <Dialog open={showLogoutModal} size='xs'>
+    <Dialog handler={toggleShowLogoutModal} open={showLogoutModal} size='xs'>
       <DialogHeader>{siteLabels['label.logoutSuccessful']}</DialogHeader>
       <DialogBody>
         <Typography>

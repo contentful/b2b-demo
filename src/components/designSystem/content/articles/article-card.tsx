@@ -1,9 +1,10 @@
-import { EditText, ICONS } from '@/components/designSystem';
-import { useAppContext } from '@/hooks';
+'use client';
+import { EditText } from '@/components/designSystem';
+import { useAppContext, useEditMode } from '@/hooks';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 import { localizeDate } from '@/utils/locale-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Avatar,
   Card,
@@ -13,35 +14,17 @@ import {
   Chip,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 export default function ArticleCard(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
+
   const { variant, border, shadow, ...fields } = props;
-
-  const { state } = useAppContext();
-  const locale = state.currentLocale;
-
-  const [article, setArticle] = React.useState<Record<string, any>>();
-
-  React.useEffect(() => {
-    let isMounted = true;
-
-    const loadArticle = () => {
-      if (fields) {
-        if (isMounted) {
-          setArticle({ ...fields, author: fields.author?.fields.name });
-        }
-      }
-    };
-
-    loadArticle();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [props]);
+  const article = {
+    ...fields,
+    author: fields.author?.fields.name,
+  };
 
   const isEmpty = (arg0: Record<string, any>) => {
     const fields = ['image', 'pubDate', 'slug', 'teaser', 'title', 'type'];
@@ -55,7 +38,7 @@ export default function ArticleCard(props: any) {
 
   return (
     <>
-      {(!article || isEmpty(article)) && preview && (
+      {(!article || isEmpty(article)) && editMode && (
         <EditText type='Article Card' />
       )}
       {article &&
@@ -70,96 +53,84 @@ export default function ArticleCard(props: any) {
 }
 
 export const articleCardDefinition: ComponentDefinition = {
-  component: ArticleCard,
-  definition: {
-    id: 'article-card',
-    name: 'Article Card',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Card with CTA link to article',
+  id: 'article-card',
+  name: 'Article Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/2lIkFNlct7M1JyQUE00Hrz/1e770e1d7fdbe076d9712b6438c4fb87/article_card.svg',
+  tooltip: {
+    description: 'Card with CTA link to article',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    image: {
+      displayName: 'Image',
+      type: 'Media',
     },
-    builtInStyles: [
-      'cfMargin',
-      'cfPadding',
-      'cfTextColor',
-      'cfBackgroundColor',
-      'cfBorder',
-    ],
-    variables: {
-      image: {
-        displayName: 'Image',
-        type: 'Media',
-      },
-      title: {
-        displayName: 'Title',
-        type: 'Text',
-      },
-      teaser: {
-        displayName: 'Teaser',
-        type: 'RichText',
-      },
-      author: {
-        displayName: 'Author',
-        type: 'Link',
-      },
-      pubDate: {
-        displayName: 'Publish Date',
-        type: 'Text',
-        default: new Date(),
-      },
-      type: {
-        displayName: 'Type',
-        type: 'Text',
-      },
-      slug: {
-        displayName: 'Slug',
-        type: 'Text',
-      },
-      variant: {
-        displayName: 'Variant',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'banner',
-        validations: {
-          in: [
-            { displayName: 'banner', value: 'banner' },
-            { displayName: 'card', value: 'card' },
-          ],
-        },
-      },
-      border: {
-        displayName: 'Border',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
-      shadow: {
-        displayName: 'Shadow',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
+    title: {
+      displayName: 'Title',
+      type: 'Text',
+    },
+    teaser: {
+      displayName: 'Teaser',
+      type: 'RichText',
+    },
+    author: {
+      displayName: 'Author',
+      type: 'Link',
+    },
+    pubDate: {
+      displayName: 'Publish Date',
+      type: 'Text',
+    },
+    type: {
+      displayName: 'Type',
+      type: 'Text',
+    },
+    slug: {
+      displayName: 'Slug',
+      type: 'Text',
+    },
+    variant: {
+      displayName: 'Variant',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'banner',
+      validations: {
+        in: [
+          { displayName: 'banner', value: 'banner' },
+          { displayName: 'card', value: 'card' },
+        ],
       },
     },
   },
 };
 
 const ArticleCardHorizontal = (props: any) => {
-  const { article, border, shadow } = props;
+  const { article } = props;
   const { state } = useAppContext();
   const { currentLocale: locale } = state;
+
   return (
     <Link
       className='w-full'
       href={article?.slug ? `/articles/${article?.slug}` : '#'}
     >
-      <div
-        className={`flex gap-4 items-center md:max-w-screen-xl p-2 rounded-xl sm:max-w-screen-md text-inherit w-full ${
-          border && 'border'
-        } ${shadow && 'shadow-lg'}`}
-      >
+      <div className='flex gap-4 items-center md:max-w-screen-xl p-2 sm:max-w-screen-md text-inherit w-full'>
         {article?.image && (
           <Avatar
             alt={article?.title}
@@ -184,7 +155,7 @@ const ArticleCardHorizontal = (props: any) => {
           </div>
 
           {article?.teaser && typeof article?.teaser === 'string' ? (
-            <Typography
+            <div
               color='inherit'
               className='font-normal m-0 w-fit'
               dangerouslySetInnerHTML={{ __html: article?.teaser }}
@@ -196,14 +167,16 @@ const ArticleCardHorizontal = (props: any) => {
           )}
 
           {(article?.pubDate || article?.author) && (
-            <div className='flex gap-2 items-center w-full'>
+            <div className='flex items-center w-full'>
               {article?.pubDate && (
                 <>
                   <Typography as='span' className='font-normal m-0 w-fit'>
                     {localizeDate(locale, article?.pubDate)}
                   </Typography>
-                  <FontAwesomeIcon icon={ICONS['dot-circle']} size='xs' />
                 </>
+              )}
+              {article?.pubDate && article?.author && (
+                <span className='flex justify-center px-2 w-fit'>|</span>
               )}
               {article?.author && (
                 <Typography as='span' className='font-normal m-0 w-fit'>
@@ -219,19 +192,18 @@ const ArticleCardHorizontal = (props: any) => {
 };
 
 const ArticleCardVertical = (props: any) => {
-  const { article, border, shadow } = props;
+  const { article } = props;
   const { state } = useAppContext();
   const { currentLocale: locale } = state;
+
   return (
     <Link
       className='h-full text-inherit w-full'
       href={article?.slug ? `/articles/${article?.slug}` : '#'}
     >
       <Card
-        shadow={shadow ? true : false}
-        className={`bg-inherit flex flex-col h-full max-w-[20rem] overflow-hidden text-inherit w-full ${
-          border ? 'border' : 'rounded-none'
-        }`}
+        shadow={false}
+        className='bg-inherit flex flex-col h-full overflow-hidden rounded-none text-inherit w-full'
       >
         {article?.image && (
           <CardHeader
@@ -240,10 +212,13 @@ const ArticleCardVertical = (props: any) => {
             color='transparent'
             className='h-64 m-0 rounded-none w-full'
           >
-            <img
-              className='h-full object-cover w-full text-inherit'
-              src={article?.image}
+            <Image
               alt={article?.title}
+              className='h-full object-cover w-full text-inherit'
+              height='0'
+              sizes='100vw'
+              src={getContentfulImageUrl(article?.image)!}
+              width='0'
             />
           </CardHeader>
         )}
@@ -261,7 +236,7 @@ const ArticleCardVertical = (props: any) => {
             </Typography>
           )}
           {article?.teaser && typeof article?.teaser === 'string' ? (
-            <Typography
+            <div
               className='mt-3 font-normal text-inherit w-full'
               color='inherit'
               dangerouslySetInnerHTML={{ __html: article?.teaser }}
@@ -270,7 +245,7 @@ const ArticleCardVertical = (props: any) => {
             <div className='mt-3 w-full'>
               {article?.teaser &&
                 (typeof article?.teaser === 'string' ? (
-                  <Typography
+                  <div
                     color='inherit'
                     className='font-normal m-0 text-inherit'
                     dangerouslySetInnerHTML={{ __html: article?.teaser }}

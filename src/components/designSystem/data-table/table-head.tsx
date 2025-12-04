@@ -1,23 +1,52 @@
 import { DataTableColumn } from '@/models/commerce-types';
 import { PREVIEW_COLS } from './data-table';
+import {
+  TailwindBgColorsMap,
+  TailwindTextColorsMap,
+} from '@/utils/tailwind-colors-utils';
 
 export default function TableHead(props: any) {
-  const { bgcolor, cols, data, preview, siteLabels, textcolor } = props;
+  const {
+    cellpadding = 'py-2',
+    cols,
+    data,
+    headbg,
+    headtext,
+    editMode,
+    siteLabels,
+  } = props;
+
+  const border = headbg !== 'black' ? 'border-b' : '';
+  const bgcolor = !['black', 'white', 'inherit'].includes(headbg)
+    ? headbg + '-500'
+    : headbg;
+  const textcolor = !['black', 'white', 'inherit'].includes(headtext)
+    ? headtext + '-500'
+    : headtext;
+
   return (
     <thead
-      style={{
-        backgroundColor: bgcolor,
-        color: textcolor,
-      }}
+      className={`${TailwindBgColorsMap[bgcolor]} ${border} ${TailwindTextColorsMap[textcolor]}`}
     >
       <tr className=''>
-        {preview &&
+        {editMode &&
           PREVIEW_COLS.map((col, key) => {
-            return <th key={key}>{col}</th>;
+            return (
+              <th className={cellpadding} key={key}>
+                {col}
+              </th>
+            );
           })}
         {data &&
           cols?.map((entry: DataTableColumn, key: number) => {
-            return <th key={key}>{siteLabels[`label.${entry.key}`]}</th>;
+            return (
+              <th
+                className={`${cellpadding} p-3 text-center text-sm`}
+                key={key}
+              >
+                {siteLabels[`label.${entry.key}`]}
+              </th>
+            );
           })}
       </tr>
     </thead>

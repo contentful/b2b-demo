@@ -4,32 +4,38 @@ import {
   OrderTableData,
 } from '@/models/commerce-types';
 import { localizeCurrency } from '@/utils/locale-utils';
+import { sortTableData, sortTableDataDescending } from '@/utils/table-utils';
 
 export const ORDER_DATA_COLS: Array<DataTableColumn> = [
-  { key: 'creationTime', label: 'Created', format: 'datetime' },
-  { key: 'status', label: 'Status', format: 'label' },
-  { key: 'totalPrice', label: 'Cost', format: 'text' },
-  { key: 'totalItems', label: 'Products', format: 'number' },
-  { key: 'totalUnitCount', label: 'Units', format: 'number' },
-  // { key: 'delivery', label: 'Delivery Mode', format: 'text' },
-  { key: 'purchaseOrderNumber', label: 'P.O. #', format: 'text' },
-  { key: 'guid', label: 'User', format: 'text' },
-  // { key: 'updateTime', label: 'Updated', format: 'datetime' },
-  // { key: 'costCenterCode', label: 'Cost Center', format: 'text' },
-  // { key: 'code', label: 'Link', format: 'link' },
+  { key: 'code', label: 'code', format: 'link' },
+  { key: 'purchaseOrderNumber', label: 'PO number', format: 'text' },
+  { key: 'costCenterCode', label: 'costcenter', format: 'text' },
+  { key: 'creationTime', label: 'created', format: 'datetime' },
+  { key: 'status', label: 'status', format: 'label' },
+  { key: 'totalPrice', label: 'price', format: 'text' },
 ];
 
-export const getOrder = async (code: string): Promise<Order | undefined> => {
-  if (!code) return;
-  return MockOrders.find((order: Order) => order.code === code);
+export const getLastOrderForUser = async (
+  guid: string
+): Promise<Order | null> => {
+  if (!guid) return null;
+  const orders = await getOrders('guid', guid);
+  if (!orders) return null;
+  const sortedOrders = sortTableDataDescending(orders, 'creationTime');
+  return sortedOrders ? sortedOrders[0] : null;
+};
+
+export const getOrder = async (code: string): Promise<Order | null> => {
+  if (!code) return null;
+  return MockOrders.find((order: Order) => order.code === code) || null;
 };
 
 export const getOrdersByOrg = async (
   orgUnit: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Order | OrderTableData> | undefined> => {
-  if (!orgUnit || (tableData && !locale)) return;
+): Promise<Array<Order | OrderTableData> | null> => {
+  if (!orgUnit || (tableData && !locale)) return null;
   return tableData
     ? getOrdersTableData(locale, 'orgUnit', orgUnit)
     : getOrders('orgUnit', orgUnit);
@@ -39,8 +45,8 @@ export const getOrdersByUser = async (
   guid: string,
   locale: string,
   tableData: boolean = false
-): Promise<Array<Order | OrderTableData> | undefined> => {
-  if (!guid || (tableData && !locale)) return;
+): Promise<Array<Order | OrderTableData> | null> => {
+  if (!guid || (tableData && !locale)) return null;
   return tableData
     ? getOrdersTableData(locale, 'guid', guid)
     : getOrders('guid', guid);
@@ -49,12 +55,12 @@ export const getOrdersByUser = async (
 export const getOrders = async (
   key: string,
   value: string
-): Promise<Array<Order> | undefined> => {
-  if (!(key || value)) return;
+): Promise<Array<Order> | null> => {
+  if (!(key || value)) return null;
   return MockOrders.filter((order: any) => order[key] === value).sort(
     (a: any, b: any) => {
-      if (a.createdDate > b.createdDate) return 1;
-      if (a.createdDate < b.createdDate) return -1;
+      if (a.creationTime < b.creationTime) return 1;
+      if (a.creationTime > b.creationTime) return -1;
       return 0;
     }
   );
@@ -64,8 +70,8 @@ export const getOrdersTableData = async (
   locale: string,
   key: string,
   value: string
-): Promise<Array<OrderTableData> | undefined> => {
-  if (!(key && value)) return;
+): Promise<Array<OrderTableData> | null> => {
+  if (!(key && value)) return null;
 
   const orders = MockOrders.filter((order: any) => order[key] === value).map(
     (order: Order) => {
@@ -87,12 +93,12 @@ export const getOrdersTableData = async (
     }
   );
 
-  if (!orders) return;
+  if (!orders) return null;
 
   return orders;
 };
 
-const MockOrders: Array<Order> = [
+export const MockOrders: Array<Order> = [
   {
     code: '0000857',
     status: 'received',
@@ -313,10 +319,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 26400 },
+    totalPrice: { value: 24099.99 },
     purchaseOrderNumber: 'po253719',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2025-01-15T20:29:09.386Z',
     expirationTime: '2025-02-14T20:29:09.386Z',
     updateTime: '2025-02-14T20:29:09.386Z',
@@ -479,10 +495,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 74800 },
+    totalPrice: { value: 68099.99 },
     purchaseOrderNumber: 'po241466',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-12-20T20:25:47.107Z',
     expirationTime: '2025-01-19T20:25:47.107Z',
     updateTime: '2025-01-19T20:25:47.107Z',
@@ -597,8 +623,6 @@ const MockOrders: Array<Order> = [
           code: '3857735',
           description:
             '7,2 V Schlagschrauber. Leicht und verstellbar. Dieses Werkzeug zieht die härtesten Schrauben in schwer zu erreichenden Bereichen an.',
-          firstVariantImage:
-            '/medias/?context=bWFzdGVyfGltYWdlc3wyMDk0fGltYWdlL2pwZWd8YURGaUwyaG1NaTg0TnprMk1qZzFPREk1TVRVd3xmYjQwZjljZjZhMDk2NDMyYjM1NTM4NjFlMzc3OTk3YzRmMjM3Nzk2NjhhMDYwNzc4NDY5MjU4ZDg2Y2FhNmQ0',
           images: [
             {
               format: 'thumbnail',
@@ -641,10 +665,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 67320 },
+    totalPrice: { value: 61299.99 },
     purchaseOrderNumber: 'po39709',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-11-12T20:17:29.833Z',
     expirationTime: '2024-12-12T20:17:29.833Z',
     updateTime: '2024-12-12T20:17:29.832Z',
@@ -807,10 +841,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 32780 },
+    totalPrice: { value: 29899.99 },
     purchaseOrderNumber: 'po165642',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-10-17T18:04:09.969Z',
     expirationTime: '2024-11-16T18:04:09.969Z',
     updateTime: '2024-11-16T18:04:09.969Z',
@@ -973,10 +1017,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'dhl-standard',
       name: 'DHL Standard',
-      deliveryCost: { value: 0.1 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 29370 },
+    totalPrice: { value: 26799.99 },
     purchaseOrderNumber: 'po288322',
+    costCenter: {
+      code: '00005678',
+      name: 'Kostenstelle 1',
+      activeFlag: true,
+      currency: {
+        code: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+    },
     creationTime: '2024-09-23T19:08:57.435Z',
     expirationTime: '2024-10-23T19:08:57.435Z',
     updateTime: '2024-10-23T19:08:57.435Z',
@@ -1140,10 +1194,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 27476.25 },
+    totalPrice: { value: 24882.49 },
     purchaseOrderNumber: 'po904791',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2025-01-15T20:29:09.386Z',
     expirationTime: '2025-02-14T20:29:09.386Z',
     updateTime: '2025-02-14T20:29:09.386Z',
@@ -1307,10 +1371,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 20400 },
+    totalPrice: { value: 18499.99 },
     purchaseOrderNumber: 'po203501',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-12-20T20:25:47.107Z',
     expirationTime: '2025-01-19T20:25:47.107Z',
     updateTime: '2025-01-19T20:25:47.107Z',
@@ -1462,10 +1536,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 22057.5 },
+    totalPrice: { value: 19994.99 },
     purchaseOrderNumber: 'po226095',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-11-12T20:17:29.833Z',
     expirationTime: '2024-12-11T20:17:29.833Z',
     updateTime: '2024-12-12T20:17:29.832Z',
@@ -1636,10 +1720,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 17658.75 },
+    totalPrice: { value: 16027.49 },
     purchaseOrderNumber: 'po902426',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-10-17T18:04:09.969Z',
     expirationTime: '2024-11-16T18:04:09.969Z',
     updateTime: '2024-11-16T18:04:09.969Z',
@@ -2047,10 +2141,20 @@ const MockOrders: Array<Order> = [
     deliveryMode: {
       code: 'fedex-standard',
       name: 'FedEx Standard',
-      deliveryCost: { value: 0.125 },
+      deliveryCost: { value: 99.99 },
     },
-    totalPrice: { value: 28655.625 },
+    totalPrice: { value: 25946.24 },
     purchaseOrderNumber: 'po26671',
+    costCenter: {
+      code: '00001234',
+      name: 'Cost Center 1',
+      activeFlag: true,
+      currency: {
+        code: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+    },
     creationTime: '2024-09-23T19:08:57.435Z',
     expirationTime: '2024-10-23T19:08:57.435Z',
     updateTime: '2024-10-23T19:08:57.435Z',

@@ -1,11 +1,10 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { Icon } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
 import useAppContext from '@/hooks/app-context';
-import { getUser } from '@/mocks/users';
+import { getUser } from '@/mocks';
 import { User } from '@/models/commerce-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Avatar,
   Button,
@@ -27,6 +26,7 @@ export default function MiniProfile() {
 
   const router = useRouter();
 
+  const [error, setError] = React.useState();
   const [user, setUser] = React.useState<User>();
   const [open, setOpen] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -37,9 +37,11 @@ export default function MiniProfile() {
     if (!guid) return;
 
     const loadUser = async () => {
-      getUser(guid).then((newUser) => {
-        if (isMounted) {
-          setUser(newUser);
+      await getUser(guid).then((newUser) => {
+        if (newUser) {
+          if (isMounted) {
+            setUser(newUser);
+          }
         }
       });
     };
@@ -49,7 +51,7 @@ export default function MiniProfile() {
     return () => {
       isMounted = false;
     };
-  }, [state]);
+  }, [state, guid]);
 
   const handleLogout = () => {
     // setShowLogoutModal(true);
@@ -82,18 +84,19 @@ export default function MiniProfile() {
 
   return (
     <>
+      {error && <div className='mx-2 text-sm'>{error}</div>}
       {user && (
         <>
           <div className='mx-2'>
             <Menu
-              handler={() => toggleOpen()}
+              handler={toggleOpen}
               offset={4}
               open={open}
               placement='bottom-end'
             >
               <MenuHandler>
                 <Button
-                  className='flex items-center pl-3 pr-1 py-1 rounded-full text-inherit'
+                  className='flex items-center pl-3 pr-1 py-1 text-inherit'
                   variant='text'
                 >
                   <Typography className='font-bold m-0 text-sm' color='inherit'>
@@ -111,41 +114,41 @@ export default function MiniProfile() {
               </MenuHandler>
               <MenuList>
                 <MenuItem
-                  className='flex items-center gap-2 rounded'
+                  className='flex items-center gap-2'
                   onClick={handleOpenProfile}
                 >
-                  <FontAwesomeIcon icon={ICONS['user-circle']} size='sm' />
+                  <Icon iconName='circle-user' prefix='fas' size='sm' />
                   {siteLabels['label.profile']}
                 </MenuItem>
-                <MenuItem className='flex items-center gap-2 rounded'>
-                  <FontAwesomeIcon icon={ICONS['cog']} size='sm' />
+                <MenuItem className='flex items-center gap-2'>
+                  <Icon iconName='gear' prefix='fas' size='sm' />
                   {siteLabels['label.editProfile']}
                 </MenuItem>
-                <MenuItem className='flex items-center gap-2 rounded'>
-                  <FontAwesomeIcon icon={ICONS['inbox']} size='sm' />
+                <MenuItem className='flex items-center gap-2'>
+                  <Icon iconName='inbox' prefix='fas' size='sm' />
                   {siteLabels['label.inbox']}
                   {user.roles.includes('approver') && (
                     <Chip
-                      className='animate-bounce hover:animate-none ml-auto rounded-full'
+                      className='ml-auto rounded-full px-2 text-xs text-white'
                       color='red'
                       size='sm'
-                      value='1'
-                      variant='ghost'
+                      value='2'
+                      variant='filled'
                     />
                   )}
                 </MenuItem>
                 <MenuItem
-                  className='flex items-center gap-2 rounded'
+                  className='flex items-center gap-2'
                   onClick={handleSupportLink}
                 >
-                  <FontAwesomeIcon icon={ICONS['life-ring']} size='sm' />
+                  <Icon iconName='life-ring' prefix='fas' size='sm' />
                   {siteLabels['label.support']}
                 </MenuItem>
                 <MenuItem
-                  className='flex items-center gap-2 rounded text-red-500'
+                  className='flex items-center gap-2 text-red-500'
                   onClick={handleLogout}
                 >
-                  <FontAwesomeIcon icon={ICONS['power-off']} size='sm' />
+                  <Icon iconName='power-off' prefix='fas' size='sm' />
                   {siteLabels['label.signout']}
                 </MenuItem>
               </MenuList>

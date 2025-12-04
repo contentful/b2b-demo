@@ -1,5 +1,4 @@
-import { ICONS } from '@/components/designSystem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon } from '@/components/designSystem';
 import {
   Button,
   Dialog,
@@ -8,6 +7,7 @@ import {
   DialogHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 
 export default function ProfileDetailsModal(props: any) {
   const {
@@ -21,21 +21,24 @@ export default function ProfileDetailsModal(props: any) {
 
   return (
     <Dialog
-      className='rounded-xl'
+      className='rounded-none'
       handler={handleOpenProfile}
       open={showProfile}
       size='sm'
     >
-      <DialogHeader className='bg-amber-500 font-[Inter,"Inter Fallback"] py-2 rounded-t-xl'>
+      <DialogHeader className='bg-amber-500 font-[Inter,"Inter Fallback"] py-2'>
         {siteLabels['label.userProfile']}
       </DialogHeader>
       <DialogBody className='font-[Inter,"Inter Fallback"]'>
         <div className='flex gap-6 items-start w-full'>
-          <div className='h-40 rounded-full w-40'>
-            <img
+          <div className='h-40 w-40'>
+            <Image
               alt='avatar'
               className='h-full object-cover rounded-full w-full'
+              height='0'
+              sizes='10rem'
               src={user?.userAvatar?.url}
+              width='0'
             />
           </div>
           <div className='flex flex-col gap-2'>
@@ -63,7 +66,7 @@ export default function ProfileDetailsModal(props: any) {
                 variant='small'
               >
                 {user?.roles
-                  .map((role) => {
+                  .map((role: string) => {
                     return siteLabels['label.' + role.toLowerCase()];
                   })
                   .join(', ')}
@@ -74,18 +77,18 @@ export default function ProfileDetailsModal(props: any) {
 
             <div className='flex flex-col gap-2'>
               <Typography as='p' color='inherit' className='font-normal m-0'>
-                <FontAwesomeIcon className='mr-3' icon={ICONS['envelope']} />
+                <Icon className='mr-3' iconName='envelope' prefix='fas' />
                 {user?.email}
               </Typography>
               <Typography as='p' color='inherit' className='font-normal m-0'>
-                <FontAwesomeIcon className='mr-3' icon={ICONS['globe']} />
+                <Icon className='mr-3' iconName='globe' prefix='fas' />
                 {user?.language.isocode}-{user?.country.code}
               </Typography>
             </div>
           </div>
         </div>
       </DialogBody>
-      <DialogFooter className='py-2 rounded-b-xl'>
+      <DialogFooter className='py-2'>
         <Button onClick={handleEditProfile} variant='text'>
           {siteLabels['label.editProfile']}
         </Button>

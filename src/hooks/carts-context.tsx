@@ -1,9 +1,8 @@
 'use client';
 
-import { getAddress } from '@/mocks/addresses';
-import { B2BCart, OrderEntry } from '@/models/commerce-types';
-import { getCostCenter } from '@/mocks/cost_centers';
+import { getAddress, getCostCenter } from '@/mocks';
 import { dhl_standard, fedex_standard } from '@/mocks/delivery-modes';
+import { B2BCart, OrderEntry } from '@/models/commerce-types';
 import React from 'react';
 
 type ContextStateType = {
@@ -20,9 +19,9 @@ export type CartAction =
 type CartsContextType = {
   carts: Array<B2BCart>;
   dispatch: React.Dispatch<CartAction>;
-  getCartById: (code: string) => B2BCart | undefined;
-  getCartByUser: (guid: string) => B2BCart | undefined;
-  getCartsByOrgUnit: (orgUnit: string) => Array<B2BCart> | undefined;
+  getCartById: (code: string) => B2BCart | null;
+  getCartByUser: (guid: string) => B2BCart | null;
+  getCartsByOrgUnit: (orgUnit: string) => Array<B2BCart> | null;
   getNextCartCode: () => number;
   incrementNextCartCode: (n?: number) => void;
 };
@@ -73,15 +72,15 @@ const CartsProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [carts, dispatch] = React.useReducer(cartReducer, new Array<B2BCart>());
 
-  const getCartById = (code: string): B2BCart | undefined => {
-    return carts.find((cart) => cart.code === code);
+  const getCartById = (code: string): B2BCart | null => {
+    return carts.find((cart) => cart.code === code) || null;
   };
 
-  const getCartByUser = (guid: string): B2BCart | undefined => {
-    return carts.find((cart) => cart.guid === guid);
+  const getCartByUser = (guid: string): B2BCart | null => {
+    return carts.find((cart) => cart.guid === guid) || null;
   };
 
-  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> | undefined => {
+  const getCartsByOrgUnit = (orgUnit: string): Array<B2BCart> => {
     return carts.filter((cart) => cart.orgUnit === orgUnit);
   };
 
@@ -152,13 +151,13 @@ const createCart = ({ guid, orgUnit, locale }: CreateCartProps): B2BCart => {
     totalPriceWithTax: {
       value,
     },
-    deliveryAddress: getAddress(orgUnit),
+    deliveryAddress: getAddress(orgUnit) || undefined,
     deliveryMode: locale === 'de-DE' ? dhl_standard : fedex_standard,
     totalPrice: {
       value,
     },
     purchaseOrderNumber: 'po' + Math.round(Math.random() * 1000000),
-    costCenter: getCostCenter(orgUnit),
+    costCenter: getCostCenter(orgUnit) || undefined,
     creationTime: new Date().toISOString(),
     updateTime: new Date().toISOString(),
   };
@@ -179,8 +178,8 @@ const updateEntries = ({
   code,
   entries,
   locale,
-}: UpdateCartEntriesProps): Array<B2BCart> | undefined => {
-  if (!carts) return;
+}: UpdateCartEntriesProps): Array<B2BCart> | null => {
+  if (!carts) return null;
   const currentCart = carts?.find((cart) => cart.code === code);
   if (!currentCart) return carts;
 
@@ -197,7 +196,7 @@ const updateEntries = ({
 
   if (entries) {
     entries?.forEach((entry) => {
-      subTotal.value = subTotal.value + entry.totalPrice.value;
+      subTotal.value = subTotal.value + entry.totalPrice?.value;
       totalUnitCount = totalUnitCount + entry.quantity;
     });
   }
@@ -225,5 +224,6 @@ const updateEntries = ({
     if (cart.code === modCart.code) return modCart;
     return cart;
   });
+
   return modCarts;
 };

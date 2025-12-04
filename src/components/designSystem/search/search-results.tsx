@@ -2,7 +2,7 @@
 
 import {
   GridButton,
-  ICONS,
+  Icon,
   Pagination,
   ProductFacets,
   ProductList,
@@ -19,7 +19,6 @@ import {
 import { getProducts } from '@/services/sap/products';
 import { formatMessage } from '@/utils/string-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, Spinner, Typography } from '@material-tailwind/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
@@ -52,7 +51,7 @@ export default function SearchResults(props: any) {
     const [lang] = state.currentLocale.split('-');
 
     const loadProducts = async () => {
-      getProducts({
+      await getProducts({
         query,
         currentPage,
         lang,
@@ -102,12 +101,12 @@ export default function SearchResults(props: any) {
     return () => {
       isMounted = false;
     };
-  }, [query, currentPage, props]);
+  }, [query, currentPage, props, state]);
 
   const reloadProducts = (
     queryValue: string,
     params?: Record<string, string>
-  ) => {
+  ): void => {
     if (!queryValue) return;
     const searchParams = {
       q: queryValue,
@@ -127,13 +126,13 @@ export default function SearchResults(props: any) {
     }
   };
 
-  const handleChangePage = (newPage: number) => {
+  const handleChangePage = (newPage: number): void => {
     if (!currentQuery) return;
     const queryValue = currentQuery.query.value;
     reloadProducts(queryValue, { currentPage: '' + newPage });
   };
 
-  const handleChangeSort = (newSort: string) => {
+  const handleChangeSort = (newSort: string): void => {
     if (!currentQuery || !currentQuery.query.value) return;
     let newQueryValue = currentQuery.query.value;
     if (newQueryValue.indexOf(sort) > -1) {
@@ -155,9 +154,10 @@ export default function SearchResults(props: any) {
         <Alert
           color='red'
           icon={
-            <FontAwesomeIcon
+            <Icon
               className='flex flex-wrap gap-2'
-              icon={ICONS['exclamation-circle']}
+              iconName='exclamation-circle'
+              prefix='fas'
               size='xl'
             />
           }
@@ -166,11 +166,18 @@ export default function SearchResults(props: any) {
           variant='outlined'
         >
           <Typography>{siteLabels['message.sapServiceError']}</Typography>
-          <div dangerouslySetInnerHTML={{ __html: error.message }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: error.message.substring(
+                error.message.indexOf('<body'),
+                error.message.indexOf('</body>') + 7
+              ),
+            }}
+          />
         </Alert>
       )}
       {header && pagination && (
-        <div className='flex flex-col items-center justify-center max-w-screen-xl mt-2 mx-auto py-2 w-full'>
+        <div className='flex flex-col items-center justify-center max-w-screen-xl mx-auto py-2 w-full'>
           <Typography className='font-normal text-3xl' variant='h1'>
             {searchTerm
               ? formatMessage(
@@ -212,7 +219,11 @@ export default function SearchResults(props: any) {
           </div>
           <div className='flex flex-col items-center justify-center lg:w-3/4 xl:w-4/5 pt-8 px-4 w-full'>
             <div className='border-b box-border flex flex-wrap gap-2 items-end justify-center mx-auto pb-4 w-full'>
-              {sortOptions && <Sorts {...{ handleChangeSort, sortOptions }} />}
+              {sortOptions && (
+                <div className='max-w-56 mr-auto'>
+                  <Sorts {...{ handleChangeSort, sortOptions }} />
+                </div>
+              )}
               {pagination && (
                 <Pagination {...{ handleChangePage, pagination }} />
               )}
@@ -222,7 +233,7 @@ export default function SearchResults(props: any) {
               <div
                 className={` flex ${
                   variant === 'card' ? 'flex-wrap' : 'flex-col'
-                } my-10 w-full`}
+                } min-h-[32rem] my-10 w-full`}
               >
                 <ProductList {...{ ...passedProps, variant, products }} />
               </div>
@@ -242,76 +253,93 @@ export default function SearchResults(props: any) {
 }
 
 export const searchResultsDefinition: ComponentDefinition = {
-  component: SearchResults,
-  definition: {
-    id: 'search-results',
-    name: 'Search Results',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
+  id: 'search-results',
+  name: 'Search Results',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/2f4RItm5iPwFZigGa0QvKo/b8f8416b99281af29cd6c2772df53fa6/search_results.svg',
+  tooltip: {
+    description: 'Enter your description here',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    variant: {
+      description: 'variant options for the product cards',
+      displayName: 'Default display',
+      type: 'Text',
+      group: 'style',
+      defaultValue: 'card',
+      validations: {
+        in: [
+          { displayName: 'Banners', value: 'banner' },
+          { displayName: 'Cards', value: 'card' },
+        ],
+      },
     },
-    variables: {
-      variant: {
-        description: 'variant options for the product cards',
-        displayName: 'Default display',
-        type: 'Text',
-        group: 'style',
-        defaultValue: 'card',
-        validations: {
-          in: [
-            { displayName: 'Banners', value: 'banner' },
-            { displayName: 'Cards', value: 'card' },
-          ],
-        },
+    cols: {
+      displayName: 'Cards / Row',
+      type: 'Text',
+      group: 'style',
+      defaultValue: '3',
+      validations: {
+        in: [
+          { displayName: '3', value: '3' },
+          { displayName: '4', value: '4' },
+          { displayName: '5', value: '5' },
+        ],
       },
-      cols: {
-        displayName: 'Cards / Row',
-        type: 'Text',
-        group: 'style',
-        defaultValue: '3',
-        validations: {
-          in: [
-            { displayName: '3', value: '3' },
-            { displayName: '4', value: '4' },
-            { displayName: '5', value: '5' },
-          ],
-        },
+    },
+    header: {
+      displayName: 'Show Search Results Header',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
+    },
+    border: {
+      description: 'Display a border around each product card',
+      displayName: 'Border',
+      type: 'Text',
+      defaultValue: 'false',
+      group: 'style',
+      validations: {
+        in: [
+          { displayName: 'True', value: 'true' },
+          { displayName: 'False', value: 'false' },
+        ],
       },
-      header: {
-        displayName: 'Show Search Results Header',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
-      border: {
-        description: 'Display a border around each item',
-        displayName: 'Borders',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
-      shadow: {
-        description: 'Display a drop shadow below each item',
-        displayName: 'Shadows',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
-      addtocart: {
-        displayName: 'Show ATC Options',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
-      reviews: {
-        displayName: 'Show Reviews',
-        type: 'Boolean',
-        group: 'style',
-        defaultValue: true,
-      },
+    },
+    shadow: {
+      description: 'Display a drop shadow under each product card',
+      displayName: 'Shadow',
+      type: 'Boolean',
+      defaultValue: false,
+      group: 'style',
+    },
+    addtocart: {
+      displayName: 'Show ATC Options',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
+    },
+    reviews: {
+      displayName: 'Show Reviews',
+      type: 'Boolean',
+      group: 'style',
+      defaultValue: true,
     },
   },
 };

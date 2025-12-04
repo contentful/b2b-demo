@@ -1,20 +1,20 @@
 {
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
-    "noImplicitReturns": true,
-    "strict": true,
-    "allowJs": true,
     "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "strictPropertyInitialization": false,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
     "plugins": [
       {
         "name": "next"

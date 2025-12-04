@@ -1,9 +1,11 @@
+import { useEditMode } from '@/hooks';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { Typography } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function InfoWidget(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { linkText, linkURL, ...widgetBodyProps } = props;
 
   return linkURL ? (
@@ -16,38 +18,49 @@ export default function InfoWidget(props: any) {
 }
 
 export const infoWidgetDefinition: ComponentDefinition = {
-  component: InfoWidget,
-  definition: {
-    id: 'info-widget',
-    name: 'Info Widget',
-    category: 'Components',
-    children: 'false',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Enter your description here',
+  id: 'info-widget',
+  name: 'Info Widget',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/UCx5ergDX9fFGaQ5lIqlI/98f1b46796da9fcb736144caa887a331/order_history.svg',
+  tooltip: {
+    description: 'Enter your description here',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    icon: {
+      displayName: 'Icon',
+      type: 'Media',
+      group: 'content',
     },
-    variables: {
-      icon: {
-        displayName: 'Icon',
-        type: 'Media',
-        group: 'content',
-      },
-      text: {
-        displayName: 'Text',
-        type: 'Text',
-        group: 'content',
-      },
-      linkText: {
-        displayName: 'LinkText',
-        type: 'Text',
-        group: 'content',
-      },
-      linkURL: {
-        displayName: 'LinkURL',
-        type: 'Text',
-        group: 'content',
-      },
+    text: {
+      displayName: 'Text',
+      type: 'Text',
+      group: 'content',
+    },
+    linkText: {
+      displayName: 'LinkText',
+      type: 'Text',
+      group: 'content',
+    },
+    linkURL: {
+      displayName: 'LinkURL',
+      type: 'Text',
+      group: 'content',
     },
   },
 };
@@ -58,7 +71,16 @@ const WidgetBody = (props: any) => {
   return (
     <div className='flex flex-col gap-4 items-center justify-center text-inherit w-full'>
       <div className='h-14 w-14'>
-        {icon && <img className='h-full object-contain w-full' src={icon} />}
+        {icon && (
+          <Image
+            alt={`${text} Icon`}
+            className='h-full object-contain w-full'
+            height='0'
+            sizes='10rem'
+            src={icon}
+            width='0'
+          />
+        )}
       </div>
       {text && (
         <Typography

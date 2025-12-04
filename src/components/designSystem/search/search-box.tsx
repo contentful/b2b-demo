@@ -1,8 +1,7 @@
 'use client';
 
-import { ICONS } from '@/components/designSystem';
+import { Icon } from '@/components/designSystem';
 import { useSiteLabels } from '@/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Input } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -11,17 +10,18 @@ export default function SearchBox() {
   const { siteLabels } = useSiteLabels();
   const router = useRouter();
 
-  const [formData, setFormData] = React.useState<
-    Record<string, string> | undefined
-  >();
+  const [formData, setFormData] = React.useState<Record<
+    string,
+    string
+  > | null>();
 
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.currentTarget.value;
     if (!value) return;
     setFormData({ q: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (): void => {
     if (!formData) return;
     const paranms = new URLSearchParams(formData);
     const searchUrl = `/search?${paranms.toString()}`;
@@ -51,7 +51,7 @@ export default function SearchBox() {
         onClick={handleSubmit}
         size='sm'
       >
-        <FontAwesomeIcon icon={ICONS['search']} />
+        <Icon iconName='magnifying-glass' prefix='fas' />
       </Button>
     </div>
   );

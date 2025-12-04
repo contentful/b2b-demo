@@ -1,10 +1,9 @@
 'use client';
 
-import ICONS from '@/components/designSystem/icons';
+import { Icon } from '@/components/designSystem';
 import useAppContext from '@/hooks/app-context';
-import { countries } from '@/mocks/countries';
+import { MockCountries as countries } from '@/mocks';
 import { Country } from '@/models/commerce-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Menu,
   MenuHandler,
@@ -12,6 +11,7 @@ import {
   MenuList,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import React from 'react';
 
 export default function LocaleSelector(props: any) {
@@ -42,11 +42,16 @@ export default function LocaleSelector(props: any) {
         <MenuHandler className='border box-border bg-inherit cursor-pointer px-2 py-1 rounded-md w-full'>
           <div className='flex flex-row items-center justify-between w-full'>
             <div className='flex items-center w-full'>
-              <img
-                alt={selected?.name}
-                className='h-5 inline-block object-cover rounded-full w-5'
-                src={selected?.flags?.svg}
-              />
+              {selected?.flags?.svg && (
+                <Image
+                  alt={`${selected?.name} Flag Icon`}
+                  className='h-5 inline-block object-cover rounded-full w-5'
+                  height='0'
+                  sizes='1.5rem'
+                  src={selected?.flags?.svg!}
+                  width='0'
+                />
+              )}
               <Typography
                 as='span'
                 className='hidden m-0 ml-2 lg:flex p-0'
@@ -54,7 +59,7 @@ export default function LocaleSelector(props: any) {
               >
                 {selected?.name} [{state.currentLocale}]
               </Typography>
-              <FontAwesomeIcon className='ml-auto' icon={ICONS['angle-down']} />
+              <Icon className='ml-auto' iconName='angle-down' prefix='fas' />
             </div>
           </div>
         </MenuHandler>
@@ -67,11 +72,16 @@ export default function LocaleSelector(props: any) {
                 className='flex gap-2 items-center w-full'
               >
                 <div className='flex items-center w-full'>
-                  <img
-                    src={flags?.svg}
-                    alt={name}
-                    className='h-5 inline-block mr-2 object-cover rounded-full w-5'
-                  />
+                  {flags?.svg && (
+                    <Image
+                      alt={`${name} Flag Icon`}
+                      className='h-5 inline-block mr-2 object-cover rounded-full w-5'
+                      height='0'
+                      sizes='1.5rem'
+                      src={flags?.svg}
+                      width='0'
+                    />
+                  )}
                   <Typography
                     as='span'
                     className='flex m-0 p-0 text-normal whitespace-nowrap'

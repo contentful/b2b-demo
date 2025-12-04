@@ -1,11 +1,13 @@
+'use client';
 import { ProductCard } from '@/components/designSystem';
+import { useEditMode } from '@/hooks';
 import { Product } from '@/models/commerce-types';
 import { Typography } from '@material-tailwind/react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 export default function ProductCarousel(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
   const { products, ...passedProps } = props;
 
   const responsive = {
@@ -33,7 +35,7 @@ export default function ProductCarousel(props: any) {
 
   return (
     <>
-      {preview && (
+      {editMode && (
         <Typography className='h-1 overflow-hidden text-sm w-full'>
           &nbsp;
         </Typography>
@@ -42,21 +44,30 @@ export default function ProductCarousel(props: any) {
         className='h-full w-full'
         swipeable={false}
         draggable={false}
-        showDots={true}
+        showDots={false}
         responsive={responsive}
         infinite={true}
         slidesToSlide={1}
-        renderDotsOutside
       >
         {products.map((product: Product, key: number) => {
           return (
-            <div className='h-80 mx-2' key={key}>
+            <div
+              className={`${
+                passedProps.reviews && passedProps.addtocart
+                  ? 'h-[36rem]'
+                  : passedProps.reviews || passedProps.addtocart
+                  ? 'h-[30rem]'
+                  : 'h-80'
+              } mx-2`}
+              key={key}
+            >
               <ProductCard
-                border={true}
+                border={passedProps.border}
                 product={product}
                 variant='card'
-                addtocart={false}
-                reviews={true}
+                addtocart={passedProps.addtocart}
+                reviews={passedProps.reviews}
+                shadow={passedProps.shadow}
               />
             </div>
           );

@@ -1,7 +1,9 @@
-import { EditText, ICONS } from '@/components/designSystem';
+'use client';
+import { EditText } from '@/components/designSystem';
+import { useEditMode } from '@/hooks';
+import { getContentfulImageUrl } from '@/utils/image-utils';
 import { ComponentDefinition } from '@contentful/experiences-sdk-react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Card,
@@ -10,10 +12,14 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
+import Icon from './icon';
 
 export default function PromoCard(props: any) {
-  const preview = props.isInExpEditorMode;
+  const { editMode } = useEditMode();
+
   const {
     title,
     summary,
@@ -22,14 +28,23 @@ export default function PromoCard(props: any) {
     ctaURL,
     image,
     openInNewWindow,
-    border = false,
-    shadow = false,
   } = props;
+
+  const isDefined = () => {
+    return (
+      typeof title === 'string' ||
+      typeof summary === 'string' ||
+      typeof description === 'object' ||
+      typeof ctaText === 'string' ||
+      typeof ctaURL === 'string' ||
+      typeof image === 'string'
+    );
+  };
 
   return (
     <>
-      {!(title || summary || description || ctaText || ctaURL || image) ? (
-        preview && <EditText type='Promo Card' />
+      {!isDefined() ? (
+        editMode && <EditText type='Promo Card' />
       ) : ctaURL ? (
         <Link
           href={ctaURL || '#'}
@@ -45,75 +60,64 @@ export default function PromoCard(props: any) {
 }
 
 export const promoCardDefinition: ComponentDefinition = {
-  component: PromoCard,
-  definition: {
-    id: 'promo-card',
-    name: 'Promo Card',
-    category: 'Components',
-    thumbnailUrl:
-      'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    tooltip: {
-      description: 'Card for displaying a promotion',
+  id: 'promo-card',
+  name: 'Promo Card',
+  category: 'Components',
+  thumbnailUrl:
+    'https://images.ctfassets.net/yv5x7043a54k/6VeodakTF7O1tFyUe0wYx/68c6a00726e76ff4786caa56b5a8fed2/promo_card.svg',
+  tooltip: {
+    description: 'Card for displaying a promotion',
+  },
+  builtInStyles: [
+    'cfBackgroundColor',
+    'cfBorder',
+    'cfBorderRadius',
+    'cfFontSize',
+    'cfLetterSpacing',
+    'cfLineHeight',
+    'cfMargin',
+    'cfMaxWidth',
+    'cfPadding',
+    'cfTextAlign',
+    'cfTextColor',
+    'cfTextTransform',
+    'cfWidth',
+  ],
+  variables: {
+    title: {
+      displayName: 'Title',
+      type: 'Text',
     },
-    builtInStyles: [
-      'cfMargin',
-      'cfPadding',
-      'cfTextColor',
-      'cfBackgroundColor',
-      'cfHeight',
-      'cfWidth',
-      'cfMaxWidth',
-    ],
-    variables: {
-      title: {
-        displayName: 'Title',
-        type: 'Text',
-      },
-      summary: {
-        displayName: 'Summary',
-        type: 'Text',
-      },
-      description: {
-        displayName: 'Description',
-        type: 'RichText',
-      },
-      ctaText: {
-        displayName: 'CTA Text',
-        type: 'Text',
-      },
-      ctaURL: {
-        displayName: 'CTA URL',
-        type: 'Text',
-      },
-      openInNewWindow: {
-        displayName: 'OpenInNewWindow',
-        type: 'Boolean',
-        group: 'content',
-        defaultValue: false,
-      },
-      image: {
-        displayName: 'Image',
-        type: 'Media',
-      },
-      border: {
-        description: 'Display a border around the testimonial',
-        displayName: 'Border',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
-      shadow: {
-        description: 'Display a drop shadow for the testimonail',
-        displayName: 'Shadow',
-        type: 'Boolean',
-        defaultValue: true,
-        group: 'style',
-      },
+    summary: {
+      displayName: 'Summary',
+      type: 'Text',
+    },
+    description: {
+      displayName: 'Description',
+      type: 'RichText',
+    },
+    ctaText: {
+      displayName: 'CTA Text',
+      type: 'Text',
+    },
+    ctaURL: {
+      displayName: 'CTA URL',
+      type: 'Text',
+    },
+    openInNewWindow: {
+      displayName: 'OpenInNewWindow',
+      type: 'Boolean',
+      group: 'content',
+      defaultValue: false,
+    },
+    image: {
+      displayName: 'Image',
+      type: 'Media',
     },
   },
 };
 
-const PromoCardCard = (props: any): JSX.Element => {
+const PromoCardCard = (props: any): React.JSX.Element => {
   const {
     title,
     summary,
@@ -127,19 +131,26 @@ const PromoCardCard = (props: any): JSX.Element => {
 
   return (
     <Card
-      shadow={shadow && true}
-      className={`bg-inherit overflow-hidden text-inherit w-full ${
-        border && 'border'
-      }`}
+      shadow={shadow}
+      className='bg-inherit overflow-hidden rounded-none text-inherit w-full'
     >
       {image && (
         <CardHeader
           floated={false}
           shadow={false}
           color='transparent'
-          className='bg-inherit m-0 rounded-b-none text-inherit w-full'
+          className='bg-inherit m-0 text-inherit w-full rounded-none'
         >
-          {image && <img src={image} alt={title} />}
+          {image && (
+            <Image
+              alt={title}
+              className={`h-full object-cover w-full`}
+              height='0'
+              sizes='100vw'
+              src={getContentfulImageUrl(image)!}
+              width='0'
+            />
+          )}
         </CardHeader>
       )}
       <CardBody className='bg-inherit text-inherit w-full'>
@@ -175,7 +186,7 @@ const PromoCardCard = (props: any): JSX.Element => {
             {ctaText && (
               <Button className='flex items-center gap-2 px-3' variant='text'>
                 <Typography className='m-0 text-inherit'>{ctaText}</Typography>
-                <FontAwesomeIcon icon={ICONS['arrow-right']} />
+                <Icon prefix='fas' iconName='arrow-right' size='lg' />
               </Button>
             )}
           </div>
